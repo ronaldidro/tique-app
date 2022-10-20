@@ -1,0 +1,35 @@
+{
+  "name": "tique-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "api",
+    "app"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build --workspace=app",
+    "start": "npm run start --workspace=api",
+    "dev": "npm run dev --workspace=api",
+    "deploy": "npm run deploy --workspace=api",
+    "deploy:full": "npm run build && npm run deploy",
+    "logs": "npm run logs --workspace=api",
+    "lint": "eslint ./api ./app",
+    "lint:fix": "eslint --fix ./api ./app",
+    "format": "prettier --write './api/*.{js,json}' './app/*.{js,css,json}' --config ./.prettierrc"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-cypress": "^2.12.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

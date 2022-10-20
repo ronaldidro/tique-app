@@ -1,0 +1,55 @@
+import { Flex, Icon, Text, useDisclosure } from '@chakra-ui/react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { BsCart4 } from 'react-icons/bs'
+import CircularSpinner from '../../components/feedback/CircularSpinner'
+import LinkButton from '../../components/fields/LinkButton'
+import Header from '../../components/market/Header'
+import Filters from '../../components/market/Filters'
+import ProductCategories from '../../components/market/ProductCategories'
+import UsageStepsModal from '../../components/market/UsageStepsModal'
+import { useResource } from '../../hooks'
+import { initializeCompany } from '../../reducers/companyReducer'
+import { initializeProducts } from '../../reducers/productsReducer'
+import { getFilteredProducts, getProductsOrder } from '../../utils'
+
+const CompanyProducts = () => {
+  const { id } = useParams()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const company = useResource(`/api/companies/${id}`)
+  const dispatch = useDispatch()
+  const productsOrder = getProductsOrder()
+  const products = getFilteredProducts()
+
+  useEffect(() => onOpen(), [])
+
+  useEffect(() => {
+    if (Object.keys(company).length) {
+      const { productCategories, ...companyData } = company
+      dispatch(initializeCompany(companyData))
+      dispatch(initializeProducts(productCategories))
+    }
+  }, [company])
+
+  if (!Object.keys(company).length) return <CircularSpinner />
+
+  return (
+    <>
+      <Header companyData={company} />
+      <Filters />
+      <ProductCategories productCategoriesData={products} />
+      {productsOrder.length > 0 && (
+        <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
+          <Flex>
+            <Text paddingRight={2}>Ver Pedido</Text>
+            <Icon as={BsCart4} />
+          </Flex>
+        </LinkButton>
+      )}
+      <UsageStepsModal isOpen={isOpen} onClose={onClose} />
+    </>
+  )
+}
+
+export default CompanyProducts

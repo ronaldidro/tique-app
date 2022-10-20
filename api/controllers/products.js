@@ -1,0 +1,83 @@
+const productsRouter = require('express').Router()
+const Product = require('../models/product')
+const ProductCategory = require('../models/product-category')
+const { verifyAuth } = require('../utils/validate')
+
+productsRouter.get('/', async (request, response) => {
+  const products = await Product.find({})
+  response.json(products)
+})
+
+productsRouter.get('/:id', async (request, response) => {
+  const product = await Product.findById(request.params.id)
+
+  if (product) {
+    response.json(product.toJSON())
+  } else {
+    response.status(404).end()
+  }
+})
+
+productsRouter.post('/', async (request, response) => {
+  const body = request.body
+  const { name, description, price, discount, images, categoryId } = body
+  const { error, message, user } = await verifyAuth(request)
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
+  const productCategory = await ProductCategory.findById(categoryId).populate('company')
+
+  if (user.id !== productCategory.company.user.toString()) {
+    return response.status(401).json({
+      error: 'wrong user for company'
+    })
+  }
+
+  const product = new Product({
+    name,
+    description,
+    price,
+    discount,
+    images,
+    category: productCategory._id
+  })
+
+  const savedProduct = await product.save()
+  productCategory.products = productCategory.products.concat(savedProduct._id)
+  await productCategory.save()
+
+  response.status(201).json(savedProduct)
+})
+
+productsRouter.patch('/:id', async (request, response) => {
+  const { error, message, user } = await verifyAuth(request)
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
+  const {
+    category: { company }
+  } = await Product.findById(request.params.id).populate({
+    path: 'category',
+    populate: { path: 'company' }
+  })
+
+  if (user.id !== company.user.toString()) {
+    return response.status(401).json({
+      error: 'wrong user for company'
+    })
+  }
+
+  const updatedProduct = await Product.findByIdAndUpdate(request.params.id, request.body, { new: true })
+  if (!updatedProduct) response.status(404).end()
+  response.json(updatedProduct)
+})
+
+module.exports = productsRouter
