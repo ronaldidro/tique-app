@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { Icon } from '@chakra-ui/react'
-import { FaFacebook, FaInstagram } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaUser, FaBoxOpen } from 'react-icons/fa'
 
 export const convertToPercent = value => `${value * 100} %`
 
@@ -65,4 +65,9 @@ export const usageSteps = [
 export const socialNetworkIcons = [
   { type: 'fb', icon: <Icon as={FaFacebook} boxSize={10} color="facebook.500" /> },
   { type: 'ig', icon: <Icon as={FaInstagram} boxSize={10} color="red.500" /> }
+]
+
+export const adminSidebarOptions = [
+  { text: 'Perfil', route: '/admin/perfil', icon: FaUser },
+  { text: 'Productos', route: '/admin/productos', icon: FaBoxOpen }
 ]

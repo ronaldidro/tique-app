@@ -11,7 +11,7 @@
   "scripts": {
     "build": "npm run build --workspace=app",
     "start": "npm run start --workspace=api",
-    "dev": "npm run dev --workspace=api",
+    "dev": "concurrently \"npm run dev --workspace=api\" \"npm start --workspace=app\"",
     "deploy": "npm run deploy --workspace=api",
     "deploy:full": "npm run build && npm run deploy",
     "logs": "npm run logs --workspace=api",
@@ -25,9 +25,10 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^7.5.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-cypress": "^2.12.1"
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-prettier": "^4.0.0"
   },
   "keywords": [],
   "author": "",
