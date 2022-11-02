@@ -10,8 +10,8 @@ import {
   getCompanyData,
   getProductsOrder,
   orderModeOptions,
-  orderShippingNotification,
   paymentMethodOptions,
+  setToastContent,
   showToast,
   validateRequired
 } from '../../utils'
@@ -43,7 +43,17 @@ const OrderForm = ({ closeForm }) => {
     sendMessage(cellPhone, orderData)
     closeForm()
     dispatch(deleteAllProducts())
-    showToast(toast, orderShippingNotification)
+    showToast(
+      toast,
+      setToastContent(
+        '¡Pedido completado!',
+        'Acabamos de enviar tu pedido vía Whatsapp 🙂',
+        'success',
+        'left-accent',
+        'top-right',
+        { duration: null, isClosable: true }
+      )
+    )
     navigate(`/compania/${id}`)
   }
 

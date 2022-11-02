@@ -1,4 +1,4 @@
-const productsReducer = (state = [], action) => {
+const productReducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT_PRODUCTS':
       return action.data
@@ -15,4 +15,4 @@ export const initializeProducts = products => {
   }
 }
 
-export default productsReducer
+export default productReducer

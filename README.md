@@ -27,7 +27,6 @@ $ npm i
 │   ├── mongo.js 
 │   └── package.json
 ├── app/
-│   ├── build/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/
@@ -41,6 +40,7 @@ $ npm i
 │   │   ├── hooks/
 │   │   ├── reducers/
 │   │   ├── routers/
+│   │   ├── services/
 │   │   ├── utils/
 │   │   ├── views/
 │   │   │   ├── admin/

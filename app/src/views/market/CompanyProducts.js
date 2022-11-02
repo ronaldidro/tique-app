@@ -11,7 +11,7 @@ import ProductCategories from '../../components/market/ProductCategories'
 import UsageStepsModal from '../../components/market/UsageStepsModal'
 import { useResource } from '../../hooks'
 import { initializeCompany } from '../../reducers/companyReducer'
-import { initializeProducts } from '../../reducers/productsReducer'
+import { initializeProducts } from '../../reducers/productReducer'
 import { getFilteredProducts, getProductsOrder } from '../../utils'
 
 const CompanyProducts = () => {

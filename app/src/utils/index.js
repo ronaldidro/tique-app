@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Icon } from '@chakra-ui/react'
 import { FaFacebook, FaInstagram, FaUser, FaBoxOpen } from 'react-icons/fa'
+import { BsShopWindow } from 'react-icons/bs'
 
 export const convertToPercent = value => `${value * 100} %`
 
@@ -29,6 +30,8 @@ export const getFilteredProducts = () =>
 
 export const getCompanyData = () => useSelector(state => state.company)
 
+export const getUser = () => useSelector(state => state.user)
+
 export const validateRequired = value => !value && 'Campo obligatorio'
 
 export const orderModeOptions = [
@@ -44,15 +47,17 @@ export const paymentMethodOptions = [
 
 export const urlLineBreak = '%0A'
 
-export const orderShippingNotification = {
-  title: '¡Pedido completado!',
-  description: 'Acabamos de enviar tu pedido vía Whatsapp 🙂',
-  status: 'success',
-  position: 'top-right',
-  variant: 'left-accent',
-  duration: null,
-  isClosable: true
-}
+export const setToastContent = (title, description, status, variant, position, ...rest) =>
+  Object.assign(
+    {
+      title,
+      description,
+      status,
+      position,
+      variant
+    },
+    ...rest
+  )
 
 export const showToast = (toast, toastData) => toast({ ...toastData })
 
@@ -69,5 +74,13 @@ export const socialNetworkIcons = [
 
 export const adminSidebarOptions = [
   { text: 'Perfil', route: '/admin/perfil', icon: FaUser },
+  { text: 'Compañia', route: '/admin/compania', icon: BsShopWindow },
   { text: 'Productos', route: '/admin/productos', icon: FaBoxOpen }
 ]
+
+export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)
+
+export const getItemFromLocalStorage = (key, jsonFormat) =>
+  jsonFormat ? JSON.parse(getItemFromLocalStorage(key)) : localStorage.getItem(key)
+
+export const removeItemFromLocalStorage = keys => keys.map(key => localStorage.removeItem(key))
