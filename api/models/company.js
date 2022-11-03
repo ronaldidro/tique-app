@@ -52,10 +52,12 @@ const companySchema = new mongoose.Schema({
       ref: 'ProductCategory'
     }
   ],
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
+  users: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ]
 })
 
 companySchema.set('toJSON', {

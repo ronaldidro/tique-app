@@ -49,9 +49,10 @@ companiesRouter.post('/', async (request, response) => {
     })
   }
 
-  const company = new Company({ ...request.body, user: user._id })
+  const company = new Company({ ...request.body, users: user._id })
   const savedCompany = await company.save()
-  user.companies = user.companies.concat(savedCompany._id)
+
+  user.company = company._id
   await user.save({ validateModifiedOnly: true })
 
   response.status(201).json(savedCompany)
@@ -67,7 +68,8 @@ companiesRouter.patch('/:id', async (request, response) => {
   }
 
   const currentCompany = await Company.findById(request.params.id)
-  if (user.id !== currentCompany.user.toString()) {
+
+  if (currentCompany.users.find(userId => userId.toString() !== user._id.toString())) {
     return response.status(401).json({
       error: 'wrong user for company'
     })

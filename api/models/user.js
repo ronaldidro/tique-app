@@ -18,12 +18,10 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
-  companies: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company'
-    }
-  ]
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company'
+  }
 })
 
 userSchema.plugin(uniqueValidator)
