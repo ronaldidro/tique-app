@@ -17,7 +17,6 @@ authRouter.post('/', async (request, response) => {
 
   const userForToken = {
     id: user._id,
-    company: user.company,
     username
   }
 

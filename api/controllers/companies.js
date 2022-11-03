@@ -69,7 +69,7 @@ companiesRouter.patch('/:id', async (request, response) => {
 
   const currentCompany = await Company.findById(request.params.id)
 
-  if (currentCompany.users.find(userId => userId.toString() !== user._id.toString())) {
+  if (currentCompany._id.toString() !== user.company.toString()) {
     return response.status(401).json({
       error: 'wrong user for company'
     })
