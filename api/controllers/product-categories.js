@@ -4,17 +4,12 @@ const Company = require('../models/company')
 const { verifyAuth } = require('../utils/validate')
 
 productCategoriesRouter.get('/', async (request, response) => {
-  const productCategories = await ProductCategory.find({ active: true }, 'description company')
+  const productCategories = await ProductCategory.find(request.query, 'description active').sort({ description: 1 })
   response.json(productCategories)
 })
 
 productCategoriesRouter.get('/:id', async (request, response) => {
-  const productCategory = await ProductCategory.findById(request.params.id).populate('products', {
-    name: 1,
-    description: 1,
-    price: 1,
-    discount: 1
-  })
+  const productCategory = await ProductCategory.findById(request.params.id, 'description active')
 
   if (productCategory) {
     response.json(productCategory.toJSON())
@@ -25,7 +20,7 @@ productCategoriesRouter.get('/:id', async (request, response) => {
 
 productCategoriesRouter.post('/', async (request, response) => {
   const { error, message, user } = await verifyAuth(request)
-  const body = request.body
+  const { description } = request.body
 
   if (error) {
     return response.status(401).json({
@@ -33,17 +28,9 @@ productCategoriesRouter.post('/', async (request, response) => {
     })
   }
 
-  const company = await Company.findById(body.companyId)
-  if (user.id !== company.user.toString()) {
-    return response.status(401).json({
-      error: 'wrong user for company'
-    })
-  }
+  const company = await Company.findById(user.company)
 
-  const productCategory = new ProductCategory({
-    description: body.description,
-    company: company._id
-  })
+  const productCategory = new ProductCategory({ description, company: company._id })
 
   const savedProductCategory = await productCategory.save()
   company.productCategories = company.productCategories.concat(savedProductCategory._id)
@@ -62,7 +49,8 @@ productCategoriesRouter.patch('/:id', async (request, response) => {
   }
 
   const { company } = await ProductCategory.findById(request.params.id).populate('company')
-  if (user.id !== company.user.toString()) {
+
+  if (company._id.toString() !== user.company.toString()) {
     return response.status(401).json({
       error: 'wrong user for company'
     })
