@@ -4,12 +4,37 @@ const Company = require('../models/company')
 const { verifyAuth } = require('../utils/validate')
 
 productCategoriesRouter.get('/', async (request, response) => {
-  const productCategories = await ProductCategory.find(request.query, 'description active').sort({ description: 1 })
+  const { error, message, user } = await verifyAuth(request)
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
+  const productCategories = await ProductCategory.find({ company: user.company }, 'description active').sort({
+    description: 1
+  })
+
   response.json(productCategories)
 })
 
 productCategoriesRouter.get('/:id', async (request, response) => {
-  const productCategory = await ProductCategory.findById(request.params.id, 'description active')
+  const { error, message, user } = await verifyAuth(request)
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
+  const productCategory = await ProductCategory.findById(request.params.id, 'description active company')
+
+  if (productCategory.company.toString() !== user.company.toString()) {
+    return response.status(401).json({
+      error: 'wrong user for product category'
+    })
+  }
 
   if (productCategory) {
     response.json(productCategory.toJSON())
@@ -48,11 +73,11 @@ productCategoriesRouter.patch('/:id', async (request, response) => {
     })
   }
 
-  const { company } = await ProductCategory.findById(request.params.id).populate('company')
+  const productCategory = await ProductCategory.findById(request.params.id)
 
-  if (company._id.toString() !== user.company.toString()) {
+  if (productCategory.company.toString() !== user.company.toString()) {
     return response.status(401).json({
-      error: 'wrong user for company'
+      error: 'wrong user for product category'
     })
   }
 
