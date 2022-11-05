@@ -4,12 +4,38 @@ const ProductCategory = require('../models/product-category')
 const { verifyAuth } = require('../utils/validate')
 
 productsRouter.get('/', async (request, response) => {
+  const { error, message, user } = await verifyAuth(request)
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
   const products = await Product.find({})
+    .sort({ name: 1 })
+    .populate({ path: 'category', select: 'company' })
+    .then(data => data.filter(product => product.category.company.toString() === user.company.toString()))
+
   response.json(products)
 })
 
 productsRouter.get('/:id', async (request, response) => {
-  const product = await Product.findById(request.params.id)
+  const { error, message, user } = await verifyAuth(request)
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
+  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
+
+  if (product.category.company.toString() !== user.company.toString()) {
+    return response.status(401).json({
+      error: 'wrong user for product'
+    })
+  }
 
   if (product) {
     response.json(product.toJSON())
@@ -31,9 +57,9 @@ productsRouter.post('/', async (request, response) => {
 
   const productCategory = await ProductCategory.findById(categoryId).populate('company')
 
-  if (user.id !== productCategory.company.user.toString()) {
+  if (user.company.toString() !== productCategory.company._id.toString()) {
     return response.status(401).json({
-      error: 'wrong user for company'
+      error: 'wrong user for product category'
     })
   }
 
@@ -62,16 +88,11 @@ productsRouter.patch('/:id', async (request, response) => {
     })
   }
 
-  const {
-    category: { company }
-  } = await Product.findById(request.params.id).populate({
-    path: 'category',
-    populate: { path: 'company' }
-  })
+  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
 
-  if (user.id !== company.user.toString()) {
+  if (product.category.company.toString() !== user.company.toString()) {
     return response.status(401).json({
-      error: 'wrong user for company'
+      error: 'wrong user for product'
     })
   }
 
