@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Icon } from '@chakra-ui/react'
-import { FaFacebook, FaInstagram, FaUser, FaBoxOpen } from 'react-icons/fa'
-import { BsShopWindow } from 'react-icons/bs'
+import { FaFacebook, FaInstagram } from 'react-icons/fa'
+import { BsPerson, BsShopWindow, BsColumnsGap, BsBoxSeam } from 'react-icons/bs'
 
 export const convertToPercent = value => `${value * 100} %`
 
@@ -73,9 +73,10 @@ export const socialNetworkIcons = [
 ]
 
 export const adminSidebarOptions = [
-  { text: 'Perfil', route: '/admin/perfil', icon: FaUser },
+  { text: 'Perfil', route: '/admin/perfil', icon: BsPerson },
   { text: 'Compañia', route: '/admin/compania', icon: BsShopWindow },
-  { text: 'Productos', route: '/admin/productos', icon: FaBoxOpen }
+  { text: 'Categorías', route: '/admin/categorias', icon: BsColumnsGap },
+  { text: 'Productos', route: '/admin/productos', icon: BsBoxSeam }
 ]
 
 export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)

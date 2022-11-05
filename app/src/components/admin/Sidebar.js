@@ -89,7 +89,7 @@ const NavItem = ({ icon, children, route }) => (
     _hover={{ textDecoration: 'none', background: 'gray.100' }}
     _activeLink={{ bg: 'teal.400', color: 'white' }}
   >
-    {icon && <Icon marginRight={4} as={icon} />}
+    {icon && <Icon marginRight={4} boxSize="20px" as={icon} />}
     {children}
   </Link>
 )

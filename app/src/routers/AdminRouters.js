@@ -11,6 +11,7 @@ const AdminRouters = ({ userData, handleLogoutAdmin }) => (
       <Route path="perfil" element={<Profile />} />
       <Route path="compania" element={<Profile />} />
       <Route path="productos" element={<ProductTable />} />
+      <Route path="categorias" element={<ProductTable />} />
       <Route path="*" element={<Navigate to="perfil" replace />} />
     </Routes>
   </Sidebar>
