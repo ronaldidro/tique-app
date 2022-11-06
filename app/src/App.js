@@ -23,14 +23,15 @@ const App = () => {
 
   const handleLogin = async values => {
     try {
-      const user = await services.post('/auth', values)
-      services.setToken(user.token)
-      setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify({ ...user, logged: true }))
-      dispatch(setUser({ ...user, logged: true }))
-      showToast(toast, setToastContent(`Hola ${user.name}`, 'Un gusto volver a verte', 'success', 'subtle', 'top'))
+      const response = await services.post('/auth', values)
+      const userData = { ...response, username: values.username, logged: true }
+
+      setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
+      dispatch(setUser(userData))
+      showToast(toast, setToastContent(`Hola ${userData.name}`, 'Un gusto volver a verte', 'success', 'subtle', 'top'))
       navigate('/admin/perfil')
     } catch (error) {
-      showToast(toast, setToastContent('Ocurrió un error', 'Credenciales incorrectas', 'error', 'subtle', 'top-right'))
+      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top-right'))
     }
   }
 

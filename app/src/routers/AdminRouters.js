@@ -9,7 +9,7 @@ import Profile from '../views/admin/Profile'
 const AdminRouters = ({ userData, handleLogoutAdmin }) => (
   <Sidebar sidebarOptions={adminSidebarOptions} userName={userData.name} handleLogoutButton={handleLogoutAdmin}>
     <Routes>
-      <Route path="perfil" element={<Profile />} />
+      <Route path="perfil" element={<Profile user={userData} />} />
       <Route path="compania" element={<Company />} />
       <Route path="productos" element={<ProductTable />} />
       <Route path="categorias" element={<ProductTable />} />
