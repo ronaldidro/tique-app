@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
-const { userRequestValidation } = require('../utils/validate')
+const { userRequestValidation, verifyAuth } = require('../utils/validate')
+const saltRounds = 10
 
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({ active: true }, 'username name')
@@ -18,7 +19,6 @@ usersRouter.post('/', async (request, response) => {
     })
   }
 
-  const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
 
   const user = new User({
@@ -30,6 +30,34 @@ usersRouter.post('/', async (request, response) => {
   const savedUser = await user.save()
 
   response.status(201).json(savedUser)
+})
+
+usersRouter.patch('/:id', async (request, response) => {
+  const { error, message, user } = await verifyAuth(request)
+  let passwordHash = ''
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
+  if (user.id !== request.params.id) {
+    return response.status(401).json({
+      error: 'wrong user for request'
+    })
+  }
+
+  if (request.body.password) passwordHash = await bcrypt.hash(request.body.password, saltRounds)
+
+  const updatedUser = await User.findByIdAndUpdate(
+    request.params.id,
+    request.body.password ? { ...request.body, passwordHash } : request.body,
+    { new: true }
+  )
+
+  if (!updatedUser) response.status(404).end()
+  response.json(updatedUser)
 })
 
 module.exports = usersRouter
