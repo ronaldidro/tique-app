@@ -3,7 +3,7 @@ import { Box, Heading, HStack, Icon, Image, Text } from '@chakra-ui/react'
 import { FcEmptyFilter, FcShop } from 'react-icons/fc'
 import PropTypes from 'prop-types'
 
-const Company = ({ companyData }) => {
+const CompanyCard = ({ companyData }) => {
   const navigate = useNavigate()
   const { url: initialImageUrl } = companyData.images.find(item => item.type === 'initial')
 
@@ -35,8 +35,8 @@ const Company = ({ companyData }) => {
   )
 }
 
-Company.propTypes = {
+CompanyCard.propTypes = {
   companyData: PropTypes.object
 }
 
-export default Company
+export default CompanyCard

@@ -1,7 +1,7 @@
 import { Box, Heading, SimpleGrid, Text } from '@chakra-ui/react'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import SearchField from '../../components/fields/SearchField'
-import Company from '../../components/market/Company'
+import CompanyCard from '../../components/market/CompanyCard'
 import { useResource } from '../../hooks'
 
 const Home = () => {
@@ -16,7 +16,7 @@ const Home = () => {
       <SearchField placeholder="Buscar negocio" marginBottom={5} />
       <SimpleGrid columns={[2, 3]} spacing={[5, 10]}>
         {companies.map((company, index) => (
-          <Company key={index} companyData={company} />
+          <CompanyCard key={index} companyData={company} />
         ))}
       </SimpleGrid>
     </Box>

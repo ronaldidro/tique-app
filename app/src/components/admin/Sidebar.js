@@ -1,5 +1,6 @@
 import {
   IconButton,
+  Avatar,
   Box,
   CloseButton,
   Flex,
@@ -123,6 +124,7 @@ const MobileNav = ({ onOpen, userName, handleLogoutButton, ...rest }) => (
         <Menu>
           <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
             <HStack>
+              <Avatar size="sm" />
               <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                 <Text fontSize="sm">{userName}</Text>
                 <Text fontSize="xs" color="gray.600">
