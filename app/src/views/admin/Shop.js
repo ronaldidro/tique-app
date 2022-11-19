@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import TextField from '../../components/fields/TextField'
-import services from '../../services'
+import { request } from '../../services'
 import { setToastContent, showToast, validateRequired } from '../../utils'
 import FormField from '../../components/fields/FormField'
 
@@ -20,7 +20,10 @@ const Shop = ({ shopId }) => {
 
   const handleSubmit = async values => {
     try {
-      const { id } = await services.patch('/companies', { ...values, cellPhone: `+51${values.cellPhone}`, id: shopId })
+      const { id } = await request(`/companies/${shopId}`, 'PATCH', {
+        ...values,
+        cellPhone: `+51${values.cellPhone}`
+      })
 
       if (id) {
         showToast(
@@ -36,7 +39,7 @@ const Shop = ({ shopId }) => {
   }
 
   const getShopData = async () => {
-    const { name, description, address, placeService, cellPhone } = await services.get(`companies/${shopId}`)
+    const { name, description, address, placeService, cellPhone } = await request(`companies/${shopId}`, 'GET')
     setShopData({ name, description, address, placeService, cellPhone: cellPhone.slice(3) })
   }
 

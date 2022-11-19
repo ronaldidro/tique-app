@@ -4,7 +4,7 @@ import { useToast } from '@chakra-ui/react'
 import { setUser } from './reducers/userReducer'
 import MarketRouters from './routers/MarketRouters'
 import AdminRouters from './routers/AdminRouters'
-import services from './services'
+import { request } from './services'
 import {
   getItemFromLocalStorage,
   getUser,
@@ -23,7 +23,7 @@ const App = () => {
 
   const handleLogin = async values => {
     try {
-      const response = await services.post('/auth', values)
+      const response = await request('/auth', 'POST', values)
       const userData = { ...response, username: values.username, logged: true }
 
       setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))

@@ -20,28 +20,8 @@ const setToken = () => {
   if (userData) apiConfig.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
 }
 
-const get = async pathname => {
+export const request = async (url, method, data) => {
   setToken()
-  const response = await apiConfig.get(pathname)
+  const response = await apiConfig.request({ url, method, data })
   return response.data
 }
-
-const post = async (pathname, data) => {
-  setToken()
-  const response = await apiConfig.post(pathname, data)
-  return response.data
-}
-
-const patch = async (pathname, data) => {
-  setToken()
-  const response = await apiConfig.patch(`${pathname}/${data.id}`, data)
-  return response.data
-}
-
-const remove = async (pathname, data) => {
-  setToken()
-  const response = await apiConfig.delete(`${pathname}/${data.id}`)
-  return response.data
-}
-
-export default { get, post, patch, remove }

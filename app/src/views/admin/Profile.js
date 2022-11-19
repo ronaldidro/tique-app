@@ -5,7 +5,7 @@ import { decodeToken } from 'react-jwt'
 import PropTypes from 'prop-types'
 import TextField from '../../components/fields/TextField'
 import { setUser } from '../../reducers/userReducer'
-import services from '../../services'
+import { request } from '../../services'
 import { setItemToLocalStorage, setToastContent, showToast, validateRequired } from '../../utils'
 
 const Profile = ({ user }) => {
@@ -15,10 +15,10 @@ const Profile = ({ user }) => {
   const handleSubmit = async values => {
     try {
       const { id: userId } = decodeToken(user.token)
-      const { id, name, username } = await services.patch('/users', { ...values, id: userId })
-      const userData = { ...user, name, username }
+      const { id, name, username } = await request(`/users/${userId}`, 'PATCH', values)
 
       if (id) {
+        const userData = { ...user, name, username }
         setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
         dispatch(setUser(userData))
         showToast(
