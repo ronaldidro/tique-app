@@ -74,7 +74,7 @@ export const socialNetworkIcons = [
 
 export const adminSidebarOptions = [
   { text: 'Perfil', route: '/admin/perfil', icon: BsPerson },
-  { text: 'Compañia', route: '/admin/compania', icon: BsShopWindow },
+  { text: 'Tienda', route: '/admin/tienda', icon: BsShopWindow },
   { text: 'Categorías', route: '/admin/categorias', icon: BsColumnsGap },
   { text: 'Productos', route: '/admin/productos', icon: BsBoxSeam }
 ]

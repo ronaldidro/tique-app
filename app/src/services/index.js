@@ -4,7 +4,6 @@ import { getItemFromLocalStorage, removeItemFromLocalStorage } from '../utils'
 
 const apiConfig = axios.create({
   baseURL: '/api',
-  timeout: 1000,
   headers: {
     'Content-type': 'application/json'
   }

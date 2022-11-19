@@ -22,7 +22,7 @@ authRouter.post('/', async (request, response) => {
 
   const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: '7d' })
 
-  response.status(200).send({ token, name: user.name })
+  response.status(200).send({ token, name: user.name, company: user.company })
 })
 
 module.exports = authRouter

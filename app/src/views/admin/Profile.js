@@ -14,13 +14,20 @@ const Profile = ({ user }) => {
 
   const handleSubmit = async values => {
     try {
-      const { id } = decodeToken(user.token)
-      const { name, username } = await services.patch('/users', { ...values, id })
+      const { id: userId } = decodeToken(user.token)
+      const { id, name, username } = await services.patch('/users', { ...values, id: userId })
       const userData = { ...user, name, username }
 
-      setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
-      dispatch(setUser(userData))
-      showToast(toast, setToastContent('Éxito', 'Datos actualizados correctamente', 'success', 'subtle', 'top'))
+      if (id) {
+        setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
+        dispatch(setUser(userData))
+        showToast(
+          toast,
+          setToastContent('Éxito', 'Datos de usuario actualizados correctamente', 'success', 'subtle', 'top')
+        )
+      } else {
+        showToast(toast, setToastContent('Error', 'No se pudo actualizar datos de usuario', 'error', 'subtle', 'top'))
+      }
     } catch (error) {
       showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
     }
@@ -36,8 +43,8 @@ const Profile = ({ user }) => {
           {() => (
             <Form>
               <Stack spacing={4}>
-                <TextField name="name" label="Nombre" validate={validateRequired} isRequired />
-                <TextField name="username" label="Usuario" validate={validateRequired} isRequired />
+                <TextField name="name" label="Nombre" validate={validateRequired} />
+                <TextField name="username" label="Usuario" validate={validateRequired} />
                 <TextField name="password" type="password" label="Contraseña" />
                 <Button bg="blue.400" color="white" w="full" _hover={{ bg: 'blue.500' }} type="submit">
                   Guardar
