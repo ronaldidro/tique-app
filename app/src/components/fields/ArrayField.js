@@ -18,7 +18,16 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder, validate }
           </Button>
         </Flex>
         {values.map((item, valuesIndex) => (
-          <Stack key={valuesIndex} alignItems="center" direction={['column', 'row']}>
+          <Stack
+            key={valuesIndex}
+            alignItems="center"
+            direction={['column', 'row']}
+            marginTop={2}
+            padding={[2, 0]}
+            borderWidth={[1, 0]}
+            borderRadius={['lg', 'none']}
+            borderColor={['teal.500', 'transparent']}
+          >
             {Object.keys(fields).map((field, index) => (
               <TextField
                 key={index}
@@ -41,7 +50,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder, validate }
               variant="ghost"
               onClick={() => arrayHelpers.remove(valuesIndex)}
             >
-              Quitar
+              Eliminar
             </Button>
           </Stack>
         ))}

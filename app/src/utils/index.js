@@ -72,6 +72,18 @@ export const socialNetworkIcons = [
   { type: 'ig', icon: <Icon as={FaInstagram} boxSize={10} color="red.500" /> }
 ]
 
+export const socialNetworksOptions = [
+  { description: 'Facebook', value: 'fb' },
+  { description: 'Instagram', value: 'ig' },
+  { description: 'Twitter', value: 'tw' }
+]
+
+export const shopImageOptions = [
+  { description: 'Inicial', value: 'initial' },
+  { description: 'Perfil', value: 'profile' },
+  { description: 'Portada', value: 'headboard' }
+]
+
 export const adminSidebarOptions = [
   { text: 'Perfil', route: '/admin/perfil', icon: BsPerson },
   { text: 'Tienda', route: '/admin/tienda', icon: BsShopWindow },

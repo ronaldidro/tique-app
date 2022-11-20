@@ -4,10 +4,11 @@ import { Field, Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import ArrayField from '../../components/fields/ArrayField'
+import ArraySelectField from '../../components/fields/ArraySelectField'
 import FormField from '../../components/fields/FormField'
 import TextField from '../../components/fields/TextField'
 import { request } from '../../services'
-import { setToastContent, showToast, validateRequired } from '../../utils'
+import { setToastContent, shopImageOptions, showToast, socialNetworksOptions, validateRequired } from '../../utils'
 
 const Shop = ({ shopId }) => {
   const [shopData, setShopData] = useState({
@@ -25,7 +26,6 @@ const Shop = ({ shopId }) => {
         ...values,
         cellPhone: `+51${values.cellPhone}`
       })
-
       if (id) {
         showToast(
           toast,
@@ -40,11 +40,19 @@ const Shop = ({ shopId }) => {
   }
 
   const getShopData = async () => {
-    const { name, description, address, placeService, attentionSchedule, cellPhone } = await request(
-      `companies/${shopId}`,
-      'GET'
-    )
-    setShopData({ name, description, address, placeService, attentionSchedule, cellPhone: cellPhone.slice(3) })
+    const { name, description, address, placeService, attentionSchedule, socialNetworks, images, cellPhone } =
+      await request(`companies/${shopId}`, 'GET')
+
+    setShopData({
+      name,
+      description,
+      address,
+      placeService,
+      attentionSchedule,
+      socialNetworks,
+      images,
+      cellPhone: cellPhone.slice(3)
+    })
   }
 
   useEffect(() => {
@@ -60,7 +68,7 @@ const Shop = ({ shopId }) => {
           Mi Tienda
         </Heading>
         <Formik initialValues={shopData} onSubmit={handleSubmit} enableReinitialize>
-          {({ values }) => (
+          {({ values, handleChange }) => (
             <Form>
               <Stack spacing={4}>
                 <TextField name="name" label="Nombre" validate={validateRequired} />
@@ -86,6 +94,26 @@ const Shop = ({ shopId }) => {
                   fields={{ day: '', schedule: '' }}
                   fieldsPlaceholder={{ day: 'Día(s)', schedule: 'Horario' }}
                   validate={validateRequired}
+                />
+                <ArraySelectField
+                  name="socialNetworks"
+                  label="Redes sociales"
+                  values={values.socialNetworks}
+                  fields={{ type: '', url: '' }}
+                  fieldsPlaceholder={{ url: 'Enlace' }}
+                  options={socialNetworksOptions}
+                  validate={validateRequired}
+                  handleSelectChange={handleChange}
+                />
+                <ArraySelectField
+                  name="images"
+                  label="Imágenes"
+                  values={values.images}
+                  fields={{ type: '', url: '' }}
+                  fieldsPlaceholder={{ url: 'Enlace' }}
+                  options={shopImageOptions}
+                  validate={validateRequired}
+                  handleSelectChange={handleChange}
                 />
                 <Button bg="blue.400" color="white" w="full" _hover={{ bg: 'blue.500' }} type="submit">
                   Guardar
