@@ -59,7 +59,7 @@ productsRouter.post('/', async (request, response) => {
 
   if (user.company.toString() !== productCategory.company._id.toString()) {
     return response.status(401).json({
-      error: 'wrong user for product category'
+      error: 'wrong user for product'
     })
   }
 
