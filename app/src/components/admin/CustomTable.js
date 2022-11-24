@@ -49,22 +49,24 @@ const CustomTable = ({ title, columns, data }) => {
       <Box
         display={{ base: 'block', md: 'flex' }}
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent={pageOptions.length > 1 ? 'space-between' : 'end'}
         paddingX={6}
         paddingY={5}
       >
-        <Select
-          value={pageSize}
-          onChange={e => setPageSize(Number(e.target.value))}
-          maxWidth={['full', '36']}
-          marginBottom={[4, 0]}
-        >
-          {[5, 10, 15].map((pageSize, index) => (
-            <option key={index} value={pageSize}>
-              {pageSize !== 15 ? `Mostrar ${pageSize}` : 'Mostrar todo'}
-            </option>
-          ))}
-        </Select>
+        {pageOptions.length > 1 && (
+          <Select
+            value={pageSize}
+            onChange={e => setPageSize(Number(e.target.value))}
+            maxWidth={['full', '36']}
+            marginBottom={[4, 0]}
+          >
+            {[5, 10, 15].map((pageSize, index) => (
+              <option key={index} value={pageSize}>
+                {pageSize !== 15 ? `Mostrar ${pageSize}` : 'Mostrar todo'}
+              </option>
+            ))}
+          </Select>
+        )}
         <TableFilter setGlobalFilter={setGlobalFilter} />
       </Box>
       <Table {...getTableProps()}>
@@ -95,18 +97,20 @@ const CustomTable = ({ title, columns, data }) => {
           })}
         </Tbody>
       </Table>
-      <TablePagination
-        pageIndex={pageIndex}
-        pageOptions={pageOptions}
-        gotoPage={gotoPage}
-        canPreviousPage={canPreviousPage}
-        previousPage={previousPage}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        pageCount={pageCount}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-      />
+      {pageOptions.length > 1 && (
+        <TablePagination
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+          gotoPage={gotoPage}
+          canPreviousPage={canPreviousPage}
+          previousPage={previousPage}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageCount={pageCount}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
+      )}
     </TableContainer>
   )
 }

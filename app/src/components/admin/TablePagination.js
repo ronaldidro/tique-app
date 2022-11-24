@@ -1,4 +1,4 @@
-import { Box, HStack, IconButton, Text } from '@chakra-ui/react'
+import { Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react'
 import { BiFirstPage, BiLastPage } from 'react-icons/bi'
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md'
 import PropTypes from 'prop-types'
@@ -23,36 +23,12 @@ const TablePagination = ({
     <Text fontWeight="semibold" paddingBottom={[4, 0]}>
       Página {pageIndex + 1} de {pageOptions.length}
     </Text>
-    <HStack>
-      <IconButton
-        onClick={() => gotoPage(0)}
-        disabled={!canPreviousPage}
-        icon={<BiFirstPage size="xs" />}
-        colorScheme="teal"
-        variant="outline"
-      />
-      <IconButton
-        onClick={() => previousPage()}
-        disabled={!canPreviousPage}
-        icon={<MdKeyboardArrowLeft size="xs" />}
-        colorScheme="teal"
-        variant="outline"
-      />
-      <IconButton
-        onClick={() => nextPage()}
-        disabled={!canNextPage}
-        icon={<MdKeyboardArrowRight size="xs" />}
-        colorScheme="teal"
-        variant="outline"
-      />
-      <IconButton
-        onClick={() => gotoPage(pageCount - 1)}
-        disabled={!canNextPage}
-        icon={<BiLastPage size="xs" />}
-        colorScheme="teal"
-        variant="outline"
-      />
-    </HStack>
+    <ButtonGroup colorScheme="teal" variant="outline">
+      <IconButton onClick={() => gotoPage(0)} disabled={!canPreviousPage} icon={<BiFirstPage size="xs" />} />
+      <IconButton onClick={() => previousPage()} disabled={!canPreviousPage} icon={<MdKeyboardArrowLeft size="xs" />} />
+      <IconButton onClick={() => nextPage()} disabled={!canNextPage} icon={<MdKeyboardArrowRight size="xs" />} />
+      <IconButton onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} icon={<BiLastPage size="xs" />} />
+    </ButtonGroup>
   </Box>
 )
 
