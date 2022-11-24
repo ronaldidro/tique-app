@@ -46,14 +46,14 @@ const CustomTable = ({ title, columns, data }) => {
           Agregar
         </Button>
       </Box>
-      <Box
-        display={{ base: 'block', md: 'flex' }}
-        alignItems="center"
-        justifyContent={pageOptions.length > 1 ? 'space-between' : 'end'}
-        paddingX={6}
-        paddingY={5}
-      >
-        {pageOptions.length > 1 && (
+      {pageOptions.length > 1 && (
+        <Box
+          display={{ base: 'block', md: 'flex' }}
+          alignItems="center"
+          justifyContent="space-between"
+          paddingX={6}
+          paddingY={5}
+        >
           <Select
             value={pageSize}
             onChange={e => setPageSize(Number(e.target.value))}
@@ -66,9 +66,9 @@ const CustomTable = ({ title, columns, data }) => {
               </option>
             ))}
           </Select>
-        )}
-        <TableFilter setGlobalFilter={setGlobalFilter} />
-      </Box>
+          <TableFilter setGlobalFilter={setGlobalFilter} />
+        </Box>
+      )}
       <Table {...getTableProps()}>
         <Thead backgroundColor="gray.50">
           {headerGroups.map((headerGroup, index) => (
