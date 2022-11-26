@@ -44,7 +44,7 @@ productsRouter.get('/:id', async (request, response) => {
 
 productsRouter.post('/', async (request, response) => {
   const body = request.body
-  const { name, description, price, discount, images, categoryId } = body
+  const { name, description, price, discount, images, category } = body
   const { error, message, user } = await verifyAuth(request)
 
   if (error) {
@@ -53,7 +53,7 @@ productsRouter.post('/', async (request, response) => {
     })
   }
 
-  const productCategory = await ProductCategory.findById(categoryId).populate('company')
+  const productCategory = await ProductCategory.findById(category).populate('company')
 
   if (user.company.toString() !== productCategory.company._id.toString()) {
     return response.status(401).json({
