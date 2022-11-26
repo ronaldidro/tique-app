@@ -12,7 +12,7 @@ productCategoriesRouter.get('/', async (request, response) => {
     })
   }
 
-  const productCategories = await ProductCategory.find({ company: user.company }, 'description active').sort({
+  const productCategories = await ProductCategory.find({ company: user.company }).sort({
     description: 1
   })
 
