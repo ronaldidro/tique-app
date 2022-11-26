@@ -73,8 +73,8 @@ const Shop = ({ shopId }) => {
           <Avatar size="2xl" src={getPictureUrl('profile')} alt="Shop" borderWidth="initial" borderColor="white" />
         </Flex>
         <Stack spacing={4} padding={6}>
-          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-            Mi Tienda
+          <Heading fontSize={{ base: '2xl', sm: '3xl' }} textAlign="center">
+            Mi tienda
           </Heading>
           <Formik initialValues={shopData} onSubmit={handleSubmit} enableReinitialize>
             {({ values, handleChange }) => (

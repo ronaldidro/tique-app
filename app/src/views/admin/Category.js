@@ -59,9 +59,7 @@ const Category = () => {
   return (
     <Flex justify="center">
       <Stack spacing={4} w="full" maxW="md" bg="white" rounded="xl" boxShadow="lg" p={6}>
-        <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          {title}
-        </Heading>
+        <Heading fontSize={{ base: '2xl', sm: '3xl' }}>{title}</Heading>
         <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
           {() => (
             <Form>

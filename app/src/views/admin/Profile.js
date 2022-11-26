@@ -36,9 +36,7 @@ const Profile = ({ user }) => {
   return (
     <Flex justify="center">
       <Stack spacing={4} w="full" maxW="md" bg="white" rounded="xl" boxShadow="lg" p={6}>
-        <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Mi Perfil
-        </Heading>
+        <Heading fontSize={{ base: '2xl', sm: '3xl' }}>Mi perfil</Heading>
         <Formik initialValues={{ name: user.name, username: user.username, password: '' }} onSubmit={handleSubmit}>
           {() => (
             <Form>
