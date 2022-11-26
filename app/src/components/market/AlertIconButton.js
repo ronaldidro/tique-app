@@ -14,7 +14,7 @@ const AlertIconButton = forwardRef(({ alertTitle, alertContent, icon, handleAfir
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = useRef()
 
-  const closeAlert = () => onClose
+  const closeAlert = () => onClose()
 
   useImperativeHandle(ref, () => {
     return { closeAlert }
