@@ -1,12 +1,12 @@
-import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react'
 import { Field } from 'formik'
 import PropTypes from 'prop-types'
+import FormField from './FormField'
 
 const SelectField = ({ name, label, options, validate }) => (
   <Field name={name} validate={validate}>
     {({ field, meta }) => (
-      <FormControl isInvalid={meta.touched && meta.error}>
-        <FormLabel htmlFor={name}>{label}</FormLabel>
+      <FormField label={label} meta={meta}>
         <Select {...field}>
           {options.map((option, index) => (
             <option key={index} value={option.value}>
@@ -14,8 +14,7 @@ const SelectField = ({ name, label, options, validate }) => (
             </option>
           ))}
         </Select>
-        <FormErrorMessage>{meta.error}</FormErrorMessage>
-      </FormControl>
+      </FormField>
     )}
   </Field>
 )
