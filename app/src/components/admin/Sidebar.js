@@ -71,14 +71,14 @@ const SidebarContent = ({ onClose, options, ...rest }) => (
       <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
     </Flex>
     {options.map(({ text, route, icon }, index) => (
-      <NavItem key={index} icon={icon} route={route}>
+      <NavItem key={index} icon={icon} route={route} onClick={onClose}>
         {text}
       </NavItem>
     ))}
   </Box>
 )
 
-const NavItem = ({ icon, children, route }) => (
+const NavItem = ({ icon, children, route, ...rest }) => (
   <Link
     display="flex"
     as={RouterLink}
@@ -88,6 +88,7 @@ const NavItem = ({ icon, children, route }) => (
     borderRadius="lg"
     _hover={{ textDecoration: 'none', background: 'gray.100' }}
     _activeLink={{ bg: 'teal.400', color: 'white' }}
+    {...rest}
   >
     {icon && <Icon marginRight={4} boxSize="20px" as={icon} />}
     {children}
