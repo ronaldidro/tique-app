@@ -14,7 +14,7 @@ productsRouter.get('/', async (request, response) => {
 
   const products = await Product.find({})
     .sort({ name: 1 })
-    .populate({ path: 'category', select: 'company' })
+    .populate({ path: 'category', select: 'description company' })
     .then(data => data.filter(product => product.category.company.toString() === user.company.toString()))
 
   response.json(products)
@@ -31,17 +31,15 @@ productsRouter.get('/:id', async (request, response) => {
 
   const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
 
+  if (!product) response.status(404).end()
+
   if (product.category.company.toString() !== user.company.toString()) {
     return response.status(401).json({
       error: 'wrong user for product'
     })
   }
 
-  if (product) {
-    response.json(product.toJSON())
-  } else {
-    response.status(404).end()
-  }
+  response.json(product.toJSON())
 })
 
 productsRouter.post('/', async (request, response) => {
