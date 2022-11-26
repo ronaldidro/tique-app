@@ -17,7 +17,7 @@ import { getFilteredProducts, getProductsOrder } from '../../utils'
 const CompanyProducts = () => {
   const { id } = useParams()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const company = useResource(`/api/companies/${id}`)
+  const company = useResource(`/companies/${id}`)
   const dispatch = useDispatch()
   const productsOrder = getProductsOrder()
   const products = getFilteredProducts()

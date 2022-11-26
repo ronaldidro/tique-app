@@ -5,7 +5,7 @@ import CompanyCard from '../../components/market/CompanyCard'
 import { useResource } from '../../hooks'
 
 const Home = () => {
-  const companies = useResource('/api/companies')
+  const companies = useResource('/companies')
 
   if (!Object.keys(companies).length) return <CircularSpinner />
 

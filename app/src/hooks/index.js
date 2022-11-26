@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { request } from '../services/index'
 
 export const useResource = baseUrl => {
-  const [resources, setResources] = useState({})
+  const [resources, setResources] = useState([])
 
   useEffect(() => {
-    const request = axios.get(baseUrl)
-    request.then(response => setResources(response.data))
+    const response = request(baseUrl, 'GET')
+    response.then(data => setResources(data))
   }, [baseUrl])
 
   return resources
