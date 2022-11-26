@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import TableFilter from './TableFilter'
 import TablePagination from './TablePagination'
 
-const CustomTable = ({ title, columns, data, handleAddButton }) => {
+const CustomTable = ({ title, columns, data, defaultPageSize = 5, handleAddButton }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -23,7 +23,7 @@ const CustomTable = ({ title, columns, data, handleAddButton }) => {
     setPageSize,
     state: { pageIndex, pageSize }
   } = useTable(
-    { columns, data, initialState: { pageSize: 5, pageIndex: 0 } },
+    { columns, data, initialState: { pageSize: defaultPageSize, pageIndex: 0 } },
     useGlobalFilter,
     useSortBy,
     usePagination
@@ -46,7 +46,7 @@ const CustomTable = ({ title, columns, data, handleAddButton }) => {
           Agregar
         </Button>
       </Box>
-      {pageOptions.length > 1 && (
+      {data.length > defaultPageSize && (
         <Box
           display={{ base: 'block', md: 'flex' }}
           alignItems="center"
@@ -60,9 +60,9 @@ const CustomTable = ({ title, columns, data, handleAddButton }) => {
             maxWidth={['full', '36']}
             marginBottom={[4, 0]}
           >
-            {[5, 10, 15].map((pageSize, index) => (
+            {[5, 10, 15, data.length].map((pageSize, index) => (
               <option key={index} value={pageSize}>
-                {pageSize !== 15 ? `Mostrar ${pageSize}` : 'Mostrar todo'}
+                {pageSize !== data.length ? `Mostrar ${pageSize}` : 'Mostrar todo'}
               </option>
             ))}
           </Select>
@@ -119,6 +119,7 @@ CustomTable.propTypes = {
   title: PropTypes.string,
   columns: PropTypes.array,
   data: PropTypes.array,
+  defaultPageSize: PropTypes.number,
   handleAddButton: PropTypes.func
 }
 
