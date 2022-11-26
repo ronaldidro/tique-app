@@ -47,7 +47,7 @@ const Category = () => {
         )
         goToCategories()
       } else {
-        showToast(toast, setToastContent('Error', 'No se pudo crear categoría', 'error', 'subtle', 'top'))
+        showToast(toast, setToastContent('Error', 'No se pudo realizar la acción', 'error', 'subtle', 'top'))
       }
     } catch (error) {
       showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
