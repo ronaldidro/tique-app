@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import TableFilter from './TableFilter'
 import TablePagination from './TablePagination'
 
-const CustomTable = ({ title, columns, data }) => {
+const CustomTable = ({ title, columns, data, handleAddButton }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -42,7 +42,7 @@ const CustomTable = ({ title, columns, data }) => {
         <Heading as="h1" size="md" fontSize={{ base: '2xl', sm: '3xl' }} paddingBottom={[2, 0]}>
           {title}
         </Heading>
-        <Button rightIcon={<AddIcon />} colorScheme="teal" variant="outline">
+        <Button rightIcon={<AddIcon />} colorScheme="teal" variant="outline" onClick={handleAddButton}>
           Agregar
         </Button>
       </Box>
@@ -118,7 +118,8 @@ const CustomTable = ({ title, columns, data }) => {
 CustomTable.propTypes = {
   title: PropTypes.string,
   columns: PropTypes.array,
-  data: PropTypes.array
+  data: PropTypes.array,
+  handleAddButton: PropTypes.func
 }
 
 export default CustomTable
