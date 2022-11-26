@@ -1,4 +1,4 @@
-import { Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react'
+import { ButtonGroup, Flex, IconButton, Text } from '@chakra-ui/react'
 import { BiFirstPage, BiLastPage } from 'react-icons/bi'
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md'
 import PropTypes from 'prop-types'
@@ -13,14 +13,8 @@ const TablePagination = ({
   canNextPage,
   pageCount
 }) => (
-  <Box
-    display={{ base: 'block', md: 'flex' }}
-    alignItems="center"
-    justifyContent="space-between"
-    paddingX={6}
-    paddingTop={5}
-  >
-    <Text fontWeight="semibold" paddingBottom={[4, 0]}>
+  <Flex alignItems="center" justifyContent="space-between" paddingX={6} paddingTop={5}>
+    <Text fontWeight="semibold">
       Página {pageIndex + 1} de {pageOptions.length}
     </Text>
     <ButtonGroup colorScheme="teal" variant="outline">
@@ -29,7 +23,7 @@ const TablePagination = ({
       <IconButton onClick={() => nextPage()} disabled={!canNextPage} icon={<MdKeyboardArrowRight size="xs" />} />
       <IconButton onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} icon={<BiLastPage size="xs" />} />
     </ButtonGroup>
-  </Box>
+  </Flex>
 )
 
 TablePagination.propTypes = {
