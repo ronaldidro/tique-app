@@ -32,7 +32,7 @@ export const getCompanyData = () => useSelector(state => state.company)
 
 export const getUser = () => useSelector(state => state.user)
 
-export const validateRequired = value => !value && 'Campo obligatorio'
+export const validateRequired = value => value === '' && 'Campo obligatorio'
 
 export const orderModeOptions = [
   { label: 'Recojo en tienda', value: 'pickup' },
@@ -89,6 +89,11 @@ export const adminSidebarOptions = [
   { text: 'Tienda', route: '/admin/tienda', icon: BsShopWindow },
   { text: 'Categorías', route: '/admin/categorias', icon: BsColumnsGap },
   { text: 'Productos', route: '/admin/productos', icon: BsBoxSeam }
+]
+
+export const statusOptions = [
+  { description: 'Activo', value: true },
+  { description: 'Inactivo', value: false }
 ]
 
 export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)
