@@ -74,7 +74,7 @@ const CustomTable = ({ title, columns, data, handleAddButton }) => {
           {headerGroups.map((headerGroup, index) => (
             <Tr key={index} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, index) => (
-                <Th key={index} {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <Th key={index} {...column.getHeaderProps(column.getSortByToggleProps())} textAlign="center">
                   {column.render('Header')}
                   {column.isSorted && (column.isSortedDesc ? <ChevronDownIcon /> : <ChevronUpIcon />)}
                 </Th>
@@ -88,7 +88,7 @@ const CustomTable = ({ title, columns, data, handleAddButton }) => {
             return (
               <Tr key={index} {...row.getRowProps()}>
                 {row.cells.map((cell, index) => (
-                  <Td key={index} {...cell.getCellProps()}>
+                  <Td key={index} {...cell.getCellProps()} textAlign="center">
                     {cell.render('Cell')}
                   </Td>
                 ))}
