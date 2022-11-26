@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types'
 import Alert from '../overlay/Alert'
 
-const AlertIconButton = forwardRef(({ alertTitle, alertContent, icon, handleAfirmativeOption }, ref) => {
+const AlertIconButton = forwardRef(({ alertTitle, alertContent, icon, handleAfirmativeOption, ...props }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = useRef()
 
@@ -22,7 +22,7 @@ const AlertIconButton = forwardRef(({ alertTitle, alertContent, icon, handleAfir
 
   return (
     <>
-      <IconButton colorScheme="red" size={['sm', 'md']} icon={icon} onClick={onOpen} />
+      <IconButton icon={icon} onClick={onOpen} {...props} />
       <Alert isOpen={isOpen} onClose={onClose} cancelRef={cancelRef}>
         <AlertDialogHeader>{alertTitle}</AlertDialogHeader>
         <AlertDialogBody>{alertContent}</AlertDialogBody>

@@ -74,6 +74,8 @@ const OrderListItem = ({ productData }) => {
             alertContent={`¿Está seguro de eliminar ${productData.name} del pedido?`}
             icon={<DeleteIcon />}
             handleAfirmativeOption={deleteOrderProduct}
+            colorScheme="red"
+            size={['sm', 'md']}
             ref={alertDialogRef}
           />
         </HStack>
