@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Avatar, Box, Button, Flex, Heading, Image, InputLeftAddon, Stack, Textarea, useToast } from '@chakra-ui/react'
-import { Field, Form, Formik } from 'formik'
+import { Avatar, Box, Button, Flex, Heading, Image, InputLeftAddon, Stack, useToast } from '@chakra-ui/react'
+import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import ArrayField from '../../components/fields/ArrayField'
 import ArraySelectField from '../../components/fields/ArraySelectField'
-import FormField from '../../components/fields/FormField'
+import TextAreaField from '../../components/fields/TextAreaField'
 import TextField from '../../components/fields/TextField'
 import { request } from '../../services'
 import { setToastContent, shopImageOptions, showToast, socialNetworksOptions, validateRequired } from '../../utils'
@@ -81,13 +81,7 @@ const Shop = ({ shopId }) => {
               <Form>
                 <Stack spacing={4}>
                   <TextField name="name" label="Nombre" validate={validateRequired} />
-                  <Field name="description" validate={validateRequired}>
-                    {({ field, meta }) => (
-                      <FormField label="Descripción" meta={meta}>
-                        <Textarea resize="none" {...field} />
-                      </FormField>
-                    )}
-                  </Field>
+                  <TextAreaField name="description" label="Descripción" validate={validateRequired} />
                   <TextField name="address" label="Dirección" validate={validateRequired} />
                   <TextField name="placeService" label="Lugar de servicio" validate={validateRequired} />
                   <TextField
