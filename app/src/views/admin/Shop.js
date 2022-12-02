@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Avatar, Box, Button, Flex, Heading, Image, InputLeftAddon, Stack, useToast } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
+import * as Yup from 'yup'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import ArrayField from '../../components/fields/ArrayField'
 import ArraySelectField from '../../components/fields/ArraySelectField'
@@ -9,6 +10,25 @@ import TextAreaField from '../../components/fields/TextAreaField'
 import TextField from '../../components/fields/TextField'
 import { request } from '../../services'
 import { setToastContent, shopImageOptions, showToast, socialNetworksOptions, validateRequired } from '../../utils'
+
+const shopValidationSchema = Yup.object().shape({
+  images: Yup.array()
+    .of(
+      Yup.object().shape({
+        type: Yup.string().required('Campo obligatorio'),
+        url: Yup.string().required('Campo obligatorio')
+      })
+    )
+    .min(1, 'Agregar un enlace por cada tipo de imagen'),
+  socialNetworks: Yup.array()
+    .of(
+      Yup.object().shape({
+        type: Yup.string().required('Campo obligatorio'),
+        url: Yup.string().required('Campo obligatorio')
+      })
+    )
+    .min(1, 'Agregar un tipo y enlace de red social')
+})
 
 const Shop = ({ shopId }) => {
   const [shopData, setShopData] = useState({
@@ -76,7 +96,12 @@ const Shop = ({ shopId }) => {
           <Heading fontSize={{ base: '2xl', sm: '3xl' }} textAlign="center">
             Mi tienda
           </Heading>
-          <Formik initialValues={shopData} onSubmit={handleSubmit} enableReinitialize>
+          <Formik
+            initialValues={shopData}
+            onSubmit={handleSubmit}
+            validationSchema={shopValidationSchema}
+            enableReinitialize
+          >
             {({ values, handleChange }) => (
               <Form>
                 <Stack spacing={4}>
@@ -104,8 +129,7 @@ const Shop = ({ shopId }) => {
                     values={values.socialNetworks}
                     fields={{ type: '', url: '' }}
                     fieldsPlaceholder={{ url: 'Enlace' }}
-                    options={socialNetworksOptions}
-                    validate={validateRequired}
+                    selectionOptions={socialNetworksOptions}
                     handleSelectChange={handleChange}
                   />
                   <ArraySelectField
@@ -114,8 +138,7 @@ const Shop = ({ shopId }) => {
                     values={values.images}
                     fields={{ type: '', url: '' }}
                     fieldsPlaceholder={{ url: 'Enlace' }}
-                    options={shopImageOptions}
-                    validate={validateRequired}
+                    selectionOptions={shopImageOptions}
                     handleSelectChange={handleChange}
                   />
                   <Button bg="blue.400" color="white" w="full" _hover={{ bg: 'blue.500' }} type="submit">

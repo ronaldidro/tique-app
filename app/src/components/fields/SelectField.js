@@ -3,11 +3,11 @@ import { Field } from 'formik'
 import PropTypes from 'prop-types'
 import FormField from './FormField'
 
-const SelectField = ({ name, label, options, defaultValue, validate }) => (
+const SelectField = ({ name, label, options, defaultValue, validate, ...props }) => (
   <Field name={name} validate={validate}>
     {({ field, meta }) => (
       <FormField label={label} meta={meta}>
-        <Select {...field} defaultValue={defaultValue}>
+        <Select {...field} defaultValue={defaultValue} {...props}>
           {options.map((option, index) => (
             <option key={index} value={option.value}>
               {option.description}
