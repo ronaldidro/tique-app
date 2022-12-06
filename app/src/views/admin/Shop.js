@@ -12,14 +12,14 @@ import { request } from '../../services'
 import { setToastContent, shopImageOptions, showToast, socialNetworksOptions, validateRequired } from '../../utils'
 
 const shopValidationSchema = Yup.object().shape({
-  images: Yup.array()
+  attentionSchedule: Yup.array()
     .of(
       Yup.object().shape({
-        type: Yup.string().required('Campo obligatorio'),
-        url: Yup.string().required('Campo obligatorio')
+        day: Yup.string().required('Campo obligatorio'),
+        schedule: Yup.string().required('Campo obligatorio')
       })
     )
-    .min(1, 'Agregar un enlace por cada tipo de imagen'),
+    .min(1, 'Agregar un día y horario de atención'),
   socialNetworks: Yup.array()
     .of(
       Yup.object().shape({
@@ -27,7 +27,15 @@ const shopValidationSchema = Yup.object().shape({
         url: Yup.string().required('Campo obligatorio')
       })
     )
-    .min(1, 'Agregar un tipo y enlace de red social')
+    .min(1, 'Agregar un tipo y enlace de red social'),
+  images: Yup.array()
+    .of(
+      Yup.object().shape({
+        type: Yup.string().required('Campo obligatorio'),
+        url: Yup.string().required('Campo obligatorio')
+      })
+    )
+    .min(1, 'Agregar un tipo y enlace de imagen')
 })
 
 const Shop = ({ shopId }) => {
@@ -121,7 +129,6 @@ const Shop = ({ shopId }) => {
                     values={values.attentionSchedule}
                     fields={{ day: '', schedule: '' }}
                     fieldsPlaceholder={{ day: 'Día(s)', schedule: 'Horario' }}
-                    validate={validateRequired}
                   />
                   <ArraySelectField
                     name="socialNetworks"
