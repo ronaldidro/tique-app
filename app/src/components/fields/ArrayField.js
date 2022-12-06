@@ -2,9 +2,10 @@ import { Box, Button, Flex, FormLabel, Icon, Stack } from '@chakra-ui/react'
 import { FieldArray } from 'formik'
 import { MdDeleteForever } from 'react-icons/md'
 import PropTypes from 'prop-types'
+import ErrorField from './ErrorField'
 import TextField from './TextField'
 
-const ArrayField = ({ name, label, values, fields, fieldsPlaceholder, validate }) => (
+const ArrayField = ({ name, label, values, fields, fieldsPlaceholder }) => (
   <FieldArray
     name={name}
     render={arrayHelpers => (
@@ -29,12 +30,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder, validate }
             borderColor={['teal.500', 'transparent']}
           >
             {Object.keys(fields).map((field, index) => (
-              <TextField
-                key={index}
-                name={`${name}.${valuesIndex}.${field}`}
-                placeholder={fieldsPlaceholder[field]}
-                validate={validate}
-              />
+              <TextField key={index} name={`${name}.${valuesIndex}.${field}`} placeholder={fieldsPlaceholder[field]} />
             ))}
             <Icon
               as={MdDeleteForever}
@@ -54,6 +50,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder, validate }
             </Button>
           </Stack>
         ))}
+        <ErrorField name={name} />
       </Box>
     )}
   />
@@ -64,8 +61,7 @@ ArrayField.propTypes = {
   label: PropTypes.string,
   values: PropTypes.array,
   fields: PropTypes.object,
-  fieldsPlaceholder: PropTypes.object,
-  validate: PropTypes.func
+  fieldsPlaceholder: PropTypes.object
 }
 
 export default ArrayField
