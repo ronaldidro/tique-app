@@ -1,18 +1,9 @@
-import { Box, Button, Flex, FormLabel, Text, VStack } from '@chakra-ui/react'
-import { Field, FieldArray } from 'formik'
+import { Box, Button, Flex, FormLabel, VStack } from '@chakra-ui/react'
+import { FieldArray } from 'formik'
 import PropTypes from 'prop-types'
+import ErrorField from './ErrorField'
 import SelectField from './SelectField'
 import TextField from './TextField'
-
-const ErrorMessage = ({ name }) => (
-  <Field name={name}>
-    {({ meta }) => (
-      <Text color="red.500" fontSize="sm">
-        {meta.touched && typeof meta.error === 'string' ? meta.error : null}
-      </Text>
-    )}
-  </Field>
-)
 
 const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, selectionOptions, handleSelectChange }) => (
   <FieldArray
@@ -46,7 +37,7 @@ const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, sele
             </Box>
           </VStack>
         ))}
-        <ErrorMessage name={name} />
+        <ErrorField name={name} />
       </Box>
     )}
   />
@@ -60,10 +51,6 @@ ArraySelectField.propTypes = {
   fieldsPlaceholder: PropTypes.object,
   selectionOptions: PropTypes.array,
   handleSelectChange: PropTypes.func
-}
-
-ErrorMessage.propTypes = {
-  name: PropTypes.string
 }
 
 export default ArraySelectField
