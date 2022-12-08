@@ -1,48 +1,80 @@
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
+import ActionButtons from '../../components/admin/ActionButtons'
+import CustomTable from '../../components/admin/CustomTable'
+import StatusTag from '../../components/admin/StatusTag'
+import CircularSpinner from '../../components/feedback/CircularSpinner'
+import { useResource } from '../../hooks'
+import { request } from '../../services'
+import { setToastContent, showToast } from '../../utils'
+import { productColumns } from '../../utils/tables'
 
-const ProductTable = () => {
+const PrductTable = () => {
+  const [products, setProducts] = useState([])
+  const resources = useResource('/products')
+  const alertDialogRef = useRef()
+  const navigate = useNavigate()
+  const columns = productColumns()
+  const toast = useToast()
+
+  const handleDeleteProduct = async id => {
+    try {
+      const response = await request(`/products/${id}`, 'DELETE')
+
+      if (response.id) {
+        const resourcesFiltered = resources.filter(item => item.id !== response.id)
+        setProductsForTable(resourcesFiltered)
+
+        showToast(
+          toast,
+          setToastContent('Éxito', `Producto ${response.name} eliminado correctamente`, 'success', 'subtle', 'top')
+        )
+      } else {
+        showToast(toast, setToastContent('Error', 'No se pudo eliminar producto', 'error', 'subtle', 'top'))
+      }
+    } catch (error) {
+      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
+    }
+    alertDialogRef.current.closeAlert()
+  }
+
+  const setProductsForTable = resources => {
+    const productData = resources.map(data => {
+      return {
+        ...data,
+        price: `S/ ${data.price.toFixed(2)}`,
+        discount: `${(data.discount * 100).toFixed(2)} %`,
+        category: data.category.description,
+        status: <StatusTag active={data.active} />,
+        actions: (
+          <ActionButtons
+            alertTitle="Eliminar Producto"
+            alertContent={`¿Está seguro de eliminar ${data.name}?`}
+            handleEditButton={() => navigate(`/admin/productos/editar/${data.id}`)}
+            handleDeleteButton={() => handleDeleteProduct(data.id)}
+            alertRef={alertDialogRef}
+          />
+        )
+      }
+    })
+    setProducts(productData)
+  }
+
+  useEffect(() => {
+    setProductsForTable(resources)
+  }, [resources])
+
+  if (!products.length) return <CircularSpinner />
+
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Nombre</Th>
-            <Th>Descripción</Th>
-            <Th isNumeric>Precio</Th>
-            <Th isNumeric>% Descuento</Th>
-            <Th>Estado</Th>
-            <Th>Acciones</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>Mixto completo</Td>
-            <Td>Jamón inglés, queso Edam y huevo a la plancha</Td>
-            <Td isNumeric>S/ 13</Td>
-            <Td isNumeric>0 %</Td>
-            <Td isNumeric>Activo</Td>
-            <Td isNumeric>Editar | Eliminar</Td>
-          </Tr>
-          <Tr>
-            <Td>Romano</Td>
-            <Td>Pan marmoleado con pollo, mayonesa, corazones de alcachofa y palta</Td>
-            <Td isNumeric>S/ 23.5</Td>
-            <Td isNumeric>0 %</Td>
-            <Td isNumeric>Desactivado</Td>
-            <Td isNumeric>Editar | Eliminar</Td>
-          </Tr>
-          <Tr>
-            <Td>Caprese</Td>
-            <Td>Queso mozarella, tomate, albahaca y aceite de oliva en pan pita</Td>
-            <Td isNumeric>S/ 17.5</Td>
-            <Td isNumeric>0 %</Td>
-            <Td isNumeric>Activo</Td>
-            <Td isNumeric>Editar | Eliminar</Td>
-          </Tr>
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <CustomTable
+      title="Productos"
+      columns={columns}
+      data={products}
+      handleAddButton={() => navigate('/admin/productos/agregar')}
+    />
   )
 }
 
-export default ProductTable
+export default PrductTable

@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux'
 import { Icon } from '@chakra-ui/react'
 import { FaFacebook, FaInstagram } from 'react-icons/fa'
 import { BsPerson, BsShopWindow, BsColumnsGap, BsBoxSeam } from 'react-icons/bs'
+import { useResource } from '../hooks'
 
 export const convertToPercent = value => `${value * 100} %`
 
@@ -31,6 +32,11 @@ export const getFilteredProducts = () =>
 export const getCompanyData = () => useSelector(state => state.company)
 
 export const getUser = () => useSelector(state => state.user)
+
+export const getCategoriesOptions = () => {
+  const categories = useResource('/product-categories')
+  return categories.map(({ id, description }) => ({ description, value: id }))
+}
 
 export const validateRequired = value => value === '' && 'Campo obligatorio'
 
@@ -82,6 +88,11 @@ export const shopImageOptions = [
   { description: 'Inicial', value: 'initial' },
   { description: 'Perfil', value: 'profile' },
   { description: 'Portada', value: 'headboard' }
+]
+
+export const productImageOptions = [
+  { description: 'Principal', value: 'root' },
+  { description: 'Secundaria', value: 'other' }
 ]
 
 export const adminSidebarOptions = [
