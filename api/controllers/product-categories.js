@@ -30,17 +30,15 @@ productCategoriesRouter.get('/:id', async (request, response) => {
 
   const productCategory = await ProductCategory.findById(request.params.id, 'description active company')
 
+  if (!productCategory) response.status(404).end()
+
   if (productCategory.company.toString() !== user.company.toString()) {
     return response.status(401).json({
       error: 'wrong user for product category'
     })
   }
 
-  if (productCategory) {
-    response.json(productCategory.toJSON())
-  } else {
-    response.status(404).end()
-  }
+  response.json(productCategory.toJSON())
 })
 
 productCategoriesRouter.post('/', async (request, response) => {
@@ -104,6 +102,13 @@ productCategoriesRouter.delete('/:id', async (request, response) => {
 
   const deletedProductCategory = await ProductCategory.findByIdAndRemove(request.params.id)
   if (!deletedProductCategory) response.status(404).end()
+
+  const company = await Company.findById(user.company)
+  company.productCategories = company.productCategories.filter(
+    id => id.toString() !== deletedProductCategory._id.toString()
+  )
+  await company.save()
+
   response.json(deletedProductCategory)
 })
 
