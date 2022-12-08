@@ -96,7 +96,45 @@ productsRouter.patch('/:id', async (request, response) => {
 
   const updatedProduct = await Product.findByIdAndUpdate(request.params.id, request.body, { new: true })
   if (!updatedProduct) response.status(404).end()
+
+  if (product.category._id.toString() !== request.body.category) {
+    const oldProductCategory = await ProductCategory.findById(product.category._id)
+    oldProductCategory.products = oldProductCategory.products.filter(id => id.toString() !== product._id.toString())
+    await oldProductCategory.save()
+
+    const newProductCategory = await ProductCategory.findById(request.body.category)
+    newProductCategory.products = newProductCategory.products.concat(product._id)
+    await newProductCategory.save()
+  }
+
   response.json(updatedProduct)
+})
+
+productsRouter.delete('/:id', async (request, response) => {
+  const { error, message, user } = await verifyAuth(request)
+
+  if (error) {
+    return response.status(401).json({
+      error: message
+    })
+  }
+
+  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
+
+  if (product.category.company.toString() !== user.company.toString()) {
+    return response.status(401).json({
+      error: 'wrong user for product'
+    })
+  }
+
+  const deletedProduct = await Product.findByIdAndRemove(request.params.id)
+  if (!deletedProduct) response.status(404).end()
+
+  const productCategory = await ProductCategory.findById(product.category._id)
+  productCategory.products = productCategory.products.filter(id => id.toString() !== deletedProduct._id.toString())
+  await productCategory.save()
+
+  response.json(deletedProduct)
 })
 
 module.exports = productsRouter
