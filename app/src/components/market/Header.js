@@ -1,17 +1,24 @@
 import { useNavigate } from 'react-router-dom'
 import { Avatar, Box, Heading, Icon, IconButton, Image, Link, Stack, Text, Tooltip, VStack } from '@chakra-ui/react'
+import { useDispatch } from 'react-redux'
 import { FaHome, FaCalendarDay } from 'react-icons/fa'
 import PropTypes from 'prop-types'
+import { filterChange } from '../../reducers/filterReducer'
 import { socialNetworkIcons } from '../../utils'
 import AttentionSchedule from './AttentionSchedule'
 import ModalButton from './ModalButton'
 
 const Header = ({ companyData }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const { url: headboardImageUrl } = companyData.images.find(item => item.type === 'headboard')
   const { url: profileImageUrl } = companyData.images.find(item => item.type === 'profile')
 
-  if (!companyData) return null
+  const handleHomeButton = () => {
+    dispatch(filterChange({ mode: 'ALL' }))
+    navigate('/')
+  }
 
   return (
     <Box>
@@ -23,7 +30,7 @@ const Header = ({ companyData }) => {
             marginTop={3}
             marginLeft={3}
             colorScheme="whiteAlpha"
-            onClick={() => navigate('/')}
+            onClick={handleHomeButton}
           />
         </Tooltip>
         <Image src={headboardImageUrl} alt="Headboard Image" objectFit="cover" width="full" maxHeight="full" />
