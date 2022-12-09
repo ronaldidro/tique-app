@@ -11,7 +11,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder }) => (
     render={arrayHelpers => (
       <Box>
         <Flex alignItems="center" justifyContent="space-between">
-          <FormLabel htmlFor={name} margin={0}>
+          <FormLabel htmlFor={name} margin={0} fontWeight="semibold">
             {label}
           </FormLabel>
           <Button colorScheme="teal" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
