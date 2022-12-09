@@ -30,7 +30,9 @@ const Product = ({ productData }) => {
           <Text noOfLines={2}>{productData.description}</Text>
         </Box>
         <Flex alignItems="center">
-          <Text paddingRight={2}>S/ {getDiscountedPrice(productData.price, productData.discount)}</Text>
+          <Text paddingRight={2} fontWeight="semibold">
+            S/ {getDiscountedPrice(productData.price, productData.discount)}
+          </Text>
           {productData.discount > 0 && <Text as="del">S/ {productData.price.toFixed(2)}</Text>}
           <Spacer />
           <ProductDetailModal productData={productData} />

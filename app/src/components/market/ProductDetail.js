@@ -80,7 +80,7 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
             </Heading>
             <Text paddingTop={2}>{productData.description}</Text>
             <HStack spacing={5} paddingY={4}>
-              <Text>S/ {price}</Text>
+              <Text fontWeight="semibold">S/ {price}</Text>
               {productData.discount > 0 && (
                 <>
                   <Text as="del">S/ {productData.price.toFixed(2)}</Text>
