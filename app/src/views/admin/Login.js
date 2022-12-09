@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Stack, Text } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
+import PasswordField from '../../components/fields/PasswordField'
 import TextField from '../../components/fields/TextField'
 import { CreativeTimLogo } from '../../components/icons/Icons'
 import { validateRequired } from '../../utils'
@@ -23,7 +24,7 @@ const Login = ({ handleLoginForm }) => (
             <Box rounded="lg" bg="white" boxShadow="lg" p={8}>
               <Stack spacing={4}>
                 <TextField name="username" label="Usuario" validate={validateRequired} />
-                <TextField name="password" type="password" label="Contraseña" validate={validateRequired} />
+                <PasswordField name="password" label="Contraseña" validate={validateRequired} />
                 <Button bg="blue.400" color="white" _hover={{ bg: 'blue.500' }} type="submit">
                   Iniciar sesión
                 </Button>

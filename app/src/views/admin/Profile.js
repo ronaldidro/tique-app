@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Form, Formik } from 'formik'
 import { decodeToken } from 'react-jwt'
 import PropTypes from 'prop-types'
+import PasswordField from '../../components/fields/PasswordField'
 import TextField from '../../components/fields/TextField'
 import { setUser } from '../../reducers/userReducer'
 import { request } from '../../services'
@@ -43,7 +44,7 @@ const Profile = ({ user }) => {
               <Stack spacing={4}>
                 <TextField name="name" label="Nombre" validate={validateRequired} />
                 <TextField name="username" label="Usuario" validate={validateRequired} />
-                <TextField name="password" type="password" label="Contraseña" />
+                <PasswordField name="password" label="Contraseña" />
                 <Button bg="blue.400" color="white" w="full" _hover={{ bg: 'blue.500' }} type="submit">
                   Guardar
                 </Button>
