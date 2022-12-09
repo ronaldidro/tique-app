@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { FaHome, FaCalendarDay } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 import { filterChange } from '../../reducers/filterReducer'
+import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import { socialNetworkIcons } from '../../utils'
 import AttentionSchedule from './AttentionSchedule'
 import ModalButton from './ModalButton'
@@ -17,6 +18,7 @@ const Header = ({ companyData }) => {
 
   const handleHomeButton = () => {
     dispatch(filterChange({ mode: 'ALL' }))
+    dispatch(deleteAllProducts())
     navigate('/')
   }
 
