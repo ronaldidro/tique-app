@@ -1,6 +1,5 @@
 const companiesRouter = require('express').Router()
 const Company = require('../models/company')
-const { verifyAuth } = require('../utils/validate')
 
 companiesRouter.get('/', async (request, response) => {
   const companies = await Company.find({ active: true }, 'name address placeService images').sort({ name: 1 })
@@ -41,14 +40,7 @@ companiesRouter.get('/:id', async (request, response) => {
 })
 
 companiesRouter.post('/', async (request, response) => {
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
-
+  const { user } = request
   const company = new Company({ ...request.body, users: user._id })
   const savedCompany = await company.save()
 
@@ -59,14 +51,7 @@ companiesRouter.post('/', async (request, response) => {
 })
 
 companiesRouter.patch('/:id', async (request, response) => {
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
-
+  const { user } = request
   const currentCompany = await Company.findById(request.params.id)
 
   if (currentCompany._id.toString() !== user.company.toString()) {
