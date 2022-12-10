@@ -1,16 +1,9 @@
 const productsRouter = require('express').Router()
 const Product = require('../models/product')
 const ProductCategory = require('../models/product-category')
-const { verifyAuth } = require('../utils/validate')
 
 productsRouter.get('/', async (request, response) => {
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
+  const { user } = request
 
   const products = await Product.find({})
     .sort({ name: 1 })
@@ -21,13 +14,7 @@ productsRouter.get('/', async (request, response) => {
 })
 
 productsRouter.get('/:id', async (request, response) => {
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
+  const { user } = request
 
   const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
 
@@ -43,15 +30,10 @@ productsRouter.get('/:id', async (request, response) => {
 })
 
 productsRouter.post('/', async (request, response) => {
-  const body = request.body
-  const { name, description, price, discount, images, category } = body
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
+  const {
+    body: { name, description, price, discount, images, category },
+    user
+  } = request
 
   const productCategory = await ProductCategory.findById(category).populate('company')
 
@@ -78,13 +60,7 @@ productsRouter.post('/', async (request, response) => {
 })
 
 productsRouter.patch('/:id', async (request, response) => {
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
+  const { user } = request
 
   const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
 
@@ -111,13 +87,7 @@ productsRouter.patch('/:id', async (request, response) => {
 })
 
 productsRouter.delete('/:id', async (request, response) => {
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
+  const { user } = request
 
   const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
 
