@@ -10,7 +10,7 @@ const Home = () => {
   if (!Object.keys(companies).length) return <CircularSpinner />
 
   return (
-    <Box marginY={5}>
+    <Box marginY={5} marginX={[4, 0]}>
       <Heading as="h1">Tique App</Heading>
       <Text marginBottom={4}>Genera tus pedidos al instante 😎</Text>
       <SearchField placeholder="Buscar negocio" marginBottom={5} />

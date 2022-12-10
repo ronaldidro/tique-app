@@ -1,4 +1,4 @@
-import { Flex, Icon, Text, useDisclosure } from '@chakra-ui/react'
+import { Box, Flex, Icon, Text, useDisclosure } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -37,17 +37,19 @@ const CompanyProducts = () => {
   return (
     <>
       <Header companyData={company} />
-      <Filters />
-      <ProductCategories productCategoriesData={products} />
-      {productsOrder.length > 0 && (
-        <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
-          <Flex>
-            <Text paddingRight={2}>Ver Pedido</Text>
-            <Icon as={BsCart4} />
-          </Flex>
-        </LinkButton>
-      )}
-      <UsageStepsModal isOpen={isOpen} onClose={onClose} />
+      <Box paddingX={[4, 0]}>
+        <Filters />
+        <ProductCategories productCategoriesData={products} />
+        {productsOrder.length > 0 && (
+          <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
+            <Flex>
+              <Text paddingRight={2}>Ver Pedido</Text>
+              <Icon as={BsCart4} />
+            </Flex>
+          </LinkButton>
+        )}
+        <UsageStepsModal isOpen={isOpen} onClose={onClose} />
+      </Box>
     </>
   )
 }

@@ -6,7 +6,7 @@ import CompanyProducts from '../views/market/CompanyProducts'
 import Home from '../views/market/Home'
 
 const MarketRouters = () => (
-  <Container maxW="5xl">
+  <Container maxW="5xl" paddingX={{ base: 0, md: 4 }}>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="compania/:id" element={<CompanyProducts />} />

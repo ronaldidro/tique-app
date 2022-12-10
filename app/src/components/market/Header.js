@@ -55,7 +55,7 @@ const Header = ({ companyData }) => {
           }
         />
       </Box>
-      <Box position="relative">
+      <Box position="relative" marginX={[4, 0]}>
         <Box display={{ md: 'flex' }}>
           <Avatar marginTop={['-10', '-5']} size="2xl" name="Dan Abrahmov" src={profileImageUrl} />
           <VStack alignItems="left" marginTop={[2]} marginLeft={[0, 2]}>
