@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Text, useDisclosure } from '@chakra-ui/react'
+import { Box, Container, Flex, Icon, Text, useDisclosure } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -35,7 +35,7 @@ const CompanyProducts = () => {
   if (!Object.keys(company).length) return <CircularSpinner />
 
   return (
-    <>
+    <Container maxW="5xl" paddingX={{ base: 0, md: 4 }}>
       <Header companyData={company} />
       <Box paddingX={[4, 0]}>
         <Filters />
@@ -50,7 +50,7 @@ const CompanyProducts = () => {
         )}
         <UsageStepsModal isOpen={isOpen} onClose={onClose} />
       </Box>
-    </>
+    </Container>
   )
 }
 

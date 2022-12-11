@@ -1,14 +1,12 @@
-import { Box, Divider, Text } from '@chakra-ui/react'
+import { Box, Container, Divider, Text } from '@chakra-ui/react'
 
-const Footer = () => {
-  return (
+const Footer = () => (
+  <Container maxW="5xl">
     <Box textAlign="right">
       <Divider />
-      <Text marginTop={2} paddingX={[4, 0]}>
-        &copy; {new Date().getFullYear()} Hatun Tech. Todos los derechos reservados.
-      </Text>
+      <Text marginTop={2}>&copy; {new Date().getFullYear()} Hatun Tech. Todos los derechos reservados.</Text>
     </Box>
-  )
-}
+  </Container>
+)
 
 export default Footer

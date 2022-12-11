@@ -1,25 +1,37 @@
-import { Box, Heading, SimpleGrid, Text } from '@chakra-ui/react'
+import { Button, Container, Flex, SimpleGrid, Spacer, Text } from '@chakra-ui/react'
+import { RiLoginBoxLine } from 'react-icons/ri'
+import { useNavigate } from 'react-router-dom'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
-import SearchField from '../../components/fields/SearchField'
+import { CreativeTimLogo } from '../../components/icons/Icons'
 import CompanyCard from '../../components/market/CompanyCard'
 import { useResource } from '../../hooks'
 
 const Home = () => {
   const companies = useResource('/companies')
+  const navigate = useNavigate()
 
   if (!Object.keys(companies).length) return <CircularSpinner />
 
   return (
-    <Box marginY={5} marginX={[4, 0]}>
-      <Heading as="h1">Tique App</Heading>
-      <Text marginBottom={4}>Genera tus pedidos al instante 😎</Text>
-      <SearchField placeholder="Buscar negocio" marginBottom={5} />
-      <SimpleGrid columns={[2, 3]} spacing={[5, 10]}>
-        {companies.map((company, index) => (
-          <CompanyCard key={index} companyData={company} />
-        ))}
-      </SimpleGrid>
-    </Box>
+    <>
+      <Flex alignItems="center" paddingY={2} paddingX={4} backgroundColor="gray.100">
+        <CreativeTimLogo w="32px" h="32px" me="10px" />
+        <Text fontWeight="bold" fontSize="sm" fontFamily="monospace">
+          TIQUE APP
+        </Text>
+        <Spacer />
+        <Button rightIcon={<RiLoginBoxLine />} onClick={() => navigate('/admin')}>
+          Iniciar sesión
+        </Button>
+      </Flex>
+      <Container maxW="5xl" marginY={5}>
+        <SimpleGrid columns={[2, 3]} spacing={[5, 10]}>
+          {companies.map((company, index) => (
+            <CompanyCard key={index} companyData={company} />
+          ))}
+        </SimpleGrid>
+      </Container>
+    </>
   )
 }
 

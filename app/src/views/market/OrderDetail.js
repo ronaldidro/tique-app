@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Badge, Box, Divider, Flex, Heading, IconButton, Spacer, Text } from '@chakra-ui/react'
+import { Badge, Container, Divider, Flex, Heading, IconButton, Spacer, Text } from '@chakra-ui/react'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import OrderFormButton from '../../components/market/OrderFormButton'
 import OrderList from '../../components/market/OrderList'
@@ -12,7 +12,7 @@ const OrderDetail = () => {
   const orderTotalItems = productsOrder.reduce((acc, product) => acc + product.quantity, 0)
 
   return (
-    <Box paddingX={[4, 0]}>
+    <Container maxW="5xl">
       <Flex alignItems="center" paddingY={4}>
         <IconButton icon={<ChevronLeftIcon />} onClick={() => navigate(-1)} />
         <Heading size="md" paddingLeft={4}>
@@ -37,7 +37,7 @@ const OrderDetail = () => {
           No se encontraron productos
         </Text>
       )}
-    </Box>
+    </Container>
   )
 }
 
