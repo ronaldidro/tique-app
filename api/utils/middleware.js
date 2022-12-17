@@ -15,7 +15,7 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const verifyAuth = async (request, response, next) => {
-  if (request.path.includes(['auth', 'admin'])) return next()
+  if (['auth', 'admin'].some(item => request.path.includes(item))) return next()
   if (request.path.includes('companies') && request.method === 'GET') return next()
   if (request.path.includes('users') && request.method === 'POST') return next()
 
