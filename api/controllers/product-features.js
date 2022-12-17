@@ -2,7 +2,6 @@ const productFeaturesRouter = require('express').Router()
 const ProductFeature = require('../models/product-feature')
 const Product = require('../models/product')
 const Company = require('../models/company')
-const { verifyAuth } = require('../utils/validate')
 
 productFeaturesRouter.get('/', async (request, response) => {
   const productFeatures = await ProductFeature.find({})
@@ -22,13 +21,7 @@ productFeaturesRouter.get('/:id', async (request, response) => {
 productFeaturesRouter.post('/', async (request, response) => {
   const body = request.body
   const { description, required, type, options, productId } = body
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
+  const { user } = request
 
   const product = await Product.findById(productId).populate({
     path: 'category',
@@ -57,13 +50,7 @@ productFeaturesRouter.post('/', async (request, response) => {
 })
 
 productFeaturesRouter.patch('/:id', async (request, response) => {
-  const { error, message, user } = await verifyAuth(request)
-
-  if (error) {
-    return response.status(401).json({
-      error: message
-    })
-  }
+  const { user } = request
 
   const {
     product: {
