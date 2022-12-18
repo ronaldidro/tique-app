@@ -9,7 +9,6 @@ require('express-async-errors')
 const authRouter = require('./controllers/auth')
 const companiesRouter = require('./controllers/companies')
 const productCategoriesRouter = require('./controllers/product-categories')
-const productFeaturesRouter = require('./controllers/product-features')
 const productsRouter = require('./controllers/products')
 const usersRouter = require('./controllers/users')
 
@@ -53,7 +52,6 @@ app.get('/info', (request, response) => {
 app.use('/api/auth', authRouter)
 app.use('/api/companies', companiesRouter)
 app.use('/api/product-categories', productCategoriesRouter)
-app.use('/api/product-features', productFeaturesRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/users', usersRouter)
 

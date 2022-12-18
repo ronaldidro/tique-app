@@ -27,13 +27,7 @@ const productSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductCategory'
-  },
-  features: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ProductFeature'
-    }
-  ]
+  }
 })
 
 productSchema.set('toJSON', {
