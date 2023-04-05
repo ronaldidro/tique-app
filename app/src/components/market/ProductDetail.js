@@ -19,7 +19,6 @@ import { FaArrowLeft } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 import { convertToPercent, getDiscountedPrice, getProductOrderById } from '../../utils'
 import ImageSlider from '../media/ImageSlider'
-import ProductFeature from './ProductFeature'
 
 const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
   const price = getDiscountedPrice(productData.price, productData.discount)
@@ -89,8 +88,6 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
               )}
             </HStack>
             <Divider />
-            {productData.features &&
-              productData.features.map((feature, index) => <ProductFeature key={index} featureData={feature} />)}
             <Flex justifyContent="space-between" paddingY={4}>
               <Text fontWeight="bold">Comentarios</Text>
               <Tag colorScheme="orange">Opcional</Tag>
@@ -99,7 +96,7 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
               name="comments"
               defaultValue={productOrder?.comments}
               placeholder="Especifica los detalles de tu producto"
-              height={!productData.features.length && '150px'}
+              height="150px"
               resize={['none', 'block']}
             />
           </Box>
