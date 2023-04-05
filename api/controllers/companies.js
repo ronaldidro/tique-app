@@ -20,14 +20,6 @@ companiesRouter.get('/:id', async (request, response) => {
       match: { active: true },
       options: {
         sort: { name: 1 }
-      },
-      populate: {
-        path: 'features',
-        select: 'description required type options',
-        match: { active: true },
-        options: {
-          sort: { description: 1 }
-        }
       }
     }
   })
