@@ -1,8 +1,9 @@
 const productsRouter = require('express').Router()
 const Product = require('../models/product')
 const ProductCategory = require('../models/product-category')
+const { verifyAuth } = require('../utils/middleware')
 
-productsRouter.get('/', async (request, response) => {
+productsRouter.get('/', verifyAuth, async (request, response) => {
   const { user } = request
 
   const products = await Product.find({})
@@ -13,7 +14,7 @@ productsRouter.get('/', async (request, response) => {
   response.json(products)
 })
 
-productsRouter.get('/:id', async (request, response) => {
+productsRouter.get('/:id', verifyAuth, async (request, response) => {
   const { user } = request
 
   const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
@@ -29,7 +30,7 @@ productsRouter.get('/:id', async (request, response) => {
   response.json(product.toJSON())
 })
 
-productsRouter.post('/', async (request, response) => {
+productsRouter.post('/', verifyAuth, async (request, response) => {
   const {
     body: { name, description, price, discount, images, category },
     user
@@ -59,7 +60,7 @@ productsRouter.post('/', async (request, response) => {
   response.status(201).json(savedProduct)
 })
 
-productsRouter.patch('/:id', async (request, response) => {
+productsRouter.patch('/:id', verifyAuth, async (request, response) => {
   const { user } = request
 
   const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
@@ -86,7 +87,7 @@ productsRouter.patch('/:id', async (request, response) => {
   response.json(updatedProduct)
 })
 
-productsRouter.delete('/:id', async (request, response) => {
+productsRouter.delete('/:id', verifyAuth, async (request, response) => {
   const { user } = request
 
   const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })

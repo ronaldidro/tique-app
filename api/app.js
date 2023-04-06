@@ -36,7 +36,6 @@ app.use(cors())
 app.use(express.static('../app/build'))
 app.use(express.json())
 app.use(middleware.tokenExtractor)
-app.use(middleware.verifyAuth)
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))

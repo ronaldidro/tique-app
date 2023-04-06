@@ -1,8 +1,9 @@
 const productCategoriesRouter = require('express').Router()
 const ProductCategory = require('../models/product-category')
 const Company = require('../models/company')
+const { verifyAuth } = require('../utils/middleware')
 
-productCategoriesRouter.get('/', async (request, response) => {
+productCategoriesRouter.get('/', verifyAuth, async (request, response) => {
   const { user } = request
 
   const productCategories = await ProductCategory.find({ company: user.company }).sort({
@@ -12,7 +13,7 @@ productCategoriesRouter.get('/', async (request, response) => {
   response.json(productCategories)
 })
 
-productCategoriesRouter.get('/:id', async (request, response) => {
+productCategoriesRouter.get('/:id', verifyAuth, async (request, response) => {
   const { user } = request
 
   const productCategory = await ProductCategory.findById(request.params.id, 'description active company')
@@ -28,7 +29,7 @@ productCategoriesRouter.get('/:id', async (request, response) => {
   response.json(productCategory.toJSON())
 })
 
-productCategoriesRouter.post('/', async (request, response) => {
+productCategoriesRouter.post('/', verifyAuth, async (request, response) => {
   const { user } = request
 
   const company = await Company.findById(user.company)
@@ -42,7 +43,7 @@ productCategoriesRouter.post('/', async (request, response) => {
   response.status(201).json(savedProductCategory)
 })
 
-productCategoriesRouter.patch('/:id', async (request, response) => {
+productCategoriesRouter.patch('/:id', verifyAuth, async (request, response) => {
   const { user } = request
 
   const productCategory = await ProductCategory.findById(request.params.id)
@@ -58,7 +59,7 @@ productCategoriesRouter.patch('/:id', async (request, response) => {
   response.json(updatedProductCategory)
 })
 
-productCategoriesRouter.delete('/:id', async (request, response) => {
+productCategoriesRouter.delete('/:id', verifyAuth, async (request, response) => {
   const { user } = request
 
   const productCategory = await ProductCategory.findById(request.params.id)

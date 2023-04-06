@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const { verifyAuth } = require('../utils/middleware')
 const { userRequestValidation } = require('../utils/validate')
 const saltRounds = 10
 
@@ -32,7 +33,7 @@ usersRouter.post('/', async (request, response) => {
   response.status(201).json(savedUser)
 })
 
-usersRouter.patch('/:id', async (request, response) => {
+usersRouter.patch('/:id', verifyAuth, async (request, response) => {
   let passwordHash = ''
 
   if (request.user.id !== request.params.id) {

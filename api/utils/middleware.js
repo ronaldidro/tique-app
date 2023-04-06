@@ -15,10 +15,6 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const verifyAuth = async (request, response, next) => {
-  if (['auth', 'admin', 'compania', 'pedido'].some(item => request.path.includes(item))) return next()
-  if (request.path.includes('companies') && request.method === 'GET') return next()
-  if (request.path.includes('users') && request.method === 'POST') return next()
-
   if (!request.token) {
     return response.status(401).send({
       error: 'token missing or invalid'
