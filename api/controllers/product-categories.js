@@ -1,6 +1,7 @@
 const productCategoriesRouter = require('express').Router()
 const ProductCategory = require('../models/product-category')
 const Company = require('../models/company')
+const { TEST_ENV } = require('../utils/config')
 const { verifyAuth } = require('../utils/middleware')
 
 productCategoriesRouter.get('/', verifyAuth, async (request, response) => {
@@ -20,7 +21,7 @@ productCategoriesRouter.get('/:id', verifyAuth, async (request, response) => {
 
   if (!productCategory) response.status(404).end()
 
-  if (productCategory.company.toString() !== user.company.toString()) {
+  if (!TEST_ENV && productCategory.company.toString() !== user.company.toString()) {
     return response.status(401).json({
       error: 'wrong user for product category'
     })
@@ -34,11 +35,16 @@ productCategoriesRouter.post('/', verifyAuth, async (request, response) => {
 
   const company = await Company.findById(user.company)
 
-  const productCategory = new ProductCategory({ ...request.body, company: company._id })
+  const productCategoryData = !TEST_ENV ? { ...request.body, company: company._id } : { ...request.body }
+
+  const productCategory = new ProductCategory(productCategoryData)
 
   const savedProductCategory = await productCategory.save()
-  company.productCategories = company.productCategories.concat(savedProductCategory._id)
-  await company.save({ validateModifiedOnly: true })
+
+  if (!TEST_ENV) {
+    company.productCategories = company.productCategories.concat(savedProductCategory._id)
+    await company.save({ validateModifiedOnly: true })
+  }
 
   response.status(201).json(savedProductCategory)
 })

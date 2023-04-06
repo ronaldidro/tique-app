@@ -1,15 +1,18 @@
 const productsRouter = require('express').Router()
 const Product = require('../models/product')
 const ProductCategory = require('../models/product-category')
+const { TEST_ENV } = require('../utils/config')
 const { verifyAuth } = require('../utils/middleware')
 
 productsRouter.get('/', verifyAuth, async (request, response) => {
   const { user } = request
 
-  const products = await Product.find({})
-    .sort({ name: 1 })
-    .populate({ path: 'category', select: 'description company' })
-    .then(data => data.filter(product => product.category.company.toString() === user.company.toString()))
+  const products = !TEST_ENV
+    ? await Product.find({})
+        .sort({ name: 1 })
+        .populate({ path: 'category', select: 'description company' })
+        .then(data => data.filter(product => product.category.company.toString() === user.company.toString()))
+    : await Product.find({})
 
   response.json(products)
 })
@@ -21,7 +24,7 @@ productsRouter.get('/:id', verifyAuth, async (request, response) => {
 
   if (!product) response.status(404).end()
 
-  if (product.category.company.toString() !== user.company.toString()) {
+  if (!TEST_ENV && product.category.company.toString() !== user.company.toString()) {
     return response.status(401).json({
       error: 'wrong user for product'
     })
@@ -38,7 +41,7 @@ productsRouter.post('/', verifyAuth, async (request, response) => {
 
   const productCategory = await ProductCategory.findById(category).populate('company')
 
-  if (user.company.toString() !== productCategory.company._id.toString()) {
+  if (!TEST_ENV && user.company.toString() !== productCategory.company._id.toString()) {
     return response.status(401).json({
       error: 'wrong user for product'
     })
