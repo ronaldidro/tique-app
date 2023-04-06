@@ -5,26 +5,22 @@ const { TEST_ENV } = require('../utils/config')
 const { verifyAuth } = require('../utils/middleware')
 
 productsRouter.get('/', verifyAuth, async (request, response) => {
-  const { user } = request
-
   const products = !TEST_ENV
     ? await Product.find({})
         .sort({ name: 1 })
-        .populate({ path: 'category', select: 'description company' })
-        .then(data => data.filter(product => product.category.company.toString() === user.company.toString()))
+        .populate({ path: 'category', select: 'description shop' })
+        .then(data => data.filter(product => product.category.shop.toString() === request.user.shop.toString()))
     : await Product.find({})
 
   response.json(products)
 })
 
 productsRouter.get('/:id', verifyAuth, async (request, response) => {
-  const { user } = request
-
-  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
+  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'shop' })
 
   if (!product) response.status(404).end()
 
-  if (!TEST_ENV && product.category.company.toString() !== user.company.toString()) {
+  if (!TEST_ENV && product.category.shop.toString() !== request.user.shop.toString()) {
     return response.status(401).json({
       error: 'wrong user for product'
     })
@@ -35,13 +31,12 @@ productsRouter.get('/:id', verifyAuth, async (request, response) => {
 
 productsRouter.post('/', verifyAuth, async (request, response) => {
   const {
-    body: { name, description, price, discount, images, category },
-    user
+    body: { name, description, price, discount, images, category }
   } = request
 
-  const productCategory = await Category.findById(category).populate('company')
+  const productCategory = await Category.findById(category).populate('shop')
 
-  if (!TEST_ENV && user.company.toString() !== productCategory.company._id.toString()) {
+  if (!TEST_ENV && request.user.shop.toString() !== productCategory.shop._id.toString()) {
     return response.status(401).json({
       error: 'wrong user for product'
     })
@@ -64,11 +59,9 @@ productsRouter.post('/', verifyAuth, async (request, response) => {
 })
 
 productsRouter.patch('/:id', verifyAuth, async (request, response) => {
-  const { user } = request
+  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'shop' })
 
-  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
-
-  if (product.category.company.toString() !== user.company.toString()) {
+  if (product.category.shop.toString() !== request.user.shop.toString()) {
     return response.status(401).json({
       error: 'wrong user for product'
     })
@@ -91,11 +84,9 @@ productsRouter.patch('/:id', verifyAuth, async (request, response) => {
 })
 
 productsRouter.delete('/:id', verifyAuth, async (request, response) => {
-  const { user } = request
+  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'shop' })
 
-  const product = await Product.findById(request.params.id).populate({ path: 'category', select: 'company' })
-
-  if (product.category.company.toString() !== user.company.toString()) {
+  if (product.category.shop.toString() !== request.user.shop.toString()) {
     return response.status(401).json({
       error: 'wrong user for product'
     })

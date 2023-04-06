@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const Company = require('../models/company')
+const Shop = require('../models/shop')
 const Product = require('../models/product')
-const ProductCategory = require('../models/product-category')
+const Category = require('../models/category')
 
 router.post('/reset', async (request, response) => {
-  await Company.deleteMany({})
-  await ProductCategory.deleteMany({})
+  await Shop.deleteMany({})
+  await Category.deleteMany({})
   await Product.deleteMany({})
 
   response.status(204).end()

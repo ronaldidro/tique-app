@@ -1,29 +1,22 @@
 const categoriesRouter = require('express').Router()
 const Category = require('../models/category')
-const Company = require('../models/company')
+const Shop = require('../models/shop')
 const { TEST_ENV } = require('../utils/config')
 const { verifyAuth } = require('../utils/middleware')
 
 categoriesRouter.get('/', verifyAuth, async (request, response) => {
-  const { user } = request
-
-  const productCategories = await Category.find({ company: user.company }).sort({
-    description: 1
-  })
-
-  response.json(productCategories)
+  const categories = await Category.find({ shop: request.user.shop }).sort({ description: 1 })
+  response.json(categories)
 })
 
 categoriesRouter.get('/:id', verifyAuth, async (request, response) => {
-  const { user } = request
-
-  const category = await Category.findById(request.params.id, 'description active company')
+  const category = await Category.findById(request.params.id, 'description active shop')
 
   if (!category) response.status(404).end()
 
-  if (!TEST_ENV && category.company.toString() !== user.company.toString()) {
+  if (!TEST_ENV && category.shop.toString() !== request.user.shop.toString()) {
     return response.status(401).json({
-      error: 'wrong user for product category'
+      error: 'wrong user for category'
     })
   }
 
@@ -31,32 +24,28 @@ categoriesRouter.get('/:id', verifyAuth, async (request, response) => {
 })
 
 categoriesRouter.post('/', verifyAuth, async (request, response) => {
-  const { user } = request
+  const shop = await Shop.findById(request.user.shop)
 
-  const company = await Company.findById(user.company)
-
-  const categoryData = !TEST_ENV ? { ...request.body, company: company._id } : { ...request.body }
+  const categoryData = !TEST_ENV ? { ...request.body, shop: shop._id } : { ...request.body }
 
   const category = new Category(categoryData)
 
   const savedCategory = await category.save()
 
   if (!TEST_ENV) {
-    company.productCategories = company.productCategories.concat(savedCategory._id)
-    await company.save({ validateModifiedOnly: true })
+    shop.productCategories = shop.productCategories.concat(savedCategory._id)
+    await shop.save({ validateModifiedOnly: true })
   }
 
   response.status(201).json(savedCategory)
 })
 
 categoriesRouter.patch('/:id', verifyAuth, async (request, response) => {
-  const { user } = request
-
   const category = await Category.findById(request.params.id)
 
-  if (category.company.toString() !== user.company.toString()) {
+  if (category.shop.toString() !== request.user.shop.toString()) {
     return response.status(401).json({
-      error: 'wrong user for product category'
+      error: 'wrong user for category'
     })
   }
 
@@ -66,22 +55,20 @@ categoriesRouter.patch('/:id', verifyAuth, async (request, response) => {
 })
 
 categoriesRouter.delete('/:id', verifyAuth, async (request, response) => {
-  const { user } = request
-
   const category = await Category.findById(request.params.id)
 
-  if (category.company.toString() !== user.company.toString()) {
+  if (category.shop.toString() !== request.user.shop.toString()) {
     return response.status(401).json({
-      error: 'wrong user for product category'
+      error: 'wrong user for category'
     })
   }
 
   const deletedCategory = await Category.findByIdAndRemove(request.params.id)
   if (!deletedCategory) response.status(404).end()
 
-  const company = await Company.findById(user.company)
-  company.productCategories = company.productCategories.filter(id => id.toString() !== deletedCategory._id.toString())
-  await company.save()
+  const shop = await Shop.findById(request.user.shop)
+  shop.productCategories = shop.productCategories.filter(id => id.toString() !== deletedCategory._id.toString())
+  await shop.save()
 
   response.json(deletedCategory)
 })
