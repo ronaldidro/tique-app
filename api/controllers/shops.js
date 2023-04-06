@@ -9,7 +9,7 @@ shopsRouter.get('/', async (request, response) => {
 
 shopsRouter.get('/:id', async (request, response) => {
   const shop = await Shop.findById(request.params.id).populate({
-    path: 'productCategories',
+    path: 'categories',
     select: 'description',
     match: { active: true },
     options: {

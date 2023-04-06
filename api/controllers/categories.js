@@ -33,7 +33,7 @@ categoriesRouter.post('/', verifyAuth, async (request, response) => {
   const savedCategory = await category.save()
 
   if (!TEST_ENV) {
-    shop.productCategories = shop.productCategories.concat(savedCategory._id)
+    shop.categories = shop.categories.concat(savedCategory._id)
     await shop.save({ validateModifiedOnly: true })
   }
 
@@ -67,7 +67,7 @@ categoriesRouter.delete('/:id', verifyAuth, async (request, response) => {
   if (!deletedCategory) response.status(404).end()
 
   const shop = await Shop.findById(request.user.shop)
-  shop.productCategories = shop.productCategories.filter(id => id.toString() !== deletedCategory._id.toString())
+  shop.categories = shop.categories.filter(id => id.toString() !== deletedCategory._id.toString())
   await shop.save()
 
   response.json(deletedCategory)

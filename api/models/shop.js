@@ -46,7 +46,7 @@ const shopSchema = new mongoose.Schema({
       ref: 'Order'
     }
   ],
-  productCategories: [
+  categories: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category'
