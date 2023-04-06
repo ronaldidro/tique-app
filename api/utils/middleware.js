@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
-const logger = require('./logger')
+const { SECRET } = require('./config')
+const { error } = require('./logger')
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
@@ -23,7 +24,7 @@ const verifyAuth = async (request, response, next) => {
     })
   }
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, SECRET)
   if (!decodedToken) {
     return response.status(401).send({
       error: 'token is expired'
@@ -42,8 +43,8 @@ const verifyAuth = async (request, response, next) => {
   next()
 }
 
-const errorHandler = (error, request, response, next) => {
-  logger.error(error.message)
+const errorHandler = (err, request, response, next) => {
+  error(err.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
