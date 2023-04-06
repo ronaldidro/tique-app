@@ -1,4 +1,4 @@
-const helper = require('./product-test-helper')
+const helper = require('./product_test_helper')
 const { api, setUser, getToken } = require('./test_helper')
 const Product = require('../models/product')
 const ProductCategory = require('../models/product-category')

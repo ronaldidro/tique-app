@@ -1,4 +1,4 @@
-const helper = require('./company-test-helper')
+const helper = require('./company_test_helper')
 const { setUser, getToken, api } = require('./test_helper')
 const Company = require('../models/company')
 const { connectToDatabase, closeDatabase } = require('../utils/db')
