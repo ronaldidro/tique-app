@@ -2,7 +2,6 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const cors = require('cors')
-const mongoose = require('mongoose')
 const path = require('path')
 require('express-async-errors')
 
@@ -12,34 +11,24 @@ const productCategoriesRouter = require('./controllers/product-categories')
 const productsRouter = require('./controllers/products')
 const usersRouter = require('./controllers/users')
 
-const config = require('./utils/config')
-const middleware = require('./utils/middleware')
-const logger = require('./utils/logger')
+const { tokenExtractor, unknownEndpoint, errorHandler } = require('./utils/middleware')
 
-morgan.token('body', req => {
-  const body = JSON.stringify(req.body)
-  if (Object.keys(body).length > 2) return body
-})
-
-logger.info('connecting to', config.MONGODB_URI)
-
-mongoose
-  .connect(config.MONGODB_URI)
-  .then(() => {
-    logger.info('connected to MongoDB')
-  })
-  .catch(error => {
-    logger.error('error connection to MongoDB:', error.message)
-  })
-
-app.use(cors())
-app.use(express.static('../app/build'))
-app.use(express.json())
-app.use(middleware.tokenExtractor)
+morgan.token('body', req => JSON.stringify(req.body))
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 }
+
+app.use(cors())
+app.use(express.static('../app/build'))
+app.use(express.json())
+app.use(tokenExtractor)
+
+app.use('/api/auth', authRouter)
+app.use('/api/companies', companiesRouter)
+app.use('/api/product-categories', productCategoriesRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/users', usersRouter)
 
 app.get('/info', (request, response) => {
   response.send(`
@@ -48,17 +37,11 @@ app.get('/info', (request, response) => {
   `)
 })
 
-app.use('/api/auth', authRouter)
-app.use('/api/companies', companiesRouter)
-app.use('/api/product-categories', productCategoriesRouter)
-app.use('/api/products', productsRouter)
-app.use('/api/users', usersRouter)
-
 app.get('/*', (request, response) => {
   response.sendFile('index.html', { root: path.join(__dirname, '../app/build') })
 })
 
-app.use(middleware.unknownEndpoint)
-app.use(middleware.errorHandler)
+app.use(unknownEndpoint)
+app.use(errorHandler)
 
 module.exports = app
