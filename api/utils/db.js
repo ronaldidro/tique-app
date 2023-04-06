@@ -13,6 +13,9 @@ const connectToDatabase = async () => {
   return null
 }
 
+const closeDatabase = () => mongoose.connection.close()
+
 module.exports = {
-  connectToDatabase
+  connectToDatabase,
+  closeDatabase
 }
