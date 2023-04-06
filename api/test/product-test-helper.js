@@ -19,7 +19,7 @@ const initialProducts = [
 ]
 
 const productCategoriesInDb = async () => {
-  const productCategories = await ProductCategory.find({})
+  const productCategories = await ProductCategory.find({}, 'description active company')
   return productCategories.map(pc => pc.toJSON())
 }
 

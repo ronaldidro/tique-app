@@ -1,23 +1,27 @@
-const mongoose = require('mongoose')
-const supertest = require('supertest')
 const helper = require('./product-test-helper')
-const app = require('../app')
-
-const api = supertest(app)
-
+const { api, setUser, getToken } = require('./test_helper')
 const Product = require('../models/product')
 const ProductCategory = require('../models/product-category')
+const { connectToDatabase, closeDatabase } = require('../utils/db')
+
+let token = ''
 
 beforeEach(async () => {
+  await connectToDatabase()
+
   await ProductCategory.deleteMany({})
   await Product.deleteMany({})
+
   await ProductCategory.insertMany(helper.initialProductCategories)
   await Product.insertMany(helper.initialProducts)
+
+  await setUser()
+  token = await getToken()
 })
 
 describe('product categories test', () => {
   test('all product categories are returned', async () => {
-    const response = await api.get('/api/product-categories')
+    const response = await api.get('/api/product-categories').set('Authorization', `bearer ${token}`)
     expect(response.body).toHaveLength(helper.initialProductCategories.length)
   })
 
@@ -27,6 +31,7 @@ describe('product categories test', () => {
 
     const resultProductCategory = await api
       .get(`/api/product-categories/${productCategoryToView.id}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -41,6 +46,7 @@ describe('product categories test', () => {
     await api
       .post('/api/product-categories')
       .send(newProductCategory)
+      .set('Authorization', `bearer ${token}`)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -54,7 +60,7 @@ describe('product categories test', () => {
 
 describe('products test', () => {
   test('all products are returned', async () => {
-    const response = await api.get('/api/products')
+    const response = await api.get('/api/products').set('Authorization', `bearer ${token}`)
     expect(response.body).toHaveLength(helper.initialProducts.length)
   })
 
@@ -64,6 +70,7 @@ describe('products test', () => {
 
     const resultProduct = await api
       .get(`/api/products/${productToView.id}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -73,13 +80,17 @@ describe('products test', () => {
   })
 
   test('addition of a new product with valid data', async () => {
+    const productCategoriesAtStart = await helper.productCategoriesInDb()
+
     const newProduct = {
       name: 'product test name',
-      price: 50.89
+      price: 50.89,
+      category: productCategoriesAtStart[0].id
     }
 
     await api
       .post('/api/products')
+      .set('Authorization', `bearer ${token}`)
       .send(newProduct)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -92,6 +103,4 @@ describe('products test', () => {
   })
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-})
+afterAll(() => closeDatabase())
