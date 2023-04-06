@@ -1,6 +1,6 @@
 const productsRouter = require('express').Router()
 const Product = require('../models/product')
-const ProductCategory = require('../models/product-category')
+const Category = require('../models/category')
 const { TEST_ENV } = require('../utils/config')
 const { verifyAuth } = require('../utils/middleware')
 
@@ -39,7 +39,7 @@ productsRouter.post('/', verifyAuth, async (request, response) => {
     user
   } = request
 
-  const productCategory = await ProductCategory.findById(category).populate('company')
+  const productCategory = await Category.findById(category).populate('company')
 
   if (!TEST_ENV && user.company.toString() !== productCategory.company._id.toString()) {
     return response.status(401).json({
@@ -78,13 +78,13 @@ productsRouter.patch('/:id', verifyAuth, async (request, response) => {
   if (!updatedProduct) response.status(404).end()
 
   if (product.category._id.toString() !== request.body.category) {
-    const oldProductCategory = await ProductCategory.findById(product.category._id)
-    oldProductCategory.products = oldProductCategory.products.filter(id => id.toString() !== product._id.toString())
-    await oldProductCategory.save()
+    const oldCategory = await Category.findById(product.category._id)
+    oldCategory.products = oldCategory.products.filter(id => id.toString() !== product._id.toString())
+    await oldCategory.save()
 
-    const newProductCategory = await ProductCategory.findById(request.body.category)
-    newProductCategory.products = newProductCategory.products.concat(product._id)
-    await newProductCategory.save()
+    const newCategory = await Category.findById(request.body.category)
+    newCategory.products = newCategory.products.concat(product._id)
+    await newCategory.save()
   }
 
   response.json(updatedProduct)
@@ -104,9 +104,9 @@ productsRouter.delete('/:id', verifyAuth, async (request, response) => {
   const deletedProduct = await Product.findByIdAndRemove(request.params.id)
   if (!deletedProduct) response.status(404).end()
 
-  const productCategory = await ProductCategory.findById(product.category._id)
-  productCategory.products = productCategory.products.filter(id => id.toString() !== deletedProduct._id.toString())
-  await productCategory.save()
+  const category = await Category.findById(product.category._id)
+  category.products = category.products.filter(id => id.toString() !== deletedProduct._id.toString())
+  await category.save()
 
   response.json(deletedProduct)
 })

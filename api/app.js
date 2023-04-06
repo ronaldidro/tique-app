@@ -7,7 +7,7 @@ require('express-async-errors')
 
 const authRouter = require('./controllers/auth')
 const companiesRouter = require('./controllers/companies')
-const productCategoriesRouter = require('./controllers/product-categories')
+const categoriesRouter = require('./controllers/categories')
 const productsRouter = require('./controllers/products')
 const usersRouter = require('./controllers/users')
 
@@ -26,7 +26,7 @@ app.use(tokenExtractor)
 
 app.use('/api/auth', authRouter)
 app.use('/api/companies', companiesRouter)
-app.use('/api/product-categories', productCategoriesRouter)
+app.use('/api/product-categories', categoriesRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/users', usersRouter)
 
