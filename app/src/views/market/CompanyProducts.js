@@ -26,9 +26,9 @@ const CompanyProducts = () => {
 
   useEffect(() => {
     if (Object.keys(company).length) {
-      const { productCategories, ...companyData } = company
+      const { categories, ...companyData } = company
       dispatch(initializeCompany(companyData))
-      dispatch(initializeProducts(productCategories))
+      dispatch(initializeProducts(categories))
     }
   }, [company])
 
