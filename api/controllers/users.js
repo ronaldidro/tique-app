@@ -1,8 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
-const { verifyAuth } = require('../utils/middleware')
-const { userRequestValidation } = require('../utils/validate')
+const { verifyAuth, userValidation } = require('../utils/middleware')
 const saltRounds = 10
 
 usersRouter.get('/', async (request, response) => {
@@ -10,15 +9,8 @@ usersRouter.get('/', async (request, response) => {
   response.json(users)
 })
 
-usersRouter.post('/', async (request, response) => {
+usersRouter.post('/', userValidation, async (request, response) => {
   const { username, name, password } = request.body
-  const message = await userRequestValidation(request)
-
-  if (message) {
-    return response.status(400).json({
-      error: message
-    })
-  }
 
   const passwordHash = await bcrypt.hash(password, saltRounds)
 
