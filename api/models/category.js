@@ -10,9 +10,9 @@ const productCategorySchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
-  company: {
+  shop: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Company'
+    ref: 'Shop'
   },
   products: [
     {

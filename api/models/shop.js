@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
-const companySchema = new mongoose.Schema({
+const shopSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 3,
@@ -60,7 +60,7 @@ const companySchema = new mongoose.Schema({
   ]
 })
 
-companySchema.set('toJSON', {
+shopSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -68,6 +68,6 @@ companySchema.set('toJSON', {
   }
 })
 
-companySchema.plugin(uniqueValidator)
+shopSchema.plugin(uniqueValidator)
 
-module.exports = mongoose.model('Company', companySchema)
+module.exports = mongoose.model('Shop', shopSchema)
