@@ -1,7 +1,7 @@
-const ProductCategory = require('../models/product-category')
+const Category = require('../models/category')
 const Product = require('../models/product')
 
-const initialProductCategories = [{ description: 'beverages' }, { description: 'desserts' }]
+const initialCategories = [{ description: 'beverages' }, { description: 'desserts' }]
 
 const initialProducts = [
   {
@@ -18,8 +18,8 @@ const initialProducts = [
   }
 ]
 
-const productCategoriesInDb = async () => {
-  const productCategories = await ProductCategory.find({}, 'description active company')
+const categoriesInDb = async () => {
+  const productCategories = await Category.find({}, 'description active shop')
   return productCategories.map(pc => pc.toJSON())
 }
 
@@ -28,4 +28,4 @@ const productsInDb = async () => {
   return products.map(p => p.toJSON())
 }
 
-module.exports = { initialProductCategories, initialProducts, productCategoriesInDb, productsInDb }
+module.exports = { initialCategories, initialProducts, categoriesInDb, productsInDb }

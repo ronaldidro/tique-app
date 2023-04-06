@@ -1,7 +1,7 @@
 const helper = require('./product_test_helper')
 const { api, setUser, getToken } = require('./test_helper')
 const Product = require('../models/product')
-const ProductCategory = require('../models/product-category')
+const Category = require('../models/category')
 const { connectToDatabase, closeDatabase } = require('../utils/db')
 
 let token = ''
@@ -9,52 +9,52 @@ let token = ''
 beforeEach(async () => {
   await connectToDatabase()
 
-  await ProductCategory.deleteMany({})
+  await Category.deleteMany({})
   await Product.deleteMany({})
 
-  await ProductCategory.insertMany(helper.initialProductCategories)
+  await Category.insertMany(helper.initialCategories)
   await Product.insertMany(helper.initialProducts)
 
   await setUser()
   token = await getToken()
 })
 
-describe('product categories test', () => {
-  test('all product categories are returned', async () => {
+describe('categories test', () => {
+  test('all categories are returned', async () => {
     const response = await api.get('/api/product-categories').set('Authorization', `bearer ${token}`)
-    expect(response.body).toHaveLength(helper.initialProductCategories.length)
+    expect(response.body).toHaveLength(helper.initialCategories.length)
   })
 
-  test('viewing a specific product category with a valid id', async () => {
-    const productCategoriesAtStart = await helper.productCategoriesInDb()
-    const productCategoryToView = productCategoriesAtStart[0]
+  test('viewing a specific category with a valid id', async () => {
+    const categoriesAtStart = await helper.categoriesInDb()
+    const categoryToView = categoriesAtStart[0]
 
     const resultProductCategory = await api
-      .get(`/api/product-categories/${productCategoryToView.id}`)
+      .get(`/api/product-categories/${categoryToView.id}`)
       .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
-    const processedProductCategoryToView = JSON.parse(JSON.stringify(productCategoryToView))
+    const processedCategoryToView = JSON.parse(JSON.stringify(categoryToView))
 
-    expect(resultProductCategory.body).toEqual(processedProductCategoryToView)
+    expect(resultProductCategory.body).toEqual(processedCategoryToView)
   })
 
-  test('addition of a new product category with valid data', async () => {
-    const newProductCategory = { description: 'product category test decription' }
+  test('addition of a new category with valid data', async () => {
+    const newCategory = { description: 'category test decription' }
 
     await api
       .post('/api/product-categories')
-      .send(newProductCategory)
+      .send(newCategory)
       .set('Authorization', `bearer ${token}`)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const productCategoriesAtEnd = await helper.productCategoriesInDb()
-    expect(productCategoriesAtEnd).toHaveLength(helper.initialProductCategories.length + 1)
+    const categoriesAtEnd = await helper.categoriesInDb()
+    expect(categoriesAtEnd).toHaveLength(helper.initialCategories.length + 1)
 
-    const descriptions = productCategoriesAtEnd.map(pc => pc.description)
-    expect(descriptions).toContain('product category test decription')
+    const descriptions = categoriesAtEnd.map(pc => pc.description)
+    expect(descriptions).toContain('category test decription')
   })
 })
 
@@ -80,12 +80,12 @@ describe('products test', () => {
   })
 
   test('addition of a new product with valid data', async () => {
-    const productCategoriesAtStart = await helper.productCategoriesInDb()
+    const categoriesAtStart = await helper.categoriesInDb()
 
     const newProduct = {
       name: 'product test name',
       price: 50.89,
-      category: productCategoriesAtStart[0].id
+      category: categoriesAtStart[0].id
     }
 
     await api

@@ -1,6 +1,6 @@
-const Company = require('../models/company')
+const Shop = require('../models/shop')
 
-const initialCompany = [
+const initialShop = [
   {
     name: 'Name Test Company',
     address: 'Address Test Company',
@@ -11,22 +11,22 @@ const initialCompany = [
 ]
 
 const nonExistingId = async () => {
-  const company = new Company({
+  const shop = new Shop({
     name: 'willremovethissoon',
     address: 'willremovethissoon',
     placeService: 'willremovethissoon',
     cellPhone: '980980980'
   })
 
-  await company.save()
-  await company.remove()
+  await shop.save()
+  await shop.remove()
 
-  return company._id.toString()
+  return shop._id.toString()
 }
 
-const companiesInDb = async () => {
-  const companies = await Company.find({})
-  return companies.map(company => company.toJSON())
+const shopsInDb = async () => {
+  const shops = await Shop.find({})
+  return shops.map(shop => shop.toJSON())
 }
 
-module.exports = { initialCompany, nonExistingId, companiesInDb }
+module.exports = { initialShop, nonExistingId, shopsInDb }
