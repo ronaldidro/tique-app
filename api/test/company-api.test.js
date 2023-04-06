@@ -1,15 +1,18 @@
-const mongoose = require('mongoose')
-const supertest = require('supertest')
 const helper = require('./company-test-helper')
-const app = require('../app')
-
-const api = supertest(app)
-
+const { setUser, getToken, api } = require('./test_helper')
 const Company = require('../models/company')
+const { connectToDatabase, closeDatabase } = require('../utils/db')
+
+let token = ''
 
 beforeEach(async () => {
+  await connectToDatabase()
+
   await Company.deleteMany({})
   await Company.insertMany(helper.initialCompany)
+
+  await setUser()
+  token = await getToken()
 })
 
 describe('when there is initially some companies saved', () => {
@@ -59,11 +62,13 @@ describe('addition of a new company', () => {
     const newCompany = {
       name: 'new company name',
       address: 'new company address',
-      placeService: 'new company place service'
+      placeService: 'new company place service',
+      cellPhone: '970970970'
     }
 
     await api
       .post('/api/companies')
+      .set('Authorization', `bearer ${token}`)
       .send(newCompany)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -76,6 +81,4 @@ describe('addition of a new company', () => {
   })
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-})
+afterAll(() => closeDatabase())
