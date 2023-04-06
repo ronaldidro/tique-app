@@ -46,17 +46,17 @@ const verifyAuth = async (request, response, next) => {
 const errorHandler = (err, request, response, next) => {
   error(err.message)
 
-  if (error.name === 'CastError') {
+  if (err.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
+  } else if (err.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
-  } else if (error.name === 'JsonWebTokenError') {
+  } else if (err.name === 'JsonWebTokenError') {
     return response.status(401).json({ error: 'invalid token' })
-  } else if (error.name === 'TokenExpiredError') {
+  } else if (err.name === 'TokenExpiredError') {
     return response.status(401).json({ error: 'token expired' })
   }
 
-  next(error)
+  next(err)
 }
 
 const userValidation = async (request, response, next) => {
