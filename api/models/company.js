@@ -49,7 +49,7 @@ const companySchema = new mongoose.Schema({
   productCategories: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'ProductCategory'
+      ref: 'Category'
     }
   ],
   users: [

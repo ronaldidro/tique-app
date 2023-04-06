@@ -30,4 +30,4 @@ productCategorySchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('ProductCategory', productCategorySchema)
+module.exports = mongoose.model('Category', productCategorySchema)
