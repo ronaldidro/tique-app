@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const productCategorySchema = mongoose.Schema({
+const categorySchema = mongoose.Schema({
   description: {
     type: String,
     minlength: 3,
@@ -22,7 +22,7 @@ const productCategorySchema = mongoose.Schema({
   ]
 })
 
-productCategorySchema.set('toJSON', {
+categorySchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -30,4 +30,4 @@ productCategorySchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Category', productCategorySchema)
+module.exports = mongoose.model('Category', categorySchema)
