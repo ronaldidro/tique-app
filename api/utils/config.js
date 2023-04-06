@@ -10,5 +10,6 @@ const MONGODB_URI =
 module.exports = {
   MONGODB_URI,
   PORT: process.env.PORT,
-  SECRET: process.env.SECRET
+  SECRET: process.env.SECRET,
+  TEST_ENV: process.env.NODE_ENV === 'test'
 }
