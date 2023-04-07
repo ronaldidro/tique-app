@@ -18,13 +18,13 @@ beforeEach(async () => {
 describe('when there is initially some shops saved', () => {
   test('shops are returned as json', async () => {
     await api
-      .get('/api/companies')
+      .get('/api/shops')
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
   test('all shops are returned', async () => {
-    const response = await api.get('/api/companies')
+    const response = await api.get('/api/shops')
     expect(response.body).toHaveLength(helper.initialShop.length)
   })
 })
@@ -35,7 +35,7 @@ describe('viewing a specific shop', () => {
     const shopToView = shopsAtStart[0]
 
     const resultShop = await api
-      .get(`/api/companies/${shopToView.id}`)
+      .get(`/api/shops/${shopToView.id}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -47,13 +47,13 @@ describe('viewing a specific shop', () => {
   test('fails with statuscode 404 if shop does not exist', async () => {
     const validNonexistingId = await helper.nonExistingId()
 
-    await api.get(`/api/companies/${validNonexistingId}`).expect(404)
+    await api.get(`/api/shops/${validNonexistingId}`).expect(404)
   })
 
   test('fails with statuscode 400 if id is invalid', async () => {
     const invalidId = '5a3d5da59070081a82a3445'
 
-    await api.get(`/api/companies/${invalidId}`).expect(400)
+    await api.get(`/api/shops/${invalidId}`).expect(400)
   })
 })
 
@@ -67,7 +67,7 @@ describe('addition of a new shop', () => {
     }
 
     await api
-      .post('/api/companies')
+      .post('/api/shops')
       .set('Authorization', `bearer ${token}`)
       .send(newShop)
       .expect(201)

@@ -2,9 +2,9 @@ const Shop = require('../models/shop')
 
 const initialShop = [
   {
-    name: 'Name Test Company',
-    address: 'Address Test Company',
-    placeService: 'Place Service Test Company',
+    name: 'Name Test Shop',
+    address: 'Address Test Shop',
+    placeService: 'Place Service Test Shop',
     attentionSchedule: [{ Everyday: 'Open 24 hours' }],
     cellPhone: '990990990'
   }
