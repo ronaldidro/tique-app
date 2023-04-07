@@ -34,7 +34,7 @@ export const getCompanyData = () => useSelector(state => state.company)
 export const getUser = () => useSelector(state => state.user)
 
 export const getCategoriesOptions = () => {
-  const categories = useResource('/product-categories')
+  const categories = useResource('/categories')
   return categories.map(({ id, description }) => ({ description, value: id }))
 }
 

@@ -26,7 +26,7 @@ app.use(tokenExtractor)
 
 app.use('/api/auth', authRouter)
 app.use('/api/shops', shopsRouter)
-app.use('/api/product-categories', categoriesRouter)
+app.use('/api/categories', categoriesRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/users', usersRouter)
 

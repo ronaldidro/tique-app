@@ -12,7 +12,7 @@ import { categoryColumns } from '../../utils/tables'
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([])
-  const resources = useResource('/product-categories')
+  const resources = useResource('/categories')
   const alertDialogRef = useRef()
   const navigate = useNavigate()
   const columns = categoryColumns()
@@ -20,7 +20,7 @@ const CategoryTable = () => {
 
   const handleDeleteCategory = async id => {
     try {
-      const response = await request(`/product-categories/${id}`, 'DELETE')
+      const response = await request(`/categories/${id}`, 'DELETE')
 
       if (response.id) {
         const resourcesFiltered = resources.filter(item => item.id !== response.id)

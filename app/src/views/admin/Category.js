@@ -13,7 +13,7 @@ const initialConfig = (categoryId, resources) => {
     return {
       title: 'Editar categoría',
       initialValues: { description: resources.description, active: resources.active },
-      endpoint: `/product-categories/${categoryId}`,
+      endpoint: `/categories/${categoryId}`,
       method: 'PATCH',
       finalSentence: 'actualizada correctamente'
     }
@@ -21,7 +21,7 @@ const initialConfig = (categoryId, resources) => {
   return {
     title: 'Agregar categoría',
     initialValues: { description: '', active: true },
-    endpoint: '/product-categories',
+    endpoint: '/categories',
     method: 'POST',
     finalSentence: 'creada correctamente'
   }
@@ -29,7 +29,7 @@ const initialConfig = (categoryId, resources) => {
 
 const Category = () => {
   const { categoryId } = useParams()
-  const resources = categoryId ? useResource(`/product-categories/${categoryId}`) : {}
+  const resources = categoryId ? useResource(`/categories/${categoryId}`) : {}
   const { title, initialValues, endpoint, method, finalSentence } = initialConfig(categoryId, resources)
   const navigate = useNavigate()
   const toast = useToast()
