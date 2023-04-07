@@ -1,9 +1,11 @@
 const helper = require('./product_test_helper')
-const { api, setUser, getToken } = require('./test_helper')
+const { api, getToken, setInitialModels } = require('./test_helper')
 const Product = require('../models/product')
 const Category = require('../models/category')
 const { connectToDatabase, closeDatabase } = require('../utils/db')
 
+let initialCategories = []
+let initialProducts = []
 let token = ''
 
 beforeEach(async () => {
@@ -12,17 +14,21 @@ beforeEach(async () => {
   await Category.deleteMany({})
   await Product.deleteMany({})
 
-  await Category.insertMany(helper.initialCategories)
-  await Product.insertMany(helper.initialProducts)
+  await setInitialModels()
 
-  await setUser()
+  initialCategories = await helper.getInitialCategories()
+  await Category.insertMany(initialCategories)
+
+  initialProducts = await helper.getInitialProducts()
+  await Product.insertMany(initialProducts)
+
   token = await getToken()
 })
 
 describe('categories test', () => {
   test('all categories are returned', async () => {
-    const response = await api.get('/api/product-categories').set('Authorization', `bearer ${token}`)
-    expect(response.body).toHaveLength(helper.initialCategories.length)
+    const response = await api.get('/api/categories').set('Authorization', `bearer ${token}`)
+    expect(response.body).toHaveLength(initialCategories.length)
   })
 
   test('viewing a specific category with a valid id', async () => {
@@ -30,7 +36,7 @@ describe('categories test', () => {
     const categoryToView = categoriesAtStart[0]
 
     const resultProductCategory = await api
-      .get(`/api/product-categories/${categoryToView.id}`)
+      .get(`/api/categories/${categoryToView.id}`)
       .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
@@ -44,14 +50,14 @@ describe('categories test', () => {
     const newCategory = { description: 'category test decription' }
 
     await api
-      .post('/api/product-categories')
+      .post('/api/categories')
       .send(newCategory)
       .set('Authorization', `bearer ${token}`)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
     const categoriesAtEnd = await helper.categoriesInDb()
-    expect(categoriesAtEnd).toHaveLength(helper.initialCategories.length + 1)
+    expect(categoriesAtEnd).toHaveLength(initialCategories.length + 1)
 
     const descriptions = categoriesAtEnd.map(pc => pc.description)
     expect(descriptions).toContain('category test decription')
@@ -61,7 +67,7 @@ describe('categories test', () => {
 describe('products test', () => {
   test('all products are returned', async () => {
     const response = await api.get('/api/products').set('Authorization', `bearer ${token}`)
-    expect(response.body).toHaveLength(helper.initialProducts.length)
+    expect(response.body).toHaveLength(initialProducts.length)
   })
 
   test('viewing a specific product with a valid id', async () => {
@@ -96,7 +102,7 @@ describe('products test', () => {
       .expect('Content-Type', /application\/json/)
 
     const productsAtEnd = await helper.productsInDb()
-    expect(productsAtEnd).toHaveLength(helper.initialProducts.length + 1)
+    expect(productsAtEnd).toHaveLength(initialProducts.length + 1)
 
     const names = productsAtEnd.map(p => p.name)
     expect(names).toContain('product test name')

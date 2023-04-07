@@ -1,17 +1,13 @@
 const helper = require('./shop_test_helper')
-const { setUser, getToken, api } = require('./test_helper')
-const Shop = require('../models/shop')
+const { api, getToken, setInitialModels } = require('./test_helper')
 const { connectToDatabase, closeDatabase } = require('../utils/db')
 
 let token = ''
 
 beforeEach(async () => {
   await connectToDatabase()
+  await setInitialModels()
 
-  await Shop.deleteMany({})
-  await Shop.insertMany(helper.initialShop)
-
-  await setUser()
   token = await getToken()
 })
 

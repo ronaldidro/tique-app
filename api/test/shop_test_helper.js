@@ -2,9 +2,9 @@ const Shop = require('../models/shop')
 
 const initialShop = [
   {
-    name: 'Name Test Shop',
-    address: 'Address Test Shop',
-    placeService: 'Place Service Test Shop',
+    name: 'Hatun Tech',
+    address: 'Av. Ignacio Merino',
+    placeService: 'Lince',
     attentionSchedule: [{ Everyday: 'Open 24 hours' }],
     cellPhone: '990990990'
   }
@@ -15,7 +15,7 @@ const nonExistingId = async () => {
     name: 'willremovethissoon',
     address: 'willremovethissoon',
     placeService: 'willremovethissoon',
-    cellPhone: '980980980'
+    cellPhone: 'willremovethissoon'
   })
 
   await shop.save()
