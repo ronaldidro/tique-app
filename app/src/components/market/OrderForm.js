@@ -54,7 +54,7 @@ const OrderForm = ({ closeForm }) => {
         { duration: null, isClosable: true }
       )
     )
-    navigate(`/compania/${id}`)
+    navigate(`/tienda/${id}`)
   }
 
   return (

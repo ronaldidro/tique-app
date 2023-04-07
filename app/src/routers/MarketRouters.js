@@ -9,7 +9,7 @@ const MarketRouters = () => (
   <>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="compania/:id" element={<CompanyProducts />} />
+      <Route path="tienda/:id" element={<CompanyProducts />} />
       <Route path="pedido" element={<OrderDetail />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

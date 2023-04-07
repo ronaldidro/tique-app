@@ -13,7 +13,7 @@ const CompanyCard = ({ companyData }) => {
       borderWidth="1px"
       borderRadius="xl"
       cursor="pointer"
-      onClick={() => navigate(`compania/${companyData.id}`)}
+      onClick={() => navigate(`tienda/${companyData.id}`)}
     >
       <Image borderTopRadius="xl" src={initialImageUrl} alt="Dan Abramov" />
       <Box padding={3}>
