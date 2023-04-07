@@ -13,7 +13,7 @@ const AdminRouters = ({ userData, handleLogoutAdmin }) => (
   <Sidebar sidebarOptions={adminSidebarOptions} userName={userData.name} handleLogoutButton={handleLogoutAdmin}>
     <Routes>
       <Route path="perfil" element={<Profile user={userData} />} />
-      <Route path="tienda" element={<Shop shopId={userData.company} />} />
+      <Route path="tienda" element={<Shop shopId={userData.shop} />} />
       <Route path="categorias" element={<CategoryTable />} />
       <Route path="categorias/agregar" element={<Category />} />
       <Route path="categorias/editar/:categoryId" element={<Category />} />
