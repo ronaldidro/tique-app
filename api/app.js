@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(tokenExtractor)
 
 app.use('/api/auth', authRouter)
-app.use('/api/companies', shopsRouter)
+app.use('/api/shops', shopsRouter)
 app.use('/api/product-categories', categoriesRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/users', usersRouter)

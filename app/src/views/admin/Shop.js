@@ -50,7 +50,7 @@ const Shop = ({ shopId }) => {
 
   const handleSubmit = async values => {
     try {
-      const response = await request(`/companies/${shopId}`, 'PATCH', {
+      const response = await request(`/shops/${shopId}`, 'PATCH', {
         ...values,
         cellPhone: `+51${values.cellPhone}`
       })
@@ -71,7 +71,7 @@ const Shop = ({ shopId }) => {
 
   const getShopData = async () => {
     const { name, description, address, placeService, attentionSchedule, socialNetworks, images, cellPhone } =
-      await request(`companies/${shopId}`, 'GET')
+      await request(`shops/${shopId}`, 'GET')
 
     setShopData({
       name,

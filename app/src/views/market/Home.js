@@ -7,10 +7,10 @@ import CompanyCard from '../../components/market/CompanyCard'
 import { useResource } from '../../hooks'
 
 const Home = () => {
-  const companies = useResource('/companies')
+  const shops = useResource('/shops')
   const navigate = useNavigate()
 
-  if (!Object.keys(companies).length) return <CircularSpinner />
+  if (!Object.keys(shops).length) return <CircularSpinner />
 
   return (
     <>
@@ -26,7 +26,7 @@ const Home = () => {
       </Flex>
       <Container maxW="5xl" marginY={5}>
         <SimpleGrid columns={[2, 3]} spacing={[5, 10]}>
-          {companies.map((company, index) => (
+          {shops.map((company, index) => (
             <CompanyCard key={index} companyData={company} />
           ))}
         </SimpleGrid>
