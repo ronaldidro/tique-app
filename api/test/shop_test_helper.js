@@ -1,4 +1,5 @@
 const Shop = require('../models/shop')
+const User = require('../models/user')
 
 const initialShop = [
   {
@@ -29,4 +30,14 @@ const shopsInDb = async () => {
   return shops.map(shop => shop.toJSON())
 }
 
-module.exports = { initialShop, nonExistingId, shopsInDb }
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(user => user.toJSON())
+}
+
+module.exports = {
+  initialShop,
+  nonExistingId,
+  shopsInDb,
+  usersInDb
+}
