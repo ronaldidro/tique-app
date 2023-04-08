@@ -1,41 +1,65 @@
 const mongoose = require('mongoose')
 
-const orderSchema = new mongoose.Schema({
-  mode: {
-    type: Number,
-    required: true
-  },
-  dateTime: {
-    type: Date,
-    required: true
-  },
-  payMethod: {
-    type: Number,
-    required: true
-  },
-  totalItems: {
-    type: Number,
-    required: true
-  },
-  totalAmount: {
-    type: Number,
-    required: true
-  },
-  customer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer'
-  },
-  company: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Company'
-  },
-  orderDetails: [
-    {
+const orderSchema = new mongoose.Schema(
+  {
+    mode: {
+      type: String,
+      enum: ['pickup', 'delivery'],
+      required: true
+    },
+    deadline: {
+      type: Date,
+      required: true
+    },
+    payMethod: {
+      type: String,
+      enum: ['cash', 'card', 'transfer'],
+      required: true
+    },
+    totalItems: {
+      type: Number,
+      required: true
+    },
+    totalAmount: {
+      type: Number,
+      required: true
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'delivered', 'canceled'],
+      default: 'pending'
+    },
+    customer: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'OrderDetail'
-    }
-  ]
-})
+      ref: 'Customer'
+    },
+    shop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Shop'
+    },
+    detail: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product'
+        },
+        price: {
+          type: Number,
+          required: true
+        },
+        items: {
+          type: Number,
+          required: true
+        },
+        amount: {
+          type: Number,
+          required: true
+        }
+      }
+    ]
+  },
+  { timestamps: true }
+)
 
 orderSchema.set('toJSON', {
   transform: (document, returnedObject) => {
