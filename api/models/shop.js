@@ -52,6 +52,12 @@ const shopSchema = new mongoose.Schema({
       ref: 'Category'
     }
   ],
+  customers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Customer'
+    }
+  ],
   users: [
     {
       type: mongoose.Schema.Types.ObjectId,

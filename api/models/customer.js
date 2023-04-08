@@ -1,19 +1,28 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const customerSchema = new mongoose.Schema({
+  documentNumber: {
+    type: String,
+    minLength: 8,
+    maxLength: 8,
+    required: true,
+    unique: true
+  },
   firstName: {
     type: String,
+    minLength: 3,
     required: true
   },
   lastName: {
     type: String,
+    minLength: 3,
     required: true
   },
-  cellPhone: {
-    type: Number
-  },
-  address: {
-    type: String
+  address: String,
+  shop: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Shop'
   },
   orders: [
     {
@@ -30,5 +39,7 @@ customerSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
+
+customerSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('Customer', customerSchema)

@@ -9,6 +9,7 @@ const authRouter = require('./controllers/auth')
 const shopsRouter = require('./controllers/shops')
 const categoriesRouter = require('./controllers/categories')
 const productsRouter = require('./controllers/products')
+const customersRouter = require('./controllers/customers')
 const usersRouter = require('./controllers/users')
 
 const { tokenExtractor, unknownEndpoint, errorHandler } = require('./utils/middleware')
@@ -28,6 +29,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/shops', shopsRouter)
 app.use('/api/categories', categoriesRouter)
 app.use('/api/products', productsRouter)
+app.use('/api/customers', customersRouter)
 app.use('/api/users', usersRouter)
 
 app.get('/info', (request, response) => {
