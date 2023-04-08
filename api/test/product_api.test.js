@@ -35,7 +35,7 @@ describe('categories test', () => {
     const categoriesAtStart = await helper.categoriesInDb()
     const categoryToView = categoriesAtStart[0]
 
-    const resultProductCategory = await api
+    const resultCategory = await api
       .get(`/api/categories/${categoryToView.id}`)
       .set('Authorization', `bearer ${token}`)
       .expect(200)
@@ -43,7 +43,7 @@ describe('categories test', () => {
 
     const processedCategoryToView = JSON.parse(JSON.stringify(categoryToView))
 
-    expect(resultProductCategory.body).toEqual(processedCategoryToView)
+    expect(resultCategory.body).toEqual(processedCategoryToView)
   })
 
   test('addition of a new category with valid data', async () => {
