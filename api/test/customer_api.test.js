@@ -79,11 +79,11 @@ describe('customers test', () => {
     })
   })
 
-  test('deletion of a customer succeeds with status code 204 if id is valid', async () => {
+  test('deletion of a customer succeeds if id is valid', async () => {
     const customersAtStart = await helper.customersInDb()
     const customerToDelete = customersAtStart[0]
 
-    await api.delete(`/api/customers/${customerToDelete.id}`).set('Authorization', `bearer ${token}`).expect(204)
+    await api.delete(`/api/customers/${customerToDelete.id}`).set('Authorization', `bearer ${token}`).expect(200)
 
     const customersAtEnd = await helper.customersInDb()
     expect(customersAtEnd).toHaveLength(initialCustomers.length - 1)

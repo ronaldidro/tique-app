@@ -43,7 +43,7 @@ customersRouter.delete('/:id', verifyAuth, async (request, response) => {
   shop.customers = shop.customers.filter(id => id.toString() !== deletedCustomer._id.toString())
   await shop.save()
 
-  response.status(204).json(deletedCustomer)
+  response.json(deletedCustomer)
 })
 
 module.exports = customersRouter
