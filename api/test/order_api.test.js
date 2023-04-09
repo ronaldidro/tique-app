@@ -42,7 +42,7 @@ beforeEach(async () => {
       {
         product: products[0].id,
         price: 10,
-        items: 1,
+        quantity: 1,
         amount: 10
       }
     ]

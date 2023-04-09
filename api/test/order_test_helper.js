@@ -13,8 +13,8 @@ const getInitialOrders = async () => {
       mode: 'pickup',
       deadline: Date.now(),
       payMethod: 'cash',
-      totalItems: 2,
-      totalAmount: 25.5,
+      items: 2,
+      total: 25.5,
       status: 'pending',
       customer: customers[0].id,
       shop: shop.id,
@@ -22,13 +22,13 @@ const getInitialOrders = async () => {
         {
           product: products[0].id,
           price: 10.5,
-          items: 1,
+          quantity: 1,
           amount: 10.5
         },
         {
           product: products[1].id,
           price: 15,
-          items: 1,
+          quantity: 1,
           amount: 15
         }
       ]
@@ -37,8 +37,8 @@ const getInitialOrders = async () => {
       mode: 'delivery',
       deadline: Date.now(),
       payMethod: 'transfer',
-      totalItems: 2,
-      totalAmount: 30,
+      items: 3,
+      total: 30,
       status: 'delivered',
       customer: customers[1].id,
       shop: shop.id,
@@ -46,13 +46,13 @@ const getInitialOrders = async () => {
         {
           product: products[1].id,
           price: 10,
-          items: 2,
+          quantity: 2,
           amount: 20
         },
         {
           product: products[0].id,
           price: 10,
-          items: 1,
+          quantity: 1,
           amount: 10
         }
       ]
@@ -64,8 +64,8 @@ const baseOrder = {
   mode: 'pickup',
   deadline: Date.now(),
   payMethod: 'card',
-  totalItems: 1,
-  totalAmount: 10.0,
+  items: 1,
+  total: 10.0,
   documentNumber: '90909090',
   firstName: 'Leanne',
   lastName: 'Bret',

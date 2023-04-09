@@ -16,11 +16,11 @@ const orderSchema = new mongoose.Schema(
       enum: ['cash', 'card', 'transfer'],
       required: true
     },
-    totalItems: {
+    items: {
       type: Number,
       required: true
     },
-    totalAmount: {
+    total: {
       type: Number,
       required: true
     },
@@ -47,7 +47,15 @@ const orderSchema = new mongoose.Schema(
           type: Number,
           required: true
         },
-        items: {
+        discount: {
+          type: Number,
+          default: 0
+        },
+        discountedPrice: {
+          type: Number,
+          default: 0
+        },
+        quantity: {
           type: Number,
           required: true
         },
