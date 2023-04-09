@@ -3,13 +3,13 @@ import { Badge, Container, Divider, Flex, Heading, IconButton, Spacer, Text } fr
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import OrderFormButton from '../../components/market/OrderFormButton'
 import OrderList from '../../components/market/OrderList'
-import { getProductsOrder } from '../../utils'
+import { getProductsOrder, getOrderTotalPrice, getOrderTotalItems } from '../../utils'
 
 const OrderDetail = () => {
   const navigate = useNavigate()
   const productsOrder = getProductsOrder()
-  const orderTotalPrice = productsOrder.reduce((acc, product) => acc + product.totalPrice, 0)
-  const orderTotalItems = productsOrder.reduce((acc, product) => acc + product.quantity, 0)
+  const orderTotalPrice = getOrderTotalPrice()
+  const orderTotalItems = getOrderTotalItems()
 
   return (
     <Container maxW="5xl">

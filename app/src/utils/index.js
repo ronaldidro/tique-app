@@ -12,6 +12,10 @@ export const getProductsOrder = () => useSelector(state => state.productsOrder)
 
 export const getProductOrderById = id => getProductsOrder().find(product => product.id === id)
 
+export const getOrderTotalPrice = () => getProductsOrder().reduce((acc, product) => acc + product.totalPrice, 0)
+
+export const getOrderTotalItems = () => getProductsOrder().reduce((acc, product) => acc + product.quantity, 0)
+
 export const getProducts = () => useSelector(state => state.products)
 
 export const getFilteredProducts = () =>
@@ -45,7 +49,7 @@ export const orderModeOptions = [
   { label: 'Entrega a domicilio', value: 'delivery' }
 ]
 
-export const paymentMethodOptions = [
+export const payMethodOptions = [
   { label: 'Efectivo', value: 'cash' },
   { label: 'Tarjeta', value: 'card' },
   { label: 'Transferencia', value: 'transfer' }
