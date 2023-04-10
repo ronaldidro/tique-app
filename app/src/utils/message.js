@@ -1,18 +1,17 @@
-import { orderModeOptions, paymentMethodOptions, urlLineBreak } from '.'
+import { orderModeOptions, payMethodOptions, urlLineBreak } from '.'
 
 export const sendMessage = (phoneNumber, orderData) => {
-  const { firstName, lastName, address, datetime, orderMode, paymentMethod, products } = orderData
-  const totalPrice = products.reduce((acc, product) => acc + product.totalPrice, 0)
+  const { firstName, lastName, address, deadline, orderMode, payMethod, products, totalPrice } = orderData
   const { label: orderModeLabel } = orderModeOptions.find(mode => mode.value === orderMode)
-  const { label: paymentMethodLabel } = paymentMethodOptions.find(method => method.value === paymentMethod)
-  const date = datetime.split('T')[0].split('-').reverse().join('/')
-  const hour = datetime.split('T')[1]
+  const { label: paymentMethodLabel } = payMethodOptions.find(method => method.value === payMethod)
+  const date = deadline.split('T')[0].split('-').reverse().join('/')
+  const hour = deadline.split('T')[1]
 
   const messageText = `
 👋 *¡Hola! Estoy usando Tique App*${urlLineBreak}${urlLineBreak}
 _Te envío el detalle de mi pedido:_${urlLineBreak}${urlLineBreak}
-📆 *Fecha:* ${date}${urlLineBreak}
-⏰ *Hora:* ${hour}${urlLineBreak}${urlLineBreak}
+📆 *Fecha de entrega:* ${date}${urlLineBreak}
+⏰ *Hora de entrega:* ${hour}${urlLineBreak}${urlLineBreak}
 👤 *Mis datos:*${urlLineBreak}
 Nombres: ${firstName}${urlLineBreak}
 Apellidos: ${lastName}${urlLineBreak}
