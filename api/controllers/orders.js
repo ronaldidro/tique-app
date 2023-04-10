@@ -20,13 +20,17 @@ ordersRouter.get('/:id', verifyAuth, async (request, response) => {
 ordersRouter.post('/', async (request, response) => {
   const { documentNumber, firstName, lastName, address, shop: shopId } = request.body
 
+  const shop = await Shop.findById(shopId)
   let customer = await Customer.findOne({ documentNumber })
 
   if (!customer) {
     customer = new Customer({ documentNumber, firstName, lastName, address, shop: shopId })
     await customer.save()
+
+    shop.customers = shop.customers.concat(customer._id)
+    await shop.save({ validateModifiedOnly: true })
   }
-  const shop = await Shop.findById(shopId)
+
   const order = new Order({ ...request.body, customer: customer._id })
   const savedOrder = await order.save()
 
