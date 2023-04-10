@@ -3,8 +3,9 @@ const Customer = require('../models/customer')
 const Shop = require('../models/shop')
 const { verifyAuth } = require('../utils/middleware')
 
-customersRouter.get('/', verifyAuth, async (request, response) => {
-  const customers = await Customer.find({ shop: request.user.shop }).sort({ lastName: 1 })
+customersRouter.get('/', async (request, response) => {
+  const filter = request.query ? request.query : { shop: request.user.shop }
+  const customers = await Customer.find(filter).sort({ lastName: 1 })
   response.json(customers)
 })
 
