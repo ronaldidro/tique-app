@@ -1,25 +1,43 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { Button, Divider, HStack, Icon, Text, useToast } from '@chakra-ui/react'
-import { FcBusinessman, FcPackage, FcMoneyTransfer, FcOvertime } from 'react-icons/fc'
+import { Alert, AlertIcon, Button, Divider, HStack, Icon, Text, useToast } from '@chakra-ui/react'
+import { FcBusinessman, FcPackage, FcMoneyTransfer, FcOvertime, FcSearch } from 'react-icons/fc'
 import { FaWhatsapp } from 'react-icons/fa'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
 import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import {
+  getOrderTotalItems,
+  getOrderTotalPrice,
   getCompanyData,
   getProductsOrder,
   orderModeOptions,
-  paymentMethodOptions,
+  payMethodOptions,
   setToastContent,
   showToast,
   validateRequired
 } from '../../utils'
 import { sendMessage } from '../../utils/message'
+import { request } from '../../services'
 import RadioField from '../fields/RadioField'
 import TextField from '../fields/TextField'
 
-const OrderSectionTitle = ({ title, icon }) => {
+const formConfigValues = {
+  initialValues: {
+    documentNumber: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    deadline: '',
+    orderMode: 'pickup',
+    payMethod: 'cash'
+  },
+  showContactInputs: false,
+  customerFound: false
+}
+
+const OrderSection = ({ title, icon, children }) => {
   return (
     <>
       <HStack paddingBottom={2}>
@@ -27,6 +45,7 @@ const OrderSectionTitle = ({ title, icon }) => {
         <Text fontWeight="bold">{title}</Text>
       </HStack>
       <Divider marginBottom={4} borderColor="gray.500" />
+      {children}
     </>
   )
 }
@@ -36,10 +55,44 @@ const OrderForm = ({ closeForm }) => {
   const dispatch = useDispatch()
   const productsOrder = getProductsOrder()
   const { id, cellPhone } = getCompanyData()
+  const totalItems = getOrderTotalItems()
+  const totalPrice = getOrderTotalPrice()
   const toast = useToast()
+  const [formConfig, setFormConfig] = useState(formConfigValues)
+
+  const saveOrder = async orderData => {
+    const detail = productsOrder.map(
+      ({ id: product, price, discount, discountedPrice, quantity, totalPrice: amount }) => ({
+        product,
+        price,
+        discount,
+        discountedPrice,
+        quantity,
+        amount
+      })
+    )
+
+    const newOrder = {
+      ...orderData,
+      mode: orderData.orderMode,
+      products: productsOrder,
+      items: totalItems,
+      total: totalPrice,
+      shop: id,
+      detail
+    }
+
+    try {
+      const response = await request('/orders', 'POST', newOrder)
+      if (response.id) console.info('Order saved!')
+    } catch (error) {
+      console.error('Error: ', error.response.data.error)
+    }
+  }
 
   const handleSendOrder = values => {
-    const orderData = { ...values, products: productsOrder }
+    const orderData = { ...values, products: productsOrder, totalPrice }
+    saveOrder(orderData)
     sendMessage(cellPhone, orderData)
     closeForm()
     dispatch(deleteAllProducts())
@@ -57,41 +110,77 @@ const OrderForm = ({ closeForm }) => {
     navigate(`/tienda/${id}`)
   }
 
+  const handleSearchButton = async documentNumber => {
+    const response = await request(`/customers?documentNumber=${documentNumber}`)
+
+    if (response.length) {
+      const { firstName, lastName, address } = response[0]
+      setFormConfig({
+        initialValues: { ...formConfig.initialValues, documentNumber, firstName, lastName, address },
+        showContactInputs: true,
+        customerFound: true
+      })
+    } else {
+      setFormConfig({
+        initialValues: { ...formConfig.initialValues, documentNumber, firstName: '', lastName: '', address: '' },
+        showContactInputs: true,
+        customerFound: false
+      })
+    }
+  }
+
   return (
-    <Formik
-      initialValues={{
-        firstName: '',
-        lastName: '',
-        address: '',
-        datetime: '',
-        orderMode: 'pickup',
-        paymentMethod: 'cash'
-      }}
-      onSubmit={handleSendOrder}
-    >
-      {() => (
+    <Formik initialValues={formConfig.initialValues} onSubmit={handleSendOrder} enableReinitialize>
+      {({ values }) => (
         <Form>
-          <OrderSectionTitle title="Contacto" icon={<Icon as={FcBusinessman} />} />
-          <HStack paddingBottom={4}>
-            <TextField name="firstName" label="Nombres" validate={validateRequired} />
-            <TextField name="lastName" label="Apellidos" validate={validateRequired} />
-          </HStack>
-          <TextField name="address" label="Dirección" validate={validateRequired} paddingBottom={7} />
-
-          <OrderSectionTitle title="Modo de pedido" icon={<Icon as={FcPackage} />} />
-          <RadioField name="orderMode" validate={validateRequired} options={orderModeOptions} paddingBottom={7} />
-
-          <OrderSectionTitle title="Fecha y hora del pedido" icon={<Icon as={FcOvertime} />} />
-          <TextField name="datetime" type="datetime-local" validate={validateRequired} paddingBottom={7} />
-
-          <OrderSectionTitle title="Método de pago" icon={<Icon as={FcMoneyTransfer} />} />
-          <RadioField
-            name="paymentMethod"
-            validate={validateRequired}
-            options={paymentMethodOptions}
-            paddingBottom={7}
-          />
-
+          <OrderSection title="Contacto" icon={<Icon as={FcBusinessman} />}>
+            <HStack paddingBottom={4}>
+              <TextField
+                name="documentNumber"
+                label="DNI"
+                orientation="horizontal"
+                validate={value => {
+                  if (value.trim() === '') return 'Campo requerido'
+                  if (value.trim().length !== 8) return 'DNI inválido'
+                }}
+                maxWidth={40}
+              />
+              <Button
+                leftIcon={<Icon as={FcSearch} />}
+                colorScheme="linkedin"
+                type="button"
+                onClick={() => handleSearchButton(values.documentNumber)}
+              >
+                Buscar
+              </Button>
+            </HStack>
+            {formConfig.showContactInputs && (
+              <Alert status={formConfig.customerFound ? 'success' : 'error'} variant="left-accent" marginBottom={4}>
+                <AlertIcon />
+                {formConfig.customerFound
+                  ? `Cliente encontrado. Hola, ${values.firstName}!`
+                  : 'No se encontró cliente, ingresa tus datos'}
+              </Alert>
+            )}
+            {formConfig.showContactInputs && (
+              <>
+                <HStack paddingBottom={4}>
+                  <TextField name="firstName" label="Nombres" validate={validateRequired} />
+                  <TextField name="lastName" label="Apellidos" validate={validateRequired} />
+                </HStack>
+                <TextField name="address" label="Dirección" validate={validateRequired} paddingBottom={7} />
+              </>
+            )}
+          </OrderSection>
+          <OrderSection title="Modo de pedido" icon={<Icon as={FcPackage} />}>
+            <RadioField name="orderMode" validate={validateRequired} options={orderModeOptions} paddingBottom={7} />
+          </OrderSection>
+          <OrderSection title="Fecha y hora de entrega" icon={<Icon as={FcOvertime} />}>
+            <TextField name="deadline" type="datetime-local" validate={validateRequired} paddingBottom={7} />
+          </OrderSection>
+          <OrderSection title="Método de pago" icon={<Icon as={FcMoneyTransfer} />}>
+            <RadioField name="payMethod" validate={validateRequired} options={payMethodOptions} paddingBottom={7} />
+          </OrderSection>
           <Button rightIcon={<Icon as={FaWhatsapp} />} width="full" colorScheme="whatsapp" type="submit">
             Enviar Pedido
           </Button>
@@ -108,9 +197,10 @@ OrderForm.propTypes = {
   closeForm: PropTypes.func
 }
 
-OrderSectionTitle.propTypes = {
+OrderSection.propTypes = {
   title: PropTypes.string,
-  icon: PropTypes.element
+  icon: PropTypes.element,
+  children: PropTypes.node
 }
 
 export default OrderForm
