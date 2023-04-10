@@ -42,7 +42,7 @@ export const getCategoriesOptions = () => {
   return categories.map(({ id, description }) => ({ description, value: id }))
 }
 
-export const validateRequired = value => value === '' && 'Campo requerido'
+export const validateRequired = value => value.trim() === '' && 'Campo requerido'
 
 export const orderModeOptions = [
   { label: 'Recojo en tienda', value: 'pickup' },
