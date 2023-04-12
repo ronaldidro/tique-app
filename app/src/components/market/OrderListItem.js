@@ -45,7 +45,7 @@ const OrderListItem = ({ productData }) => {
           <Image boxSize="60px" borderRadius="md" objectFit="cover" src={productImageUrl} alt="Dan Abramov" />
           <Box paddingLeft={2}>
             <Text>{productData.name}</Text>
-            <Text fontWeight="bold">S/ {productData.discountedPrice}</Text>
+            <Text fontWeight="bold">S/ {productData.discountedPrice.toFixed(2)}</Text>
             {productData.comments && (
               <Text>
                 <ChevronRightIcon /> {productData.comments}
