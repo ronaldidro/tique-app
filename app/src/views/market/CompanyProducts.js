@@ -43,7 +43,7 @@ const CompanyProducts = () => {
         {productsOrder.length > 0 && (
           <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
             <Flex>
-              <Text paddingRight={2}>Ver Pedido</Text>
+              <Text paddingRight={2}>Ver carrito</Text>
               <Icon as={BsCart4} />
             </Flex>
           </LinkButton>
