@@ -21,7 +21,7 @@ import {
 import { FiMenu, FiChevronDown } from 'react-icons/fi'
 import { NavLink as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { CreativeTimLogo } from '../icons/Icons'
+import AppLogo from '../AppLogo'
 
 const Sidebar = ({ children, sidebarOptions, userName, handleLogoutButton }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -63,10 +63,7 @@ const SidebarContent = ({ onClose, options, ...rest }) => (
   >
     <Flex h="20" alignItems="center" justifyContent="space-between" mx={4}>
       <Flex alignItems="center">
-        <CreativeTimLogo w="32px" h="32px" me="10px" />
-        <Text fontWeight="bold" fontSize="sm" fontFamily="monospace">
-          TIQUE APP
-        </Text>
+        <AppLogo />
       </Flex>
       <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
     </Flex>
@@ -115,10 +112,7 @@ const MobileNav = ({ onOpen, userName, handleLogoutButton, ...rest }) => (
       icon={<FiMenu />}
     />
     <Box display={{ base: 'flex', md: 'none' }} alignItems="center">
-      <CreativeTimLogo w="32px" h="32px" me="10px" />
-      <Text fontWeight="bold" fontSize="sm" fontFamily="monospace">
-        TIQUE APP
-      </Text>
+      <AppLogo />
     </Box>
     <HStack spacing={{ base: '0', md: '6' }}>
       <Flex alignItems={'center'}>

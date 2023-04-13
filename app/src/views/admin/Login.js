@@ -1,9 +1,9 @@
-import { Box, Button, Flex, Heading, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
+import AppLogo from '../../components/AppLogo'
 import PasswordField from '../../components/fields/PasswordField'
 import TextField from '../../components/fields/TextField'
-import { CreativeTimLogo } from '../../components/icons/Icons'
 import { validateRequired } from '../../utils'
 
 const Login = ({ handleLoginForm }) => (
@@ -11,12 +11,8 @@ const Login = ({ handleLoginForm }) => (
     <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
       <Stack align="center">
         <Flex alignItems="center">
-          <CreativeTimLogo w="32px" h="32px" me="10px" />
-          <Heading fontSize="4xl">Tique App</Heading>
+          <AppLogo />
         </Flex>
-        <Text fontSize="lg" color="gray.600">
-          Ingresa tus credenciales para iniciar sesión
-        </Text>
       </Stack>
       <Formik initialValues={{ username: '', password: '' }} onSubmit={handleLoginForm}>
         {() => (

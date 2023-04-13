@@ -4,6 +4,8 @@ import { FaFacebook, FaInstagram } from 'react-icons/fa'
 import { BsPerson, BsShopWindow, BsColumnsGap, BsBoxSeam } from 'react-icons/bs'
 import { useResource } from '../hooks'
 
+export const APP_NAME = 'tique'
+
 export const convertToPercent = value => `${value * 100} %`
 
 export const getDiscountedPrice = (price, discount) => (price * (1 - discount)).toFixed(2)

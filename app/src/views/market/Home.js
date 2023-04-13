@@ -1,8 +1,8 @@
-import { Button, Container, Flex, SimpleGrid, Spacer, Text } from '@chakra-ui/react'
+import { Button, Container, Flex, SimpleGrid, Spacer } from '@chakra-ui/react'
 import { RiLoginBoxLine } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
+import AppLogo from '../../components/AppLogo'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
-import { CreativeTimLogo } from '../../components/icons/Icons'
 import CompanyCard from '../../components/market/CompanyCard'
 import { useResource } from '../../hooks'
 
@@ -15,10 +15,7 @@ const Home = () => {
   return (
     <>
       <Flex alignItems="center" paddingY={2} paddingX={4} backgroundColor="gray.100">
-        <CreativeTimLogo w="32px" h="32px" me="10px" />
-        <Text fontWeight="bold" fontSize="sm" fontFamily="monospace">
-          TIQUE APP
-        </Text>
+        <AppLogo />
         <Spacer />
         <Button rightIcon={<RiLoginBoxLine />} onClick={() => navigate('/admin')}>
           Iniciar sesión
