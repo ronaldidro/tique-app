@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { Avatar, Box, Heading, Icon, IconButton, Image, Link, Stack, Text, Tooltip, VStack } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux'
-import { FaHome, FaCalendarDay } from 'react-icons/fa'
+import { FaHome, FaCalendarDay, FaQuestionCircle } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 import { filterChange } from '../../reducers/filterReducer'
 import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import { socialNetworkIcons } from '../../utils'
 import AttentionSchedule from './AttentionSchedule'
+import HelpSteps from './HelpSteps'
 import ModalButton from './ModalButton'
 
 const Header = ({ companyData }) => {
@@ -31,7 +32,7 @@ const Header = ({ companyData }) => {
             position="absolute"
             marginTop={3}
             marginLeft={3}
-            colorScheme="whiteAlpha"
+            colorScheme="blackAlpha"
             onClick={handleHomeButton}
           />
         </Tooltip>
@@ -44,7 +45,7 @@ const Header = ({ companyData }) => {
           right="0"
           marginTop={3}
           marginRight={3}
-          colorScheme="whiteAlpha"
+          colorScheme="blackAlpha"
           modalTitle="Horarios de Atención"
           modalChildren={
             <AttentionSchedule
@@ -53,6 +54,18 @@ const Header = ({ companyData }) => {
               placeService={companyData.placeService}
             />
           }
+        />
+        <ModalButton
+          icon={<Icon as={FaQuestionCircle} />}
+          buttonTooltipText="Ayuda"
+          position="absolute"
+          right="0"
+          bottom="0"
+          marginBottom={[4, 3]}
+          marginRight={3}
+          colorScheme="blackAlpha"
+          modalTitle="Bienvenido a Tique"
+          modalChildren={<HelpSteps />}
         />
       </Box>
       <Box position="relative" marginX={[4, 0]}>
