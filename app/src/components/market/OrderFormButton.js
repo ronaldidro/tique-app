@@ -6,9 +6,9 @@ const OrderFormButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Box marginY={5}>
+    <Box width="50%">
       <Button onClick={onOpen} colorScheme="blue" width="full">
-        Finalizar pedido
+        Finalizar
       </Button>
       <ModalDialog isOpen={isOpen} onClose={onClose} size={['full', 'xl']}>
         <ModalHeader>Ingresa tu información</ModalHeader>

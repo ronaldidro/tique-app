@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Box,
   Button,
+  ButtonGroup,
   Center,
   Container,
   Divider,
@@ -29,10 +30,8 @@ const OrderDetail = () => {
   return (
     <Container maxW="5xl">
       <Flex alignItems="center" paddingY={4}>
-        <IconButton icon={<ChevronLeftIcon boxSize={7} />} onClick={() => navigate(-1)} />
-        <Heading size="md" paddingLeft={4}>
-          Tu pedido
-        </Heading>
+        <IconButton icon={<ChevronLeftIcon boxSize={7} />} marginRight={4} onClick={() => navigate(-1)} />
+        <Heading size="md">Tu pedido</Heading>
         <Spacer />
         <Box gap={[2, 4]} display={{ base: 'grid', md: 'flex' }} justifyItems="end">
           <HStack>
@@ -53,7 +52,12 @@ const OrderDetail = () => {
       {productsOrder.length > 0 ? (
         <Box display="grid" alignContent="space-between" minHeight="xl">
           <OrderList productsOrder={productsOrder} />
-          <OrderFormButton />
+          <ButtonGroup marginY={5}>
+            <Button colorScheme="red" width="50%" onClick={() => navigate(-1)}>
+              Regresar
+            </Button>
+            <OrderFormButton />
+          </ButtonGroup>
         </Box>
       ) : (
         <Center minHeight="xl">
