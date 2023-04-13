@@ -8,7 +8,7 @@ export const sendMessage = (phoneNumber, orderData) => {
   const hour = deadline.split('T')[1]
 
   const messageText = `
-👋 *¡Hola! Estoy usando Tique App*${urlLineBreak}${urlLineBreak}
+👋 *¡Hola! Estoy usando Tique*${urlLineBreak}${urlLineBreak}
 _Te envío el detalle de mi pedido:_${urlLineBreak}${urlLineBreak}
 📆 *Fecha de entrega:* ${date}${urlLineBreak}
 ⏰ *Hora de entrega:* ${hour}${urlLineBreak}${urlLineBreak}
