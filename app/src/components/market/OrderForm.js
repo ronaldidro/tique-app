@@ -184,7 +184,7 @@ const OrderForm = ({ closeForm }) => {
           <Button rightIcon={<Icon as={FaWhatsapp} />} width="full" colorScheme="whatsapp" type="submit">
             Enviar Pedido
           </Button>
-          <Text display="flex" justifyContent="center" paddingTop={4} as="cite">
+          <Text fontSize={['sm', 'md']} display="flex" justifyContent="center" paddingTop={4} as="cite">
             Tu pedido será enviado a través de Whatsapp
           </Text>
         </Form>
