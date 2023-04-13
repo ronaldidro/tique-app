@@ -46,7 +46,7 @@ const Header = ({ companyData }) => {
           marginTop={3}
           marginRight={3}
           colorScheme="blackAlpha"
-          modalTitle="Horarios de Atención"
+          modalTitle="Horarios de atención"
           modalChildren={
             <AttentionSchedule
               attentionDays={companyData.attentionSchedule}
