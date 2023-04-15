@@ -6,8 +6,8 @@ import { BsCart4 } from 'react-icons/bs'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import LinkButton from '../../components/fields/LinkButton'
 import Header from '../../components/market/Header'
+import Categories from '../../components/market/Categories'
 import Filters from '../../components/market/Filters'
-import ProductCategories from '../../components/market/ProductCategories'
 import { useResource } from '../../hooks'
 import { initializeShop } from '../../reducers/shopReducer'
 import { initializeProducts } from '../../reducers/productReducer'
@@ -35,7 +35,7 @@ const MarketShop = () => {
       <Header shopData={shop} />
       <Box paddingX={[4, 0]}>
         <Filters />
-        <ProductCategories productCategoriesData={products} />
+        <Categories categoriesData={products} />
         {productsOrder.length > 0 && (
           <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
             <Flex>
