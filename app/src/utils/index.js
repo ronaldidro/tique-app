@@ -35,7 +35,7 @@ export const getFilteredProducts = () =>
     }
   })
 
-export const getCompanyData = () => useSelector(state => state.company)
+export const getShopData = () => useSelector(state => state.shop)
 
 export const getUser = () => useSelector(state => state.user)
 

@@ -3,9 +3,9 @@ import { Box, Heading, HStack, Icon, Image, Text } from '@chakra-ui/react'
 import { FcEmptyFilter, FcShop } from 'react-icons/fc'
 import PropTypes from 'prop-types'
 
-const CompanyCard = ({ companyData }) => {
+const ShopCard = ({ shopData }) => {
   const navigate = useNavigate()
-  const { url: initialImageUrl } = companyData.images.find(item => item.type === 'initial')
+  const { url: initialImageUrl } = shopData.images.find(item => item.type === 'initial')
 
   return (
     <Box
@@ -13,21 +13,21 @@ const CompanyCard = ({ companyData }) => {
       borderWidth="1px"
       borderRadius="xl"
       cursor="pointer"
-      onClick={() => navigate(`tienda/${companyData.id}`)}
+      onClick={() => navigate(`tienda/${shopData.id}`)}
     >
       <Image borderTopRadius="xl" src={initialImageUrl} alt="Dan Abramov" />
       <Box padding={3}>
         <Heading size="md" paddingBottom={[0, 2]} textAlign={['center', 'left']}>
-          {companyData.name}
+          {shopData.name}
         </Heading>
         <Box display={['none', 'block']}>
           <HStack paddingBottom={2}>
             <Icon as={FcShop} />
-            <Text noOfLines={2}>{companyData.address}</Text>
+            <Text noOfLines={2}>{shopData.address}</Text>
           </HStack>
           <HStack>
             <Icon as={FcEmptyFilter} />
-            <Text noOfLines={2}>{companyData.placeService}</Text>
+            <Text noOfLines={2}>{shopData.placeService}</Text>
           </HStack>
         </Box>
       </Box>
@@ -35,8 +35,8 @@ const CompanyCard = ({ companyData }) => {
   )
 }
 
-CompanyCard.propTypes = {
-  companyData: PropTypes.object
+ShopCard.propTypes = {
+  shopData: PropTypes.object
 }
 
-export default CompanyCard
+export default ShopCard

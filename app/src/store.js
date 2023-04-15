@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { composeWithDevTools } from '@redux-devtools/extension'
-import companyReducer from './reducers/companyReducer'
+import shopReducer from './reducers/shopReducer'
 import filterReducer from './reducers/filterReducer'
 import productsOrderReducer from './reducers/productsOrderReducer'
 import productReducer from './reducers/productReducer'
@@ -8,7 +8,7 @@ import userReducer from './reducers/userReducer'
 
 const store = configureStore({
   reducer: {
-    company: companyReducer,
+    shop: shopReducer,
     filter: filterReducer,
     products: productReducer,
     productsOrder: productsOrderReducer,

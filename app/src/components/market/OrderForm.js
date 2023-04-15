@@ -10,8 +10,8 @@ import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import {
   getOrderTotalItems,
   getOrderTotalPrice,
-  getCompanyData,
   getProductsOrder,
+  getShopData,
   orderModeOptions,
   payMethodOptions,
   setToastContent,
@@ -54,7 +54,7 @@ const OrderForm = ({ closeForm }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const productsOrder = getProductsOrder()
-  const { id, cellPhone } = getCompanyData()
+  const { id, cellPhone } = getShopData()
   const totalItems = getOrderTotalItems()
   const totalPrice = getOrderTotalPrice()
   const toast = useToast()

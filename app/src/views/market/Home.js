@@ -3,7 +3,7 @@ import { RiLoginBoxLine } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import AppLogo from '../../components/AppLogo'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
-import CompanyCard from '../../components/market/CompanyCard'
+import ShopCard from '../../components/market/ShopCard'
 import { useResource } from '../../hooks'
 
 const Home = () => {
@@ -23,8 +23,8 @@ const Home = () => {
       </Flex>
       <Container maxW="5xl" marginY={5}>
         <SimpleGrid columns={[2, 3]} spacing={[5, 10]}>
-          {shops.map((company, index) => (
-            <CompanyCard key={index} companyData={company} />
+          {shops.map((shop, index) => (
+            <ShopCard key={index} shopData={shop} />
           ))}
         </SimpleGrid>
       </Container>

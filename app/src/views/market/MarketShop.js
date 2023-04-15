@@ -9,30 +9,30 @@ import Header from '../../components/market/Header'
 import Filters from '../../components/market/Filters'
 import ProductCategories from '../../components/market/ProductCategories'
 import { useResource } from '../../hooks'
-import { initializeCompany } from '../../reducers/companyReducer'
+import { initializeShop } from '../../reducers/shopReducer'
 import { initializeProducts } from '../../reducers/productReducer'
 import { getFilteredProducts, getProductsOrder } from '../../utils'
 
-const CompanyProducts = () => {
+const MarketShop = () => {
   const { id } = useParams()
-  const company = useResource(`/shops/${id}`)
+  const shop = useResource(`/shops/${id}`)
   const dispatch = useDispatch()
   const productsOrder = getProductsOrder()
   const products = getFilteredProducts()
 
   useEffect(() => {
-    if (Object.keys(company).length) {
-      const { categories, ...companyData } = company
-      dispatch(initializeCompany(companyData))
+    if (Object.keys(shop).length) {
+      const { categories, ...shopData } = shop
+      dispatch(initializeShop(shopData))
       dispatch(initializeProducts(categories))
     }
-  }, [company])
+  }, [shop])
 
-  if (!Object.keys(company).length) return <CircularSpinner />
+  if (!Object.keys(shop).length) return <CircularSpinner />
 
   return (
     <Container maxW="5xl" paddingX={{ base: 0, md: 4 }}>
-      <Header companyData={company} />
+      <Header shopData={shop} />
       <Box paddingX={[4, 0]}>
         <Filters />
         <ProductCategories productCategoriesData={products} />
@@ -49,4 +49,4 @@ const CompanyProducts = () => {
   )
 }
 
-export default CompanyProducts
+export default MarketShop

@@ -10,12 +10,12 @@ import AttentionSchedule from './AttentionSchedule'
 import HelpSteps from './HelpSteps'
 import ModalButton from './ModalButton'
 
-const Header = ({ companyData }) => {
+const Header = ({ shopData }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { url: headboardImageUrl } = companyData.images.find(item => item.type === 'headboard')
-  const { url: profileImageUrl } = companyData.images.find(item => item.type === 'profile')
+  const { url: headboardImageUrl } = shopData.images.find(item => item.type === 'headboard')
+  const { url: profileImageUrl } = shopData.images.find(item => item.type === 'profile')
 
   const handleHomeButton = () => {
     dispatch(filterChange({ mode: 'ALL' }))
@@ -49,9 +49,9 @@ const Header = ({ companyData }) => {
           modalTitle="Horarios de atención"
           modalChildren={
             <AttentionSchedule
-              attentionDays={companyData.attentionSchedule}
-              address={companyData.address}
-              placeService={companyData.placeService}
+              attentionDays={shopData.attentionSchedule}
+              address={shopData.address}
+              placeService={shopData.placeService}
             />
           }
         />
@@ -73,17 +73,17 @@ const Header = ({ companyData }) => {
           <Avatar marginTop={['-10', '-5']} size="2xl" name="Dan Abrahmov" src={profileImageUrl} />
           <VStack alignItems="left" marginTop={[2]} marginLeft={[0, 2]}>
             <Heading as="h1" size="md">
-              {companyData.name}
+              {shopData.name}
             </Heading>
             <Text width={['full', '3xl']} textAlign={['justify', 'left']}>
-              {companyData.description}
+              {shopData.description}
             </Text>
-            <Text>{companyData.address}</Text>
+            <Text>{shopData.address}</Text>
           </VStack>
         </Box>
         <Box position="absolute" top="0" right="0" marginY={[4, 8]}>
           <Stack direction="row">
-            {companyData.socialNetworks.map(({ type, url }, index) => (
+            {shopData.socialNetworks.map(({ type, url }, index) => (
               <Link key={index} href={url} isExternal>
                 {socialNetworkIcons.find(item => item.type === type).icon}
               </Link>
@@ -96,7 +96,7 @@ const Header = ({ companyData }) => {
 }
 
 Header.propTypes = {
-  companyData: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+  shopData: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 }
 
 export default Header
