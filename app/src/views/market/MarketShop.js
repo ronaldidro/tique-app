@@ -1,8 +1,9 @@
-import { Box, Container, Flex, Icon, Text } from '@chakra-ui/react'
+import { Box, Center, Container, Flex, Icon, Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { BsCart4 } from 'react-icons/bs'
+import { TbFaceIdError } from 'react-icons/tb'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import LinkButton from '../../components/fields/LinkButton'
 import Header from '../../components/market/Header'
@@ -35,7 +36,18 @@ const MarketShop = () => {
       <Header shopData={shop} />
       <Box paddingX={[4, 0]}>
         <Filters />
-        <Categories categoriesData={products} />
+        {!products.length ? (
+          <Center minHeight="xl">
+            <Box textAlign="center">
+              <Icon as={TbFaceIdError} boxSize={40} />
+              <Text fontWeight="bold" marginY={5}>
+                No se encontraron productos
+              </Text>
+            </Box>
+          </Center>
+        ) : (
+          <Categories categoriesData={products} />
+        )}
         {productsOrder.length > 0 && (
           <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
             <Flex>
