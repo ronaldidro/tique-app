@@ -1,5 +1,5 @@
 import { Box, Center, Container, Flex, Icon, Text } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { BsCart4 } from 'react-icons/bs'
@@ -20,16 +20,18 @@ const MarketShop = () => {
   const dispatch = useDispatch()
   const productsOrder = getProductsOrder()
   const products = getFilteredProducts()
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (Object.keys(shop).length) {
       const { categories, ...shopData } = shop
       dispatch(initializeShop(shopData))
       dispatch(initializeProducts(categories))
+      setIsLoading(false)
     }
   }, [shop])
 
-  if (!Object.keys(shop).length) return <CircularSpinner />
+  if (isLoading) return <CircularSpinner />
 
   return (
     <Container maxW="5xl" paddingX={{ base: 0, md: 4 }}>
