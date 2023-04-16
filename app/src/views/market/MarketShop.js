@@ -34,32 +34,34 @@ const MarketShop = () => {
   if (isLoading) return <CircularSpinner />
 
   return (
-    <Container maxW="5xl" paddingX={{ base: 0, md: 4 }}>
-      <Header shopData={shop} />
-      <Box paddingX={[4, 0]}>
-        <Filters />
-        {!products.length ? (
-          <Center minHeight="xl">
-            <Box textAlign="center">
-              <Icon as={TbFaceIdError} boxSize={40} />
-              <Text fontWeight="bold" marginY={5}>
-                No se encontraron productos
-              </Text>
-            </Box>
-          </Center>
-        ) : (
-          <Categories categoriesData={products} />
-        )}
-        {productsOrder.length > 0 && (
-          <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
-            <Flex>
-              <Text paddingRight={2}>Ver carrito</Text>
-              <Icon as={BsCart4} />
-            </Flex>
-          </LinkButton>
-        )}
-      </Box>
-    </Container>
+    <Box backgroundColor="gray.50">
+      <Container maxW="5xl" paddingX={{ base: 0, md: 4 }}>
+        <Header shopData={shop} />
+        <Box paddingX={[4, 0]}>
+          <Filters />
+          {!products.length ? (
+            <Center minHeight="xl">
+              <Box textAlign="center">
+                <Icon as={TbFaceIdError} boxSize={40} />
+                <Text fontWeight="bold" marginY={5}>
+                  No se encontraron productos
+                </Text>
+              </Box>
+            </Center>
+          ) : (
+            <Categories categoriesData={products} />
+          )}
+          {productsOrder.length > 0 && (
+            <LinkButton pathname="/pedido" bgColor="green" position="fixed" bottom="35px" right="35px">
+              <Flex>
+                <Text paddingRight={2}>Ver carrito</Text>
+                <Icon as={BsCart4} />
+              </Flex>
+            </LinkButton>
+          )}
+        </Box>
+      </Container>
+    </Box>
   )
 }
 

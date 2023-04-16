@@ -16,12 +16,12 @@ const Filters = () => {
     dispatch(filterChange({ mode: target.value === '' ? 'ALL' : 'BY_NAME', content: target.value }))
 
   return (
-    <Box display={{ md: 'flex' }} marginY={2}>
+    <Box display={{ md: 'flex' }} marginY={8}>
       <SearchField
         placeholder="Buscar producto"
         value={mode === 'BY_NAME' ? content : ''}
         handleSearch={handleProductSearch}
-        width={['100%', '65%']}
+        width={['100%', '60%']}
         marginRight={[0, 2]}
         marginBottom={[2, 0]}
       />
@@ -29,7 +29,7 @@ const Filters = () => {
         placeholder="Todas las categorías"
         onChange={handleCategoryChange}
         value={mode === 'BY_CATEGORY' ? content : ''}
-        width={['100%', '35%']}
+        width={['100%', '40%']}
       >
         {getProducts().map(category => (
           <option key={category.id} value={category.id}>

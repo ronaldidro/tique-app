@@ -9,6 +9,7 @@ const ShopCard = ({ shopData }) => {
 
   return (
     <Box
+      backgroundColor="white"
       shadow="md"
       borderWidth="1px"
       borderRadius="xl"

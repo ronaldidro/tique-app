@@ -72,7 +72,7 @@ const Header = ({ shopData }) => {
         <Box display={{ md: 'flex' }}>
           <Avatar marginTop={['-10', '-5']} size="2xl" name="Dan Abrahmov" src={profileImageUrl} />
           <VStack alignItems="left" marginTop={[2]} marginLeft={[0, 2]}>
-            <Heading as="h1" size="md">
+            <Heading as="h1" fontSize="2xl">
               {shopData.name}
             </Heading>
             <Text width={['full', '3xl']} textAlign={['justify', 'left']}>

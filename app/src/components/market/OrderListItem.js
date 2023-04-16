@@ -56,6 +56,7 @@ const OrderListItem = ({ productData }) => {
         <Spacer />
         <HStack>
           <NumberInput
+            backgroundColor="white"
             allowMouseWheel
             size={['sm', 'md']}
             maxW={[16, 20]}

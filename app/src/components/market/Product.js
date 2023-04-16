@@ -9,7 +9,7 @@ const Product = ({ productData }) => {
   const { url: productImageUrl } = productData.images.find(item => item.type === 'root')
 
   return (
-    <Flex shadow="md" borderWidth="1px" borderRadius="xl">
+    <Flex shadow="md" borderWidth="1px" borderRadius="xl" backgroundColor="white">
       <Image
         borderInlineStartRadius="xl"
         boxSize="130px"
