@@ -28,7 +28,7 @@ const App = () => {
 
       setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
       dispatch(setUser(userData))
-      showToast(toast, setToastContent(`Hola ${userData.name}`, 'Un gusto volver a verte', 'success', 'subtle', 'top'))
+      showToast(toast, setToastContent(`Hola ${userData.name}`, 'Bienvenido', 'success', 'subtle', 'top'))
       navigate('/admin/perfil')
     } catch (error) {
       showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top-right'))
