@@ -1,4 +1,3 @@
-import { CheckCircleIcon } from '@chakra-ui/icons'
 import { Box, Flex, Heading, Image, Spacer, Tag, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { convertToPercent, getDiscountedPrice, getProductOrderById } from '../../utils'
@@ -9,7 +8,7 @@ const Product = ({ productData }) => {
   const { url: productImageUrl } = productData.images.find(item => item.type === 'root')
 
   return (
-    <Flex shadow="md" borderWidth="1px" borderRadius="xl" backgroundColor="white">
+    <Flex shadow="md" borderWidth="1px" borderRadius="xl" backgroundColor={productOrder ? 'yellow.50' : 'white'}>
       <Image
         borderInlineStartRadius="xl"
         boxSize="130px"
@@ -21,9 +20,13 @@ const Product = ({ productData }) => {
       <Flex flexDirection="column" justifyContent="space-between" padding={3} width="75%">
         <Box>
           <Flex justifyContent="space-between" alignItems="center">
-            <Heading as="h3" fontSize="md">
+            <Heading as="h3" fontSize="md" display="flex" alignItems="center">
+              {productOrder && (
+                <Tag colorScheme="purple" marginRight={2}>
+                  {productOrder.quantity}
+                </Tag>
+              )}
               {productData.name}
-              {productOrder && <CheckCircleIcon color="red.500" marginLeft={2} />}
             </Heading>
             {productData.discount > 0 && <Tag colorScheme="messenger">- {convertToPercent(productData.discount)}</Tag>}
           </Flex>
