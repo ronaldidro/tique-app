@@ -21,7 +21,7 @@ authRouter.post('/', async (request, response) => {
     username
   }
 
-  const token = jwt.sign(userForToken, SECRET, { expiresIn: '7d' })
+  const token = jwt.sign(userForToken, SECRET, { expiresIn: '1d' })
 
   response.status(200).send({ token, name: user.name, shop: user.shop })
 })
