@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { DeleteIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Divider,
   Flex,
   HStack,
   Image,
@@ -39,7 +38,7 @@ const OrderListItem = ({ productData }) => {
   }
 
   return (
-    <ListItem>
+    <ListItem borderBottom="1px" borderColor="blackAlpha.500">
       <Flex alignItems="center" paddingY={4}>
         <Box display="flex" alignItems="center">
           <Image boxSize="60px" borderRadius="md" objectFit="cover" src={productImageUrl} alt="Dan Abramov" />
@@ -81,7 +80,6 @@ const OrderListItem = ({ productData }) => {
           />
         </HStack>
       </Flex>
-      <Divider />
     </ListItem>
   )
 }

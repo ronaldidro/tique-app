@@ -21,6 +21,7 @@ const Filters = () => {
         placeholder="Buscar producto"
         value={mode === 'BY_NAME' ? content : ''}
         handleSearch={handleProductSearch}
+        backgroundColor="white"
         width={['100%', '60%']}
         marginRight={[0, 2]}
         marginBottom={[2, 0]}
@@ -29,6 +30,7 @@ const Filters = () => {
         placeholder="Todas las categorías"
         onChange={handleCategoryChange}
         value={mode === 'BY_CATEGORY' ? content : ''}
+        backgroundColor="white"
         width={['100%', '40%']}
       >
         {getProducts().map(category => (

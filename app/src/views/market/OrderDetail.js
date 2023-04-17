@@ -5,7 +5,6 @@ import {
   ButtonGroup,
   Center,
   Container,
-  Divider,
   Flex,
   HStack,
   Heading,
@@ -28,7 +27,7 @@ const OrderDetail = () => {
   return (
     <Box backgroundColor="gray.50">
       <Container maxW="5xl">
-        <Flex alignItems="center" paddingY={4}>
+        <Flex alignItems="center" paddingY={4} borderBottom="2px" borderColor="blackAlpha.900">
           <Heading fontSize="2xl">Tu pedido</Heading>
           <Spacer />
           <Box gap={[2, 4]} display={{ base: 'grid', md: 'flex' }} justifyItems="end">
@@ -46,7 +45,6 @@ const OrderDetail = () => {
             </HStack>
           </Box>
         </Flex>
-        <Divider />
         {productsOrder.length > 0 ? (
           <Box display="grid" alignContent="space-between" minHeight="xl">
             <OrderList productsOrder={productsOrder} />

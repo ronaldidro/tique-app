@@ -1,10 +1,9 @@
-import { Box, Container, Divider, Text } from '@chakra-ui/react'
+import { Box, Container, Text } from '@chakra-ui/react'
 
 const Footer = () => (
   <Box backgroundColor="gray.50">
     <Container maxW="5xl">
-      <Box textAlign="right">
-        <Divider />
+      <Box textAlign="right" borderTop="1px" borderColor="blackAlpha.900">
         <Text fontSize={['sm', 'md']} paddingTop={2}>
           &copy; {new Date().getFullYear()} Hatun Tech. Todos los derechos reservados.
         </Text>

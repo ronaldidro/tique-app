@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <Box backgroundColor="gray.50" minHeight="3xl">
-      <Flex alignItems="center" paddingY={2} paddingX={4} backgroundColor="whiteAlpha.900">
+      <Flex alignItems="center" paddingY={2} paddingX={4} backgroundColor="whiteAlpha.900" boxShadow="md">
         <AppLogo />
         <Spacer />
         <Tooltip label={user ? 'Mi tienda' : 'Iniciar sesión'}>
