@@ -176,7 +176,15 @@ const OrderForm = ({ closeForm }) => {
             <RadioField name="orderMode" validate={validateRequired} options={orderModeOptions} paddingBottom={7} />
           </OrderSection>
           <OrderSection title="Fecha y hora de entrega" icon={<Icon as={FcOvertime} />}>
-            <TextField name="deadline" type="datetime-local" validate={validateRequired} paddingBottom={7} />
+            <TextField
+              name="deadline"
+              type="datetime-local"
+              validate={value => {
+                if (value.trim() === '') return 'Campo requerido'
+                if (Date.parse(value) < Date.now()) return 'Fecha no debe ser menor a la actual'
+              }}
+              paddingBottom={7}
+            />
           </OrderSection>
           <OrderSection title="Método de pago" icon={<Icon as={FcMoneyTransfer} />}>
             <RadioField name="payMethod" validate={validateRequired} options={payMethodOptions} paddingBottom={7} />
