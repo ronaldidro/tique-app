@@ -1,4 +1,4 @@
-import { ButtonGroup, Container, Flex, IconButton, Stack, Text } from '@chakra-ui/react'
+import { ButtonGroup, Container, IconButton, Stack, Text } from '@chakra-ui/react'
 import { FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import AppLogo from '../AppLogo'
 
@@ -6,9 +6,7 @@ const Footer = () => (
   <Container maxW="5xl" as="footer" paddingY={5}>
     <Stack spacing={{ base: '4', md: '5' }}>
       <Stack justify="space-between" direction="row" align="center">
-        <Flex alignItems="center">
-          <AppLogo />
-        </Flex>
+        <AppLogo />
         <ButtonGroup variant="ghost">
           <IconButton
             as="a"

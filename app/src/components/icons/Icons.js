@@ -1,7 +1,7 @@
 import { createIcon } from '@chakra-ui/react'
 
-export const CreativeTimLogo = createIcon({
-  displayName: 'CreativeTimLogo',
+export const TiqueAppLogo = createIcon({
+  displayName: 'TiqueAppLogo',
   viewBox: '0 0 100 100',
   path: (
     <g xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" version="1.1">

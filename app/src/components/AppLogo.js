@@ -1,14 +1,14 @@
-import { Text } from '@chakra-ui/react'
-import { CreativeTimLogo } from './icons/Icons'
+import { HStack, Text } from '@chakra-ui/react'
+import { TiqueAppLogo } from './icons/Icons'
 import { APP_NAME } from '../utils'
 
 const AppLogo = () => (
-  <>
-    <CreativeTimLogo w="32px" h="32px" me="10px" />
-    <Text fontWeight="bold" fontSize="xl" fontFamily="monospace">
-      {APP_NAME.toUpperCase()}
+  <HStack spacing={1} alignItems="start">
+    <TiqueAppLogo w="32px" h="32px" />
+    <Text fontWeight="extrabold" color="gray.600" fontSize="2xl" textTransform="capitalize">
+      {APP_NAME}
     </Text>
-  </>
+  </HStack>
 )
 
 export default AppLogo

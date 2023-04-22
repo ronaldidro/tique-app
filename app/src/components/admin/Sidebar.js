@@ -62,9 +62,7 @@ const SidebarContent = ({ onClose, options, ...rest }) => (
     {...rest}
   >
     <Flex h="20" alignItems="center" justifyContent="space-between" mx={4}>
-      <Flex alignItems="center">
-        <AppLogo />
-      </Flex>
+      <AppLogo />
       <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
     </Flex>
     {options.map(({ text, route, icon }, index) => (
@@ -111,7 +109,7 @@ const MobileNav = ({ onOpen, userName, handleLogoutButton, ...rest }) => (
       aria-label="open menu"
       icon={<FiMenu />}
     />
-    <Box display={{ base: 'flex', md: 'none' }} alignItems="center">
+    <Box display={{ base: 'block', md: 'none' }}>
       <AppLogo />
     </Box>
     <HStack spacing={{ base: '0', md: '6' }}>
