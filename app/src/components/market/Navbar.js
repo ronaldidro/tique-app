@@ -17,7 +17,6 @@ import { RiCloseLine, RiLoginBoxLine, RiMenuLine, RiQuestionLine, RiStore3Fill }
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { filterChange } from '../../reducers/filterReducer'
-import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import { getItemFromLocalStorage } from '../../utils'
 import AppLogo from '../AppLogo'
 import LinkButton from '../fields/LinkButton'
@@ -65,13 +64,12 @@ const Navbar = () => {
 
   const handleAppLogo = () => {
     dispatch(filterChange({ mode: 'ALL' }))
-    dispatch(deleteAllProducts())
     navigate('/')
   }
 
   return (
-    <Box as="section">
-      <Box as="nav" boxShadow="sm" position="relative">
+    <Box as="section" position="fixed" width="full" backgroundColor="white" top={0} zIndex={3}>
+      <Box as="nav" boxShadow="sm">
         <Container maxW="5xl" paddingY={5}>
           <HStack spacing="10" justify="space-between">
             <AppLogo cursor="pointer" onClick={handleAppLogo} />
@@ -94,7 +92,7 @@ const Navbar = () => {
           </HStack>
         </Container>
       </Box>
-      <Box boxShadow="sm" position="relative">
+      <Box boxShadow="md">
         <Collapse in={mobileNav.isOpen} animateOpacity unmountOnExit>
           <VStack display={mobileNav.isOpen ? 'flex' : 'none'} flexDirection="column" spacing={4} padding={4}>
             {navbarOptions}
