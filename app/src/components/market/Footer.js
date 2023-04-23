@@ -1,4 +1,4 @@
-import { ButtonGroup, Container, IconButton, Stack, Text } from '@chakra-ui/react'
+import { ButtonGroup, Container, Icon, IconButton, Stack, Text } from '@chakra-ui/react'
 import { FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import AppLogo from '../AppLogo'
 
@@ -13,21 +13,21 @@ const Footer = () => (
             href="https://www.linkedin.com/in/ronaldidro/"
             target="_blank"
             aria-label="LinkedIn"
-            icon={<FaLinkedin fontSize="1.25rem" />}
+            icon={<Icon as={FaLinkedin} boxSize={6} />}
           />
           <IconButton
             as="a"
             href="https://www.instagram.com/ronaldidro/"
             target="_blank"
             aria-label="Instagram"
-            icon={<FaInstagram fontSize="1.25rem" />}
+            icon={<Icon as={FaInstagram} boxSize={6} />}
           />
           <IconButton
             as="a"
             href="https://twitter.com/ronaldidro"
             target="_blank"
             aria-label="Twitter"
-            icon={<FaTwitter fontSize="1.25rem" />}
+            icon={<Icon as={FaTwitter} boxSize={6} />}
           />
         </ButtonGroup>
       </Stack>
