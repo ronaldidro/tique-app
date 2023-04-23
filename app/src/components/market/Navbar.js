@@ -1,0 +1,116 @@
+import {
+  Box,
+  ButtonGroup,
+  Collapse,
+  Container,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Tooltip,
+  VStack,
+  useBreakpointValue,
+  useDisclosure
+} from '@chakra-ui/react'
+import PropTypes from 'prop-types'
+import { RiCloseLine, RiLoginBoxLine, RiMenuLine, RiQuestionLine, RiStore3Fill } from 'react-icons/ri'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { filterChange } from '../../reducers/filterReducer'
+import { deleteAllProducts } from '../../reducers/productsOrderReducer'
+import { getItemFromLocalStorage } from '../../utils'
+import AppLogo from '../AppLogo'
+import LinkButton from '../fields/LinkButton'
+import HelpSteps from './HelpSteps'
+import ModalButton from './ModalButton'
+
+const navbarOptions = ['Tiendas', 'Productos'].map(item => (
+  <LinkButton key={item} pathname="#" color="gray.500" fontWeight="semibold" fontSize="lg">
+    {item}
+  </LinkButton>
+))
+
+const AdminButton = ({ handleClick }) => {
+  const user = getItemFromLocalStorage('loggedTiqueAppUser', true) || null
+
+  return (
+    <Tooltip label={user ? 'Mi tienda' : 'Iniciar sesión'}>
+      <IconButton
+        variant="ghost"
+        icon={<Icon as={user ? RiStore3Fill : RiLoginBoxLine} boxSize={6} />}
+        onClick={handleClick}
+      />
+    </Tooltip>
+  )
+}
+
+const NavbarButtons = ({ onClickAdminButton }) => (
+  <HStack>
+    <ModalButton
+      icon={<Icon as={RiQuestionLine} boxSize={6} />}
+      buttonTooltipText="Ayuda"
+      modalTitle="Bienvenido a Tique"
+      modalChildren={<HelpSteps />}
+      variant="ghost"
+    />
+    <AdminButton handleClick={onClickAdminButton} />
+  </HStack>
+)
+
+const Navbar = () => {
+  const isDesktop = useBreakpointValue({ base: false, lg: true })
+  const mobileNav = useDisclosure()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleAppLogo = () => {
+    dispatch(filterChange({ mode: 'ALL' }))
+    dispatch(deleteAllProducts())
+    navigate('/')
+  }
+
+  return (
+    <Box as="section">
+      <Box as="nav" boxShadow="sm" position="relative">
+        <Container maxW="5xl" paddingY={5}>
+          <HStack spacing="10" justify="space-between">
+            <AppLogo cursor="pointer" onClick={handleAppLogo} />
+            {isDesktop ? (
+              <Flex justify="space-between" align="center" flex="1">
+                <ButtonGroup spacing="8">{navbarOptions}</ButtonGroup>
+                <NavbarButtons onClickAdminButton={() => navigate('/admin')} />
+              </Flex>
+            ) : (
+              <HStack justify="end">
+                <NavbarButtons onClickAdminButton={() => navigate('/admin')} />
+                <IconButton
+                  variant="ghost"
+                  icon={mobileNav.isOpen ? <RiCloseLine fontSize="1.25rem" /> : <RiMenuLine fontSize="1.25rem" />}
+                  aria-label="Open Menu"
+                  onClick={mobileNav.onToggle}
+                />
+              </HStack>
+            )}
+          </HStack>
+        </Container>
+      </Box>
+      <Box boxShadow="sm" position="relative">
+        <Collapse in={mobileNav.isOpen} animateOpacity unmountOnExit>
+          <VStack display={mobileNav.isOpen ? 'flex' : 'none'} flexDirection="column" spacing={4} padding={4}>
+            {navbarOptions}
+          </VStack>
+        </Collapse>
+      </Box>
+    </Box>
+  )
+}
+
+AdminButton.propTypes = {
+  handleClick: PropTypes.func
+}
+
+NavbarButtons.propTypes = {
+  onClickAdminButton: PropTypes.func
+}
+
+export default Navbar

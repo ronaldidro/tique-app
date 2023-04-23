@@ -1,11 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Footer from '../components/market/Footer'
-import OrderDetail from '../views/market/OrderDetail'
-import MarketShop from '../views/market/MarketShop'
+import Navbar from '../components/market/Navbar'
 import Home from '../views/market/Home'
+import MarketShop from '../views/market/MarketShop'
+import OrderDetail from '../views/market/OrderDetail'
 
 const MarketRouters = () => (
   <>
+    <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="tienda/:id" element={<MarketShop />} />
