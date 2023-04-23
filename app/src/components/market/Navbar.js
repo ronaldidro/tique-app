@@ -17,11 +17,12 @@ import { RiCloseLine, RiLoginBoxLine, RiMenuLine, RiQuestionLine, RiStore3Fill }
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { filterChange } from '../../reducers/filterReducer'
-import { getItemFromLocalStorage } from '../../utils'
+import { getItemFromLocalStorage, getOrderTotalItems } from '../../utils'
 import AppLogo from '../AppLogo'
 import LinkButton from '../fields/LinkButton'
 import HelpSteps from './HelpSteps'
 import ModalButton from './ModalButton'
+import ShopCartButton from './ShopCartButton'
 
 const navbarOptions = ['Tiendas', 'Productos'].map(item => (
   <LinkButton key={item} pathname="#" color="gray.500" fontWeight="semibold" fontSize="lg">
@@ -43,7 +44,7 @@ const AdminButton = ({ handleClick }) => {
   )
 }
 
-const NavbarButtons = ({ onClickAdminButton }) => (
+const NavbarButtons = ({ onClickCartButton, onClickAdminButton }) => (
   <HStack>
     <ModalButton
       icon={<Icon as={RiQuestionLine} boxSize={6} />}
@@ -52,6 +53,7 @@ const NavbarButtons = ({ onClickAdminButton }) => (
       modalChildren={<HelpSteps />}
       variant="ghost"
     />
+    <ShopCartButton items={getOrderTotalItems()} handleClick={onClickCartButton} />
     <AdminButton handleClick={onClickAdminButton} />
   </HStack>
 )
@@ -76,14 +78,20 @@ const Navbar = () => {
             {isDesktop ? (
               <Flex justify="space-between" align="center" flex="1">
                 <ButtonGroup spacing="8">{navbarOptions}</ButtonGroup>
-                <NavbarButtons onClickAdminButton={() => navigate('/admin')} />
+                <NavbarButtons
+                  onClickCartButton={() => navigate('/pedido')}
+                  onClickAdminButton={() => navigate('/admin')}
+                />
               </Flex>
             ) : (
               <HStack justify="end">
-                <NavbarButtons onClickAdminButton={() => navigate('/admin')} />
+                <NavbarButtons
+                  onClickCartButton={() => navigate('/pedido')}
+                  onClickAdminButton={() => navigate('/admin')}
+                />
                 <IconButton
                   variant="ghost"
-                  icon={mobileNav.isOpen ? <RiCloseLine fontSize="1.25rem" /> : <RiMenuLine fontSize="1.25rem" />}
+                  icon={mobileNav.isOpen ? <Icon as={RiCloseLine} boxSize={6} /> : <Icon as={RiMenuLine} boxSize={6} />}
                   aria-label="Open Menu"
                   onClick={mobileNav.onToggle}
                 />
@@ -108,6 +116,7 @@ AdminButton.propTypes = {
 }
 
 NavbarButtons.propTypes = {
+  onClickCartButton: PropTypes.func,
   onClickAdminButton: PropTypes.func
 }
 

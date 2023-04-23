@@ -1,24 +1,21 @@
-import { Box, Center, Container, Flex, Icon, Text } from '@chakra-ui/react'
+import { Box, Center, Container, Icon, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { BsCart4 } from 'react-icons/bs'
 import { TbFaceIdError } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
-import LinkButton from '../../components/fields/LinkButton'
 import Categories from '../../components/market/Categories'
 import Filters from '../../components/market/Filters'
 import Header from '../../components/market/Header'
 import { useResource } from '../../hooks'
 import { initializeProducts } from '../../reducers/productReducer'
 import { initializeShop } from '../../reducers/shopReducer'
-import { getFilteredProducts, getProductsOrder } from '../../utils'
+import { getFilteredProducts } from '../../utils'
 
 const MarketShop = () => {
   const { id } = useParams()
   const shop = useResource(`/shops/${id}`)
   const dispatch = useDispatch()
-  const productsOrder = getProductsOrder()
   const products = getFilteredProducts()
   const [isLoading, setIsLoading] = useState(true)
 
@@ -50,26 +47,6 @@ const MarketShop = () => {
             </Center>
           ) : (
             <Categories categoriesData={products} />
-          )}
-          {productsOrder.length > 0 && (
-            <LinkButton
-              pathname="/pedido"
-              padding={3}
-              borderRadius="md"
-              backgroundColor="green.500"
-              fontWeight="bold"
-              color="white"
-              _hover={{ backgroundColor: 'green.600' }}
-              zIndex={2}
-              position="fixed"
-              bottom="35px"
-              right="35px"
-            >
-              <Flex>
-                <Text paddingRight={2}>Ver carrito</Text>
-                <Icon as={BsCart4} />
-              </Flex>
-            </LinkButton>
           )}
         </Box>
       </Container>
