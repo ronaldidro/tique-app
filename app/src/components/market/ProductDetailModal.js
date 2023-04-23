@@ -1,16 +1,17 @@
 import { AddIcon } from '@chakra-ui/icons'
-import { IconButton, ModalBody, useDisclosure, useToast } from '@chakra-ui/react'
+import { IconButton, ModalBody, useDisclosure } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
+import { useCustomToast } from '../../hooks'
 import { addProduct, updateProduct } from '../../reducers/productsOrderReducer'
-import { getProductOrderById, setToastContent, showToast } from '../../utils'
+import { getProductOrderById } from '../../utils'
 import ModalDialog from '../overlay/ModalDialog'
 import ProductDetail from './ProductDetail'
 
 const ProductDetailModal = ({ productData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const dispatch = useDispatch()
-  const toast = useToast()
+  const { showToast } = useCustomToast()
   const productInOrder = getProductOrderById(productData.id)
 
   const addOrderProduct = event => {
@@ -23,13 +24,14 @@ const ProductDetailModal = ({ productData }) => {
     const productOrder = { ...productData, quantity, discountedPrice, totalPrice, comments }
 
     dispatch(productInOrder ? updateProduct(productOrder) : addProduct(productOrder))
-    showToast(
-      toast,
-      setToastContent('Se añadió al carrito', `${quantity} ${productData.name}`, 'success', 'subtle', 'top', {
-        isClosable: true
-      })
-    )
     onClose()
+    showToast({
+      title: 'Se añadió al carrito',
+      description: `${productData.name} (x${quantity})`,
+      status: 'success',
+      position: 'top',
+      variant: 'subtle'
+    })
   }
 
   return (

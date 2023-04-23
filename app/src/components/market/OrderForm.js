@@ -1,12 +1,14 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { Alert, AlertIcon, Button, Divider, HStack, Icon, Text, useToast } from '@chakra-ui/react'
-import { FcBusinessman, FcPackage, FcMoneyTransfer, FcOvertime, FcSearch } from 'react-icons/fc'
-import { FaWhatsapp } from 'react-icons/fa'
+import { Alert, AlertIcon, Button, Divider, HStack, Icon, Text } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { FaWhatsapp } from 'react-icons/fa'
+import { FcBusinessman, FcMoneyTransfer, FcOvertime, FcPackage, FcSearch } from 'react-icons/fc'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useCustomToast } from '../../hooks'
 import { deleteAllProducts } from '../../reducers/productsOrderReducer'
+import { request } from '../../services'
 import {
   getOrderTotalItems,
   getOrderTotalPrice,
@@ -14,12 +16,9 @@ import {
   getShopData,
   orderModeOptions,
   payMethodOptions,
-  setToastContent,
-  showToast,
   validateRequired
 } from '../../utils'
 import { sendMessage } from '../../utils/message'
-import { request } from '../../services'
 import RadioField from '../fields/RadioField'
 import TextField from '../fields/TextField'
 
@@ -51,14 +50,14 @@ const OrderSection = ({ title, icon, children }) => {
 }
 
 const OrderForm = ({ closeForm }) => {
+  const [formConfig, setFormConfig] = useState(formConfigValues)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { showToast } = useCustomToast()
   const productsOrder = getProductsOrder()
   const { id, cellPhone } = getShopData()
   const totalItems = getOrderTotalItems()
   const totalPrice = getOrderTotalPrice()
-  const toast = useToast()
-  const [formConfig, setFormConfig] = useState(formConfigValues)
 
   const saveOrder = async orderData => {
     const detail = productsOrder.map(
@@ -92,22 +91,21 @@ const OrderForm = ({ closeForm }) => {
 
   const handleSendOrder = values => {
     const orderData = { ...values, products: productsOrder, totalPrice }
+
     saveOrder(orderData)
     sendMessage(cellPhone, orderData)
-    closeForm()
     dispatch(deleteAllProducts())
-    showToast(
-      toast,
-      setToastContent(
-        '¡Pedido completado!',
-        'Acabamos de enviar tu pedido vía Whatsapp 🙂',
-        'success',
-        'left-accent',
-        'top-right',
-        { duration: null, isClosable: true }
-      )
-    )
+    closeForm()
     navigate(`/tienda/${id}`)
+    showToast({
+      title: '¡Pedido completado!',
+      description: 'Acabamos de enviar tu pedido vía WhatsApp 🙂',
+      status: 'success',
+      position: 'top',
+      variant: 'left-accent',
+      duration: null,
+      isClosable: true
+    })
   }
 
   const handleSearchButton = async documentNumber => {
