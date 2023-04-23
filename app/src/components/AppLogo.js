@@ -1,9 +1,9 @@
 import { HStack, Text } from '@chakra-ui/react'
-import { TiqueAppLogo } from './icons/Icons'
 import { APP_NAME } from '../utils'
+import { TiqueAppLogo } from './icons/Icons'
 
-const AppLogo = () => (
-  <HStack spacing={1} alignItems="start">
+const AppLogo = ({ ...props }) => (
+  <HStack spacing={1} alignItems="start" {...props}>
     <TiqueAppLogo w="32px" h="32px" />
     <Text fontWeight="extrabold" color="gray.600" fontSize="2xl" textTransform="capitalize">
       {APP_NAME}
