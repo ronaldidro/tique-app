@@ -9,7 +9,7 @@ const LinkButton = ({ children, pathname, ...props }) => (
 )
 
 LinkButton.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.node,
   pathname: PropTypes.string
 }
 
