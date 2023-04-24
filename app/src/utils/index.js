@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux'
 import { Icon } from '@chakra-ui/react'
+import { BsBoxSeam, BsColumnsGap, BsPerson, BsShopWindow } from 'react-icons/bs'
 import { FaFacebook, FaInstagram } from 'react-icons/fa'
-import { BsPerson, BsShopWindow, BsColumnsGap, BsBoxSeam } from 'react-icons/bs'
+import { useSelector } from 'react-redux'
 import { useResource } from '../hooks'
 
 export const APP_NAME = 'tique'
@@ -59,20 +59,6 @@ export const payMethodOptions = [
 
 export const urlLineBreak = '%0A'
 
-export const setToastContent = (title, description, status, variant, position, ...rest) =>
-  Object.assign(
-    {
-      title,
-      description,
-      status,
-      position,
-      variant
-    },
-    ...rest
-  )
-
-export const showToast = (toast, toastData) => toast({ ...toastData })
-
 export const usageSteps = [
   'Busca y elige tus productos.',
   'Revisa y completa los detalles de tu pedido.',
@@ -112,6 +98,8 @@ export const statusOptions = [
   { description: 'Activo', value: true },
   { description: 'Inactivo', value: false }
 ]
+
+export const toastBase = { title: 'Error', status: 'error', position: 'top', variant: 'subtle' }
 
 export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)
 

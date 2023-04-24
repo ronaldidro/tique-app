@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useToast } from '@chakra-ui/react'
 import ActionButtons from '../../components/admin/ActionButtons'
 import CustomTable from '../../components/admin/CustomTable'
 import StatusTag from '../../components/admin/StatusTag'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
-import { useResource } from '../../hooks'
+import { useCustomToast, useResource } from '../../hooks'
 import { request } from '../../services'
-import { setToastContent, showToast } from '../../utils'
+import { toastBase } from '../../utils'
 import { categoryColumns } from '../../utils/tables'
 
 const CategoryTable = () => {
@@ -16,7 +15,7 @@ const CategoryTable = () => {
   const alertDialogRef = useRef()
   const navigate = useNavigate()
   const columns = categoryColumns()
-  const toast = useToast()
+  const { showToast } = useCustomToast()
 
   const handleDeleteCategory = async id => {
     try {
@@ -24,23 +23,20 @@ const CategoryTable = () => {
 
       if (response.id) {
         const resourcesFiltered = resources.filter(item => item.id !== response.id)
+
         setCategoriesForTable(resourcesFiltered)
 
-        showToast(
-          toast,
-          setToastContent(
-            'Éxito',
-            `Categoría ${response.description} eliminada correctamente`,
-            'success',
-            'subtle',
-            'top'
-          )
-        )
+        showToast({
+          ...toastBase,
+          title: 'Éxito',
+          description: `Categoría ${response.description} eliminada correctamente`,
+          status: 'success'
+        })
       } else {
-        showToast(toast, setToastContent('Error', 'No se pudo eliminar categoría', 'error', 'subtle', 'top'))
+        showToast({ description: 'No se pudo eliminar categoría', ...toastBase })
       }
     } catch (error) {
-      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
+      showToast({ description: error.response.data.error, ...toastBase })
     }
     alertDialogRef.current.closeAlert()
   }

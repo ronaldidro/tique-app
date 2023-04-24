@@ -1,17 +1,18 @@
-import { Button, Flex, Heading, Stack, useToast } from '@chakra-ui/react'
-import { useDispatch } from 'react-redux'
+import { Button, Flex, Heading, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
-import { decodeToken } from 'react-jwt'
 import PropTypes from 'prop-types'
+import { decodeToken } from 'react-jwt'
+import { useDispatch } from 'react-redux'
 import PasswordField from '../../components/fields/PasswordField'
 import TextField from '../../components/fields/TextField'
+import { useCustomToast } from '../../hooks'
 import { setUser } from '../../reducers/userReducer'
 import { request } from '../../services'
-import { setItemToLocalStorage, setToastContent, showToast, validateRequired } from '../../utils'
+import { setItemToLocalStorage, toastBase, validateRequired } from '../../utils'
 
 const Profile = ({ user }) => {
   const dispatch = useDispatch()
-  const toast = useToast()
+  const { showToast } = useCustomToast()
 
   const handleSubmit = async values => {
     try {
@@ -22,15 +23,17 @@ const Profile = ({ user }) => {
         const userData = { ...user, name, username }
         setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
         dispatch(setUser(userData))
-        showToast(
-          toast,
-          setToastContent('Éxito', 'Datos de usuario actualizados correctamente', 'success', 'subtle', 'top')
-        )
+        showToast({
+          ...toastBase,
+          title: 'Éxito',
+          description: 'Datos de usuario actualizados correctamente',
+          status: 'success'
+        })
       } else {
-        showToast(toast, setToastContent('Error', 'No se pudo actualizar datos de usuario', 'error', 'subtle', 'top'))
+        showToast({ description: 'No se pudo actualizar datos de usuario', ...toastBase })
       }
     } catch (error) {
-      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
+      showToast({ description: error.response.data.error, ...toastBase })
     }
   }
 

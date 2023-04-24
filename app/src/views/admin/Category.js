@@ -1,12 +1,12 @@
-import { Button, Flex, Heading, Stack, useToast } from '@chakra-ui/react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Button, Flex, Heading, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
+import { useNavigate, useParams } from 'react-router-dom'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import SelectField from '../../components/fields/SelectField'
 import TextField from '../../components/fields/TextField'
-import { useResource } from '../../hooks'
+import { useCustomToast, useResource } from '../../hooks'
 import { request } from '../../services'
-import { setToastContent, showToast, statusOptions, validateRequired } from '../../utils'
+import { statusOptions, toastBase, validateRequired } from '../../utils'
 
 const initialConfig = (categoryId, resources) => {
   if (categoryId)
@@ -32,7 +32,7 @@ const Category = () => {
   const resources = categoryId ? useResource(`/categories/${categoryId}`) : {}
   const { title, initialValues, endpoint, method, finalSentence } = initialConfig(categoryId, resources)
   const navigate = useNavigate()
-  const toast = useToast()
+  const { showToast } = useCustomToast()
 
   const goToCategories = () => navigate('/admin/categorias')
 
@@ -41,16 +41,18 @@ const Category = () => {
       const response = await request(endpoint, method, values)
 
       if (response.id) {
-        showToast(
-          toast,
-          setToastContent('Éxito', `Categoría ${response.description} ${finalSentence}`, 'success', 'subtle', 'top')
-        )
         goToCategories()
+        showToast({
+          ...toastBase,
+          title: 'Éxito',
+          description: `Categoría ${response.description} ${finalSentence}`,
+          status: 'success'
+        })
       } else {
-        showToast(toast, setToastContent('Error', 'No se pudo realizar la acción', 'error', 'subtle', 'top'))
+        showToast({ description: 'No se pudo realizar la acción', ...toastBase })
       }
     } catch (error) {
-      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
+      showToast({ description: error.response.data.error, ...toastBase })
     }
   }
 
@@ -65,7 +67,7 @@ const Category = () => {
             <Form>
               <Stack spacing={4}>
                 <TextField name="description" label="Descripción" validate={validateRequired} />
-                <SelectField name="active" label="Estado" options={statusOptions} validate={validateRequired} />
+                <SelectField name="active" label="Estado" options={statusOptions} />
                 <Button bg="blue.400" color="white" w="full" _hover={{ bg: 'blue.500' }} type="submit">
                   Guardar
                 </Button>

@@ -1,25 +1,18 @@
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { useToast } from '@chakra-ui/react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { useCustomToast } from './hooks'
 import { setUser } from './reducers/userReducer'
-import MarketRouters from './routers/MarketRouters'
 import AdminRouters from './routers/AdminRouters'
+import MarketRouters from './routers/MarketRouters'
 import { request } from './services'
-import {
-  getItemFromLocalStorage,
-  getUser,
-  removeItemFromLocalStorage,
-  setItemToLocalStorage,
-  setToastContent,
-  showToast
-} from './utils'
+import { getItemFromLocalStorage, getUser, removeItemFromLocalStorage, setItemToLocalStorage } from './utils'
 import Login from './views/admin/Login'
 
 const App = () => {
   const user = getUser() || getItemFromLocalStorage('loggedTiqueAppUser', true) || { logged: false }
   const dispatch = useDispatch()
-  const toast = useToast()
   const navigate = useNavigate()
+  const { showToast } = useCustomToast()
 
   const handleLogin = async values => {
     try {
@@ -28,10 +21,22 @@ const App = () => {
 
       setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
       dispatch(setUser(userData))
-      showToast(toast, setToastContent(`Hola ${userData.name}`, 'Bienvenido', 'success', 'subtle', 'top'))
       navigate('/admin/perfil')
+      showToast({
+        title: `Hola ${userData.name}`,
+        description: 'Bienvenido',
+        status: 'success',
+        position: 'top',
+        variant: 'subtle'
+      })
     } catch (error) {
-      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top-right'))
+      showToast({
+        title: 'Error',
+        description: error.response.data.error,
+        status: 'error',
+        position: 'top-right',
+        variant: 'subtle'
+      })
     }
   }
 

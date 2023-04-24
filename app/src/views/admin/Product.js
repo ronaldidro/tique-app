@@ -1,6 +1,6 @@
-import { Button, Flex, Heading, InputLeftAddon, InputRightAddon, Stack, useToast } from '@chakra-ui/react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Button, Flex, Heading, InputLeftAddon, InputRightAddon, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
+import { useNavigate, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import ArraySelectField from '../../components/fields/ArraySelectField'
@@ -8,31 +8,15 @@ import NumberField from '../../components/fields/NumberField'
 import SelectField from '../../components/fields/SelectField'
 import TextAreaField from '../../components/fields/TextAreaField'
 import TextField from '../../components/fields/TextField'
-import { useResource } from '../../hooks'
+import { useCustomToast, useResource } from '../../hooks'
 import { request } from '../../services'
-import {
-  getCategoriesOptions,
-  productImageOptions,
-  setToastContent,
-  showToast,
-  statusOptions,
-  validateRequired
-} from '../../utils'
+import { getCategoriesOptions, productImageOptions, statusOptions, toastBase, validateRequired } from '../../utils'
 
 const initialConfig = (productId, resources) => {
   if (productId) {
-    const { name, description, price, discount, images, active } = resources
     return {
       title: 'Editar producto',
-      initialValues: {
-        name,
-        description,
-        price,
-        discount: discount * 100,
-        images,
-        active,
-        category: resources.category?.id
-      },
+      initialValues: { ...resources, discount: resources.discount * 100, category: resources.category?.id },
       endpoint: `/products/${productId}`,
       method: 'PATCH',
       finalSentence: 'actualizado correctamente'
@@ -65,7 +49,7 @@ const Product = () => {
   const categories = getCategoriesOptions()
   const { title, initialValues, endpoint, method, finalSentence } = initialConfig(productId, resources)
   const navigate = useNavigate()
-  const toast = useToast()
+  const { showToast } = useCustomToast()
 
   const goToProducts = () => navigate('/admin/productos')
 
@@ -73,16 +57,18 @@ const Product = () => {
     try {
       const response = await request(endpoint, method, { ...values, discount: values.discount / 100 })
       if (response.id) {
-        showToast(
-          toast,
-          setToastContent('Éxito', `Producto ${response.name} ${finalSentence}`, 'success', 'subtle', 'top')
-        )
         goToProducts()
+        showToast({
+          ...toastBase,
+          title: 'Éxito',
+          description: `Producto ${response.name} ${finalSentence}`,
+          status: 'success'
+        })
       } else {
-        showToast(toast, setToastContent('Error', 'No se pudo realizar la acción', 'error', 'subtle', 'top'))
+        showToast({ description: 'No se pudo realizar la acción', ...toastBase })
       }
     } catch (error) {
-      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
+      showToast({ description: error.response.data.error, ...toastBase })
     }
   }
 
@@ -108,14 +94,12 @@ const Product = () => {
                     name="price"
                     label="Precio"
                     defaultValue={values.price}
-                    validate={validateRequired}
                     inputLeftItem={<InputLeftAddon>S/</InputLeftAddon>}
                   />
                   <NumberField
                     name="discount"
                     label="Descuento"
                     defaultValue={values.discount}
-                    validate={validateRequired}
                     inputRightItem={<InputRightAddon>%</InputRightAddon>}
                   />
                 </Stack>
@@ -124,9 +108,8 @@ const Product = () => {
                   label="Categoría"
                   options={categories}
                   defaultValue={values.category ? values.category : categories[0]?.value}
-                  validate={validateRequired}
                 />
-                <SelectField name="active" label="Estado" options={statusOptions} validate={validateRequired} />
+                <SelectField name="active" label="Estado" options={statusOptions} />
                 <ArraySelectField
                   name="images"
                   label="Imágenes"

@@ -1,22 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useToast } from '@chakra-ui/react'
 import ActionButtons from '../../components/admin/ActionButtons'
 import CustomTable from '../../components/admin/CustomTable'
 import StatusTag from '../../components/admin/StatusTag'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
-import { useResource } from '../../hooks'
+import { useCustomToast, useResource } from '../../hooks'
 import { request } from '../../services'
-import { setToastContent, showToast } from '../../utils'
+import { toastBase } from '../../utils'
 import { productColumns } from '../../utils/tables'
 
-const PrductTable = () => {
+const ProductTable = () => {
   const [products, setProducts] = useState([])
   const resources = useResource('/products')
   const alertDialogRef = useRef()
   const navigate = useNavigate()
   const columns = productColumns()
-  const toast = useToast()
+  const { showToast } = useCustomToast()
 
   const handleDeleteProduct = async id => {
     try {
@@ -24,17 +23,20 @@ const PrductTable = () => {
 
       if (response.id) {
         const resourcesFiltered = resources.filter(item => item.id !== response.id)
+
         setProductsForTable(resourcesFiltered)
 
-        showToast(
-          toast,
-          setToastContent('Éxito', `Producto ${response.name} eliminado correctamente`, 'success', 'subtle', 'top')
-        )
+        showToast({
+          ...toastBase,
+          title: 'Éxito',
+          description: `Producto ${response.name} eliminado correctamente`,
+          status: 'success'
+        })
       } else {
-        showToast(toast, setToastContent('Error', 'No se pudo eliminar producto', 'error', 'subtle', 'top'))
+        showToast({ description: 'No se pudo eliminar producto', ...toastBase })
       }
     } catch (error) {
-      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
+      showToast({ description: error.response.data.error, ...toastBase })
     }
     alertDialogRef.current.closeAlert()
   }
@@ -77,4 +79,4 @@ const PrductTable = () => {
   )
 }
 
-export default PrductTable
+export default ProductTable

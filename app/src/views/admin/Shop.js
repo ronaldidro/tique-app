@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Avatar, Box, Button, Flex, Heading, Image, InputLeftAddon, Stack, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, Heading, Image, InputLeftAddon, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import ArrayField from '../../components/fields/ArrayField'
 import ArraySelectField from '../../components/fields/ArraySelectField'
 import TextAreaField from '../../components/fields/TextAreaField'
 import TextField from '../../components/fields/TextField'
+import { useCustomToast } from '../../hooks'
 import { request } from '../../services'
-import { setToastContent, shopImageOptions, showToast, socialNetworksOptions, validateRequired } from '../../utils'
+import { shopImageOptions, socialNetworksOptions, toastBase, validateRequired } from '../../utils'
 
 const shopValidationSchema = Yup.object().shape({
   attentionSchedule: Yup.array()
@@ -38,15 +39,11 @@ const shopValidationSchema = Yup.object().shape({
     .min(1, 'Agregar un tipo y enlace de imagen')
 })
 
+const shopInitialValues = { name: '', description: '', address: '', placeService: '', cellPhone: '' }
+
 const Shop = ({ shopId }) => {
-  const [shopData, setShopData] = useState({
-    name: '',
-    description: '',
-    address: '',
-    placeService: '',
-    cellPhone: ''
-  })
-  const toast = useToast()
+  const [shopData, setShopData] = useState(shopInitialValues)
+  const { showToast } = useCustomToast()
 
   const handleSubmit = async values => {
     try {
@@ -57,15 +54,17 @@ const Shop = ({ shopId }) => {
 
       if (response.id) {
         setShopData({ ...shopData, images: response.images })
-        showToast(
-          toast,
-          setToastContent('Éxito', 'Datos de tienda actualizados correctamente', 'success', 'subtle', 'top')
-        )
+        showToast({
+          ...toastBase,
+          title: 'Éxito',
+          description: 'Datos de tienda actualizados correctamente',
+          status: 'success'
+        })
       } else {
-        showToast(toast, setToastContent('Error', 'No se pudo actualizar datos de tienda', 'error', 'subtle', 'top'))
+        showToast({ description: 'No se pudo actualizar datos de tienda', ...toastBase })
       }
     } catch (error) {
-      showToast(toast, setToastContent('Error', error.response.data.error, 'error', 'subtle', 'top'))
+      showToast({ description: error.response.data.error, ...toastBase })
     }
   }
 
