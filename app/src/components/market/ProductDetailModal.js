@@ -30,7 +30,8 @@ const ProductDetailModal = ({ productData }) => {
       description: `${productData.name} (x${quantity})`,
       status: 'success',
       position: 'top',
-      variant: 'subtle'
+      variant: 'subtle',
+      isClosable: true
     })
   }
 
