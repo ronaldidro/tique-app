@@ -17,6 +17,7 @@ import { RiCloseLine, RiLoginBoxLine, RiMenuLine, RiQuestionLine, RiStore3Fill }
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { filterChange } from '../../reducers/filterReducer'
+import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import { getItemFromLocalStorage, getOrderTotalItems } from '../../utils'
 import AppLogo from '../AppLogo'
 import LinkButton from '../fields/LinkButton'
@@ -65,6 +66,7 @@ const Navbar = () => {
   const navigate = useNavigate()
 
   const handleAppLogo = () => {
+    dispatch(deleteAllProducts())
     dispatch(filterChange({ mode: 'ALL' }))
     navigate('/')
   }
