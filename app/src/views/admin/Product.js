@@ -80,7 +80,7 @@ const Product = () => {
     }
   }
 
-  if (productId && !Object.keys(resources).length) return <CircularSpinner />
+  if ((productId && !Object.keys(resources).length) || !categories.length) return <CircularSpinner />
 
   return (
     <Flex justify="center">
