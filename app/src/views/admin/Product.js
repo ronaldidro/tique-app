@@ -16,7 +16,7 @@ const initialConfig = (productId, resources) => {
   if (productId) {
     return {
       title: 'Editar producto',
-      initialValues: { ...resources, discount: resources.discount * 100, category: resources.category?.id },
+      initialValues: { ...resources, discount: resources.discount * 100 },
       endpoint: `/products/${productId}`,
       method: 'PATCH',
       finalSentence: 'actualizado correctamente'
@@ -25,7 +25,15 @@ const initialConfig = (productId, resources) => {
 
   return {
     title: 'Agregar producto',
-    initialValues: { name: '', description: '', price: 0.0, discount: 0.0, images: [], active: true },
+    initialValues: {
+      name: '',
+      description: '',
+      price: 0.0,
+      discount: 0.0,
+      images: [],
+      active: true,
+      category: resources.categories[0]?.value
+    },
     endpoint: '/products',
     method: 'POST',
     finalSentence: 'creado correctamente'
@@ -45,8 +53,8 @@ const productValidationSchema = Yup.object().shape({
 
 const Product = () => {
   const { productId } = useParams()
-  const resources = productId ? useResource(`/products/${productId}`) : {}
   const categories = getCategoriesOptions()
+  const resources = productId ? useResource(`/products/${productId}`) : { categories }
   const { title, initialValues, endpoint, method, finalSentence } = initialConfig(productId, resources)
   const navigate = useNavigate()
   const { showToast } = useCustomToast()
@@ -103,12 +111,7 @@ const Product = () => {
                     inputRightItem={<InputRightAddon>%</InputRightAddon>}
                   />
                 </Stack>
-                <SelectField
-                  name="category"
-                  label="Categoría"
-                  options={categories}
-                  defaultValue={values.category ? values.category : categories[0]?.value}
-                />
+                <SelectField name="category" label="Categoría" options={categories} />
                 <SelectField name="active" label="Estado" options={statusOptions} />
                 <ArraySelectField
                   name="images"
