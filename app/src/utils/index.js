@@ -103,7 +103,7 @@ export const toastBase = { title: 'Error', status: 'error', position: 'top', var
 
 export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)
 
-export const getItemFromLocalStorage = (key, jsonFormat) =>
-  jsonFormat ? JSON.parse(getItemFromLocalStorage(key)) : localStorage.getItem(key)
+export const getItemFromLocalStorage = (key, jsonFormat = true) =>
+  jsonFormat ? JSON.parse(getItemFromLocalStorage(key, false)) : localStorage.getItem(key)
 
 export const removeItemFromLocalStorage = keys => keys.map(key => localStorage.removeItem(key))

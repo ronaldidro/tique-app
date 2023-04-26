@@ -32,7 +32,7 @@ const navbarOptions = ['Tiendas', 'Productos'].map(item => (
 ))
 
 const AdminButton = ({ handleClick }) => {
-  const user = getItemFromLocalStorage('loggedTiqueAppUser', true) || null
+  const user = getItemFromLocalStorage('loggedTiqueAppUser') || null
 
   return (
     <Tooltip label={user ? 'Mi tienda' : 'Iniciar sesión'}>

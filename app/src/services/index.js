@@ -10,7 +10,7 @@ const apiConfig = axios.create({
 })
 
 const setToken = () => {
-  const userData = getItemFromLocalStorage('loggedTiqueAppUser', true) || null
+  const userData = getItemFromLocalStorage('loggedTiqueAppUser') || null
 
   if (userData && isExpired(userData.token)) {
     removeItemFromLocalStorage(['loggedTiqueAppUser'])

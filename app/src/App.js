@@ -9,7 +9,7 @@ import { getItemFromLocalStorage, getUser, removeItemFromLocalStorage, setItemTo
 import Login from './views/admin/Login'
 
 const App = () => {
-  const user = getUser() || getItemFromLocalStorage('loggedTiqueAppUser', true) || { logged: false }
+  const user = getUser() || getItemFromLocalStorage('loggedTiqueAppUser') || { logged: false }
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { showToast } = useCustomToast()
