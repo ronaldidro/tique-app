@@ -1,4 +1,5 @@
-import { Box, Button, ModalBody, ModalHeader, useDisclosure } from '@chakra-ui/react'
+import { Button, ModalBody, ModalHeader, useDisclosure } from '@chakra-ui/react'
+import { FaArrowRight } from 'react-icons/fa'
 import ModalDialog from '../overlay/ModalDialog'
 import OrderForm from './OrderForm'
 
@@ -6,8 +7,8 @@ const OrderFormButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Box width="50%">
-      <Button onClick={onOpen} colorScheme="blue" width="full">
+    <>
+      <Button onClick={onOpen} colorScheme="blue" size="lg" fontSize="md" rightIcon={<FaArrowRight />}>
         Finalizar
       </Button>
       <ModalDialog isOpen={isOpen} onClose={onClose} size={['full', 'xl']}>
@@ -16,7 +17,7 @@ const OrderFormButton = () => {
           <OrderForm closeForm={onClose} />
         </ModalBody>
       </ModalDialog>
-    </Box>
+    </>
   )
 }
 
