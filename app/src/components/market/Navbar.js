@@ -81,14 +81,14 @@ const Navbar = () => {
               <Flex justify="space-between" align="center" flex="1">
                 <ButtonGroup spacing="8">{navbarOptions}</ButtonGroup>
                 <NavbarButtons
-                  onClickCartButton={() => navigate('/pedido')}
+                  onClickCartButton={() => navigate('/carrito')}
                   onClickAdminButton={() => navigate('/admin')}
                 />
               </Flex>
             ) : (
               <HStack justify="end">
                 <NavbarButtons
-                  onClickCartButton={() => navigate('/pedido')}
+                  onClickCartButton={() => navigate('/carrito')}
                   onClickAdminButton={() => navigate('/admin')}
                 />
                 <IconButton
