@@ -9,7 +9,7 @@ export const sendMessage = (phoneNumber, orderData) => {
 
   const messageText = `
 👋 *¡Hola! Estoy usando Tique*${urlLineBreak}${urlLineBreak}
-_Te envío el detalle de mi pedido:_${urlLineBreak}${urlLineBreak}
+Te envío el detalle de mi pedido:${urlLineBreak}${urlLineBreak}
 📆 *Fecha de entrega:* ${date}${urlLineBreak}
 ⏰ *Hora de entrega:* ${hour}${urlLineBreak}${urlLineBreak}
 👤 *Mis datos:*${urlLineBreak}
@@ -22,13 +22,13 @@ Dirección: ${address}${urlLineBreak}${urlLineBreak}
 ${products
   .map(product => {
     let productDetail = `✅ (x${product.quantity}) ${product.name} ➡️ ${formatPrice(product.totalPrice)}`
-    if (product.comments !== '')
+    if (product.comments && product.comments.trim() !== '')
       productDetail = productDetail.concat(urlLineBreak, `▪️ ${product.comments}`, urlLineBreak)
     return productDetail
   })
   .join(urlLineBreak)}${urlLineBreak}${urlLineBreak}
 💰 *Monto total: ${formatPrice(totalPrice)}*${urlLineBreak}${urlLineBreak}
-_Espero su pronta atención_ 🙂
+Espero su pronta atención 😉
 `
   window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${messageText}`, '_blank')
 }
