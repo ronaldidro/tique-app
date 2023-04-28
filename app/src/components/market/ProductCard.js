@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 import { AspectRatio, Box, Button, HStack, Image, Input, Skeleton, Stack, Tag, Text } from '@chakra-ui/react'
 import { useFormik } from 'formik'
+import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { useCustomToast } from '../../hooks'
 import { addProduct, updateProduct } from '../../reducers/productsOrderReducer'
@@ -81,6 +81,10 @@ const ProductCard = ({ productData }) => {
       </form>
     </Stack>
   )
+}
+
+ProductCard.propTypes = {
+  productData: PropTypes.object
 }
 
 export default ProductCard
