@@ -188,10 +188,10 @@ const OrderForm = ({ closeForm }) => {
             <RadioField name="payMethod" validate={validateRequired} options={payMethodOptions} paddingBottom={7} />
           </OrderSection>
           <Button rightIcon={<Icon as={FaWhatsapp} />} width="full" colorScheme="whatsapp" type="submit">
-            Enviar Pedido
+            Enviar pedido
           </Button>
-          <Text fontSize={['sm', 'md']} display="flex" justifyContent="center" paddingTop={4} as="cite">
-            Tu pedido será enviado a través de Whatsapp
+          <Text fontSize={['sm', 'md']} textAlign="center" fontWeight="semibold" paddingTop={4}>
+            Tu pedido será enviado a través de WhatsApp
           </Text>
         </Form>
       )}
