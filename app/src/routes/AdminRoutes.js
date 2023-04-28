@@ -1,5 +1,5 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Sidebar from '../components/admin/Sidebar'
 import { adminSidebarOptions } from '../utils'
 import Category from '../views/admin/Category'
@@ -9,7 +9,7 @@ import ProductTable from '../views/admin/ProductTable'
 import Profile from '../views/admin/Profile'
 import Shop from '../views/admin/Shop'
 
-const AdminRouters = ({ userData, handleLogoutAdmin }) => (
+const AdminRoutes = ({ userData, handleLogoutAdmin }) => (
   <Sidebar sidebarOptions={adminSidebarOptions} userName={userData.name} handleLogoutButton={handleLogoutAdmin}>
     <Routes>
       <Route path="perfil" element={<Profile user={userData} />} />
@@ -25,9 +25,9 @@ const AdminRouters = ({ userData, handleLogoutAdmin }) => (
   </Sidebar>
 )
 
-AdminRouters.propTypes = {
+AdminRoutes.propTypes = {
   userData: PropTypes.object,
   handleLogoutAdmin: PropTypes.func
 }
 
-export default AdminRouters
+export default AdminRoutes

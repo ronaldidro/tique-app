@@ -2,8 +2,8 @@ import { useDispatch } from 'react-redux'
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { useCustomToast } from './hooks'
 import { setUser } from './reducers/userReducer'
-import AdminRouters from './routers/AdminRouters'
-import MarketRouters from './routers/MarketRouters'
+import AdminRoutes from './routes/AdminRoutes'
+import MarketRoutes from './routes/MarketRoutes'
 import { request } from './services'
 import { getItemFromLocalStorage, getUser, removeItemFromLocalStorage, setItemToLocalStorage } from './utils'
 import Login from './views/admin/Login'
@@ -56,13 +56,13 @@ const App = () => {
         path="admin/*"
         element={
           user.logged ? (
-            <AdminRouters userData={user} handleLogoutAdmin={handleLogout} />
+            <AdminRoutes userData={user} handleLogoutAdmin={handleLogout} />
           ) : (
             <Navigate replace to="/admin" />
           )
         }
       />
-      <Route path="/*" element={<MarketRouters />} />
+      <Route path="/*" element={<MarketRoutes />} />
     </Routes>
   )
 }

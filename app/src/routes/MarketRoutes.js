@@ -4,16 +4,16 @@ import Footer from '../components/market/Footer'
 import Navbar from '../components/market/Navbar'
 import Home from '../views/market/Home'
 import MarketShop from '../views/market/MarketShop'
-import OrderDetail from '../views/market/OrderDetail'
+import ShopCart from '../views/market/ShopCart'
 
-const MarketRouters = () => (
+const MarketRoutes = () => (
   <>
     <Navbar />
     <Box as="main" marginTop={20}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="tienda/:id" element={<MarketShop />} />
-        <Route path="pedido" element={<OrderDetail />} />
+        <Route path="carrito" element={<ShopCart />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Box>
@@ -21,4 +21,4 @@ const MarketRouters = () => (
   </>
 )
 
-export default MarketRouters
+export default MarketRoutes
