@@ -1,5 +1,4 @@
-import { AspectRatio, Box, Button, HStack, Image, Input, Skeleton, Stack, Tag, Text } from '@chakra-ui/react'
-import { useFormik } from 'formik'
+import { AspectRatio, Box, Button, HStack, Image, Skeleton, Stack, Tag, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { useCustomToast } from '../../hooks'
@@ -33,16 +32,14 @@ const ProductCard = ({ productData }) => {
     })
   }
 
-  const formik = useFormik({
-    initialValues: {
-      discountedPrice: productSalePrice,
-      totalPrice: productSalePrice
-    },
-    onSubmit: values => addProductToOrder({ ...values, quantity: orderProduct ? orderProduct.quantity + 1 : 1 })
-  })
+  const handleAddButton = () => {
+    const quantity = orderProduct ? orderProduct.quantity + 1 : 1
+    const totalPrice = quantity * productSalePrice
+    addProductToOrder({ discountedPrice: productSalePrice, quantity, totalPrice })
+  }
 
   return (
-    <Stack spacing={{ base: '4', md: '5' }}>
+    <Stack spacing={{ base: 4, md: 5 }}>
       <Box position="relative">
         <AspectRatio ratio={4 / 3}>
           <Image
@@ -69,16 +66,12 @@ const ProductCard = ({ productData }) => {
           <PriceTag price={productData.price} salePrice={isDiscounted && productSalePrice} />
         </Stack>
       </Stack>
-      <form onSubmit={formik.handleSubmit}>
-        <Stack align="center">
-          <Input display="none" name="discountedPrice" value={formik.values.discountedPrice} readOnly />
-          <Input display="none" name="totalPrice" value={formik.values.totalPrice} readOnly />
-          <Button colorScheme="blue" width="full" type="submit">
-            Añadir al carrito
-          </Button>
-          <ProductDetailModal productData={productData} submitOrderProduct={addProductToOrder} />
-        </Stack>
-      </form>
+      <Stack align="center" spacing={3}>
+        <Button colorScheme="blue" width="full" type="submit" onClick={handleAddButton}>
+          Añadir al carrito
+        </Button>
+        <ProductDetailModal productData={productData} submitOrderProduct={addProductToOrder} />
+      </Stack>
     </Stack>
   )
 }

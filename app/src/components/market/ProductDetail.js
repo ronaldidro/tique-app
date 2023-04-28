@@ -38,14 +38,15 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
   useEffect(() => setPriceCalc((price * input.value).toFixed(2)), [input])
 
   const formik = useFormik({
-    initialValues: {
-      comments: productOrder?.comments,
-      quantity: parseInt(input.value),
-      discountedPrice: price,
-      totalPrice: parseFloat(priceCalc)
-    },
-    onSubmit: values => handleAddProduct(values),
-    enableReinitialize: true
+    initialValues: { comments: productOrder?.comments },
+    onSubmit: ({ comments }) => {
+      handleAddProduct({
+        comments,
+        quantity: parseInt(input.value),
+        discountedPrice: price,
+        totalPrice: parseFloat(priceCalc)
+      })
+    }
   })
 
   return (
@@ -108,6 +109,7 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
               name="comments"
               placeholder="Especifica los detalles de tu producto"
               onChange={formik.handleChange}
+              value={formik.values.comments}
               height="150px"
               resize={['none', 'block']}
             />
@@ -117,13 +119,11 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
               <Button {...dec} colorScheme="teal" variant="outline">
                 -
               </Button>
-              <Input {...input} name="quantity" textAlign="center" readOnly />
+              <Input {...input} textAlign="center" readOnly />
               <Button {...inc} colorScheme="teal" variant="outline">
                 +
               </Button>
             </HStack>
-            <Input display="none" name="discountedPrice" value={price} readOnly />
-            <Input display="none" name="totalPrice" value={priceCalc} readOnly />
             <Button colorScheme="teal" type="submit">
               Agregar {formatPrice(priceCalc)}
             </Button>
