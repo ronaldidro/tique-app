@@ -1,18 +1,26 @@
-import { Heading, SimpleGrid, VStack } from '@chakra-ui/react'
+import { Box, Heading, SimpleGrid } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
-import Product from './Product'
+import ProductCard from './ProductCard'
 
 const Category = ({ categoryData }) => (
-  <VStack align="self-start" paddingY={5}>
+  <Box paddingY={5}>
     <Heading as="h2" fontSize="xl">
       {categoryData.description}
     </Heading>
-    <SimpleGrid columns={[1, 2]} spacing={5} paddingTop={3} width="full" borderTop="1px" borderColor="blackAlpha.500">
+    <SimpleGrid
+      columns={{ base: 2, md: 4 }}
+      columnGap={{ base: 4, md: 6 }}
+      rowGap={{ base: 8, md: 10 }}
+      paddingTop={3}
+      width="full"
+      borderTop="1px"
+      borderColor="blackAlpha.500"
+    >
       {categoryData.products.map(product => (
-        <Product key={product.id} productData={product} />
+        <ProductCard key={product.id} productData={product} />
       ))}
     </SimpleGrid>
-  </VStack>
+  </Box>
 )
 
 Category.propTypes = {

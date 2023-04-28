@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
 import {
   Box,
   Button,
   Divider,
   Flex,
-  Heading,
   HStack,
+  Heading,
   Icon,
   IconButton,
   Image,
@@ -15,16 +14,18 @@ import {
   Textarea,
   useNumberInput
 } from '@chakra-ui/react'
-import { FaArrowLeft } from 'react-icons/fa'
+import { useFormik } from 'formik'
 import PropTypes from 'prop-types'
-import { convertToPercent, getDiscountedPrice, getProductOrderById } from '../../utils'
+import { useEffect, useState } from 'react'
+import { FaArrowLeft } from 'react-icons/fa'
+import { convertToPercent, formatPrice, getDiscountedPrice, getProductImageUrl, getProductOrderById } from '../../utils'
 import ImageSlider from '../media/ImageSlider'
 
 const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
   const price = getDiscountedPrice(productData.price, productData.discount)
   const productOrder = getProductOrderById(productData.id)
   const [priceCalc, setPriceCalc] = useState(productOrder ? productOrder.totalPrice.toFixed(2) : price)
-  const { url: productImageUrl } = productData.images.find(item => item.type === 'root')
+  const productImageUrl = getProductImageUrl(productData.images)
 
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
     defaultValue: productOrder ? productOrder.quantity : 1,
@@ -36,8 +37,19 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
 
   useEffect(() => setPriceCalc((price * input.value).toFixed(2)), [input])
 
+  const formik = useFormik({
+    initialValues: {
+      comments: productOrder?.comments,
+      quantity: parseInt(input.value),
+      discountedPrice: price,
+      totalPrice: parseFloat(priceCalc)
+    },
+    onSubmit: values => handleAddProduct(values),
+    enableReinitialize: true
+  })
+
   return (
-    <form onSubmit={handleAddProduct}>
+    <form onSubmit={formik.handleSubmit}>
       <Box display={{ md: 'flex' }} maxHeight="full">
         <IconButton
           position="absolute"
@@ -79,10 +91,10 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
             </Heading>
             <Text paddingTop={2}>{productData.description}</Text>
             <HStack spacing={5} paddingY={4}>
-              <Text fontWeight="semibold">S/ {price}</Text>
+              <Text fontWeight="semibold">{formatPrice(price)}</Text>
               {productData.discount > 0 && (
                 <>
-                  <Text as="del">S/ {productData.price.toFixed(2)}</Text>
+                  <Text as="del">{formatPrice(productData.price)}</Text>
                   <Tag colorScheme="messenger">- {convertToPercent(productData.discount)}</Tag>
                 </>
               )}
@@ -94,8 +106,8 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
             </Flex>
             <Textarea
               name="comments"
-              defaultValue={productOrder?.comments}
               placeholder="Especifica los detalles de tu producto"
+              onChange={formik.handleChange}
               height="150px"
               resize={['none', 'block']}
             />
@@ -112,8 +124,8 @@ const ProductDetail = ({ productData, handleAddProduct, handleBackButton }) => {
             </HStack>
             <Input display="none" name="discountedPrice" value={price} readOnly />
             <Input display="none" name="totalPrice" value={priceCalc} readOnly />
-            <Button colorScheme="teal" type="sumbit">
-              Agregar S/ {priceCalc}
+            <Button colorScheme="teal" type="submit">
+              Agregar {formatPrice(priceCalc)}
             </Button>
           </Flex>
         </Box>
