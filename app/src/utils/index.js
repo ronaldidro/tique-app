@@ -6,10 +6,6 @@ import { useResource } from '../hooks'
 
 export const APP_NAME = 'tique'
 
-export const convertToPercent = value => `${value * 100} %`
-
-export const getDiscountedPrice = (price, discount) => (price * (1 - discount)).toFixed(2)
-
 export const getProductsOrder = () => useSelector(state => state.productsOrder)
 
 export const getProductOrderById = id => getProductsOrder().find(product => product.id === id)
@@ -100,6 +96,22 @@ export const statusOptions = [
 ]
 
 export const toastBase = { title: 'Error', status: 'error', position: 'top', variant: 'subtle' }
+
+export const getProductImageUrl = (images = [], type = 'root') => images.find(image => image.type === type).url
+
+export const convertToPercent = value => `${value * 100} %`
+
+export const getDiscountedPrice = (price, discount) => price * (1 - discount)
+
+export const formatPrice = value => {
+  const formatter = new Intl.NumberFormat('es-PE', {
+    currency: 'PEN',
+    style: 'currency',
+    maximumFractionDigits: 2
+  })
+
+  return formatter.format(value)
+}
 
 export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)
 

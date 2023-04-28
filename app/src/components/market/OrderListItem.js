@@ -1,6 +1,4 @@
-import { useRef } from 'react'
-import { useDispatch } from 'react-redux'
-import { DeleteIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { ChevronRightIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
@@ -16,7 +14,10 @@ import {
   Text
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
+import { useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import { deleteProduct, updateProduct } from '../../reducers/productsOrderReducer'
+import { formatPrice } from '../../utils'
 import AlertIconButton from './AlertIconButton'
 
 const OrderListItem = ({ productData }) => {
@@ -44,7 +45,7 @@ const OrderListItem = ({ productData }) => {
           <Image boxSize="60px" borderRadius="md" objectFit="cover" src={productImageUrl} alt="Dan Abramov" />
           <Box paddingLeft={2}>
             <Text>{productData.name}</Text>
-            <Text fontWeight="bold">S/ {productData.discountedPrice.toFixed(2)}</Text>
+            <Text fontWeight="bold">{formatPrice(productData.discountedPrice)}</Text>
             {productData.comments && (
               <Text>
                 <ChevronRightIcon /> {productData.comments}

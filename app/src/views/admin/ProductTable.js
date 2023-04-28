@@ -6,7 +6,7 @@ import StatusTag from '../../components/admin/StatusTag'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import { useCustomToast, useResource } from '../../hooks'
 import { request } from '../../services'
-import { toastBase } from '../../utils'
+import { formatPrice, toastBase } from '../../utils'
 import { productColumns } from '../../utils/tables'
 
 const ProductTable = () => {
@@ -45,7 +45,7 @@ const ProductTable = () => {
     const productData = resources.map(data => {
       return {
         ...data,
-        price: `S/ ${data.price.toFixed(2)}`,
+        price: formatPrice(data.price),
         discount: `${(data.discount * 100).toFixed(2)} %`,
         category: data.category.description,
         status: <StatusTag active={data.active} />,

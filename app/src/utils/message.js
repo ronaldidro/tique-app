@@ -1,4 +1,4 @@
-import { orderModeOptions, payMethodOptions, urlLineBreak } from '.'
+import { formatPrice, orderModeOptions, payMethodOptions, urlLineBreak } from '.'
 
 export const sendMessage = (phoneNumber, orderData) => {
   const { firstName, lastName, address, deadline, orderMode, payMethod, products, totalPrice } = orderData
@@ -21,13 +21,13 @@ Dirección: ${address}${urlLineBreak}${urlLineBreak}
 📝 *Mi pedido:*${urlLineBreak}${urlLineBreak}
 ${products
   .map(product => {
-    let productDetail = `✅ (x${product.quantity}) ${product.name} ➡️ S/ ${product.totalPrice.toFixed(2)}`
+    let productDetail = `✅ (x${product.quantity}) ${product.name} ➡️ ${formatPrice(product.totalPrice)}`
     if (product.comments !== '')
       productDetail = productDetail.concat(urlLineBreak, `▪️ ${product.comments}`, urlLineBreak)
     return productDetail
   })
   .join(urlLineBreak)}${urlLineBreak}${urlLineBreak}
-💰 *Monto total: S/ ${totalPrice.toFixed(2)}*${urlLineBreak}${urlLineBreak}
+💰 *Monto total: ${formatPrice(totalPrice)}*${urlLineBreak}${urlLineBreak}
 _Espero su pronta atención_ 🙂
 `
   window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${messageText}`, '_blank')

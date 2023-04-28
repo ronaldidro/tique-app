@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -14,9 +13,10 @@ import {
   Text
 } from '@chakra-ui/react'
 import { TbShoppingCartX } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 import OrderFormButton from '../../components/market/OrderFormButton'
 import OrderList from '../../components/market/OrderList'
-import { getProductsOrder, getOrderTotalPrice, getOrderTotalItems } from '../../utils'
+import { formatPrice, getOrderTotalItems, getOrderTotalPrice, getProductsOrder } from '../../utils'
 
 const OrderDetail = () => {
   const navigate = useNavigate()
@@ -40,7 +40,7 @@ const OrderDetail = () => {
             <HStack>
               <Text as="b">Total:</Text>
               <Tag fontWeight="bold" colorScheme="green">
-                S/ {orderTotalPrice.toFixed(2)}
+                {formatPrice(orderTotalPrice)}
               </Tag>
             </HStack>
           </Box>
