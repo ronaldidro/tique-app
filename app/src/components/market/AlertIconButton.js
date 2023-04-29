@@ -28,7 +28,6 @@ const AlertIconButton = forwardRef(
           variant="link"
           textDecoration="underline"
           fontSize="sm"
-          fontWeight="light"
           color="gray.800"
           onClick={onOpen}
         >

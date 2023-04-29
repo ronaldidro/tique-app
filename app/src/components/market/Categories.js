@@ -11,14 +11,14 @@ const Categories = ({ categoriesData }) => (
           {({ isExpanded }) => (
             <>
               <h2>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left" fontSize="lg">
+                <AccordionButton px={{ base: 2, md: 4 }}>
+                  <Box as="span" flex="1" textAlign="left" fontSize="lg" fontWeight="medium">
                     {category.description}
                   </Box>
                   {isExpanded ? <MinusIcon boxSize={3} /> : <AddIcon boxSize={3} />}
                 </AccordionButton>
               </h2>
-              <AccordionPanel pb={7}>
+              <AccordionPanel pb={7} px={{ base: 0, md: 4 }}>
                 <Category categoryData={category} />
               </AccordionPanel>
             </>
