@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { request } from '../services/index'
 
 export const useResource = baseUrl => {
@@ -15,8 +15,18 @@ export const useResource = baseUrl => {
 
 export const useCustomToast = () => {
   const toast = useToast()
+  const toastIdRef = useRef()
 
-  const showToast = toastOptions => toast({ ...toastOptions })
+  const setToast = options => (toastIdRef.current = toast({ ...options }))
+
+  const showToast = toastOptions => {
+    if (toastIdRef.current) {
+      toast.update(toastIdRef.current, { ...toastOptions })
+      if (!toast.isActive(toastIdRef.current)) setToast(toastOptions)
+      return
+    }
+    setToast(toastOptions)
+  }
 
   return { showToast }
 }
