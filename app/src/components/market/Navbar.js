@@ -9,13 +9,13 @@ import {
   IconButton,
   Tooltip,
   VStack,
-  useBreakpointValue,
   useDisclosure
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { RiCloseLine, RiLoginBoxLine, RiMenuLine, RiQuestionLine, RiStore3Fill } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useResponsive } from '../../hooks'
 import { filterChange } from '../../reducers/filterReducer'
 import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import { getItemFromLocalStorage, getOrderTotalItems } from '../../utils'
@@ -60,10 +60,10 @@ const NavbarButtons = ({ onClickCartButton, onClickAdminButton }) => (
 )
 
 const Navbar = () => {
-  const isDesktop = useBreakpointValue({ base: false, lg: true })
   const mobileNav = useDisclosure()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { isDesktop } = useResponsive()
 
   const handleAppLogo = () => {
     dispatch(deleteAllProducts())

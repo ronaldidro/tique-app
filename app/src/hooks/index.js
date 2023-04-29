@@ -1,4 +1,4 @@
-import { useToast } from '@chakra-ui/react'
+import { useBreakpointValue, useToast } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import { request } from '../services/index'
 
@@ -29,4 +29,10 @@ export const useCustomToast = () => {
   }
 
   return { showToast }
+}
+
+export const useResponsive = () => {
+  const isDesktop = useBreakpointValue({ base: false, lg: true })
+
+  return { isDesktop }
 }

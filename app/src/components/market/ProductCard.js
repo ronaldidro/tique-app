@@ -1,7 +1,7 @@
 import { AspectRatio, Box, Button, HStack, Image, Skeleton, Stack, Tag, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { useCustomToast } from '../../hooks'
+import { useCustomToast, useResponsive } from '../../hooks'
 import { addProduct, updateProduct } from '../../reducers/productsOrderReducer'
 import { convertToPercent, getDiscountedPrice, getProductImageUrl, getProductOrderById } from '../../utils'
 import PriceTag from './PriceTag'
@@ -11,6 +11,7 @@ const ProductCard = ({ productData }) => {
   const orderProduct = getProductOrderById(productData.id)
   const dispatch = useDispatch()
   const { showToast } = useCustomToast()
+  const { isDesktop } = useResponsive()
   const productImageUrl = getProductImageUrl(productData.images)
   const isDiscounted = productData.discount > 0
   const productSalePrice = isDiscounted
@@ -26,7 +27,7 @@ const ProductCard = ({ productData }) => {
       title: 'Se añadió al carrito',
       description: `${productData.name} (x${quantity})`,
       status: 'success',
-      position: 'top-right',
+      position: isDesktop ? 'top' : 'top-right',
       variant: 'subtle',
       isClosable: true
     })
