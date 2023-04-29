@@ -26,7 +26,7 @@ const ProductCard = ({ productData }) => {
       title: 'Se añadió al carrito',
       description: `${productData.name} (x${quantity})`,
       status: 'success',
-      position: 'top',
+      position: 'top-right',
       variant: 'subtle',
       isClosable: true
     })
@@ -58,7 +58,7 @@ const ProductCard = ({ productData }) => {
       <Stack>
         <Stack spacing="1">
           <HStack justify="space-between">
-            <Text fontWeight="medium" color="gray.700">
+            <Text fontWeight="medium" color="gray.700" noOfLines={1}>
               {productData.name}
             </Text>
             {orderProduct && <Tag colorScheme="purple">{orderProduct.quantity}</Tag>}
