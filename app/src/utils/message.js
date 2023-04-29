@@ -1,6 +1,6 @@
 import { formatPrice, orderModeOptions, payMethodOptions, urlLineBreak } from '.'
 
-export const sendMessage = (phoneNumber, orderData) => {
+export const sendMessage = (phoneNumber, orderData, mode) => {
   const { firstName, lastName, address, deadline, orderMode, payMethod, products, totalPrice } = orderData
   const { label: orderModeLabel } = orderModeOptions.find(mode => mode.value === orderMode)
   const { label: paymentMethodLabel } = payMethodOptions.find(method => method.value === payMethod)
@@ -30,5 +30,5 @@ ${products
 💰 *Monto total: ${formatPrice(totalPrice)}*${urlLineBreak}${urlLineBreak}
 Espero su pronta atención 😉
 `
-  window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${messageText}`, '_blank')
+  window.open(`https://${mode}.whatsapp.com/send?phone=${phoneNumber}&text=${messageText}`, '_blank')
 }

@@ -6,7 +6,7 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { FcBusinessman, FcMoneyTransfer, FcOvertime, FcPackage, FcSearch } from 'react-icons/fc'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { useCustomToast } from '../../hooks'
+import { useCustomToast, useResponsive } from '../../hooks'
 import { deleteAllProducts } from '../../reducers/productsOrderReducer'
 import { request } from '../../services'
 import {
@@ -53,6 +53,7 @@ const OrderForm = ({ closeForm }) => {
   const [formConfig, setFormConfig] = useState(formConfigValues)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { isDesktop } = useResponsive()
   const { showToast } = useCustomToast()
   const productsOrder = getProductsOrder()
   const { id, cellPhone } = getShopData()
@@ -90,10 +91,11 @@ const OrderForm = ({ closeForm }) => {
   }
 
   const handleSendOrder = values => {
+    const sendMode = isDesktop ? 'web' : 'api'
     const orderData = { ...values, products: productsOrder, totalPrice }
 
     saveOrder(orderData)
-    sendMessage(cellPhone, orderData)
+    sendMessage(cellPhone, orderData, sendMode)
     dispatch(deleteAllProducts())
     closeForm()
     navigate(`/tienda/${id}`)
@@ -101,7 +103,7 @@ const OrderForm = ({ closeForm }) => {
       title: '¡Pedido completado!',
       description: 'Acabamos de enviar tu pedido vía WhatsApp 🙂',
       status: 'success',
-      position: 'top',
+      position: isDesktop ? 'top' : 'top-right',
       variant: 'left-accent',
       duration: null,
       isClosable: true
