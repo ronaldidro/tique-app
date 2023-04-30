@@ -5,7 +5,7 @@ import { useCustomToast, useResponsive } from '../../hooks'
 import { addProduct, updateProduct } from '../../reducers/productsOrderReducer'
 import { convertToPercent, getDiscountedPrice, getProductImageUrl, getProductOrderById } from '../../utils'
 import PriceTag from './PriceTag'
-import ProductDetailModal from './ProductDetailModal'
+import ProductDrawer from './ProductDrawer'
 
 const ProductCard = ({ productData }) => {
   const orderProduct = getProductOrderById(productData.id)
@@ -71,7 +71,10 @@ const ProductCard = ({ productData }) => {
         <Button colorScheme="blue" width="full" type="submit" onClick={handleAddButton}>
           Añadir al carrito
         </Button>
-        <ProductDetailModal productData={productData} submitOrderProduct={addProductToOrder} />
+        <ProductDrawer
+          productData={{ ...productData, isDiscounted, productSalePrice }}
+          handleAddProduct={addProductToOrder}
+        />
       </Stack>
     </Stack>
   )
