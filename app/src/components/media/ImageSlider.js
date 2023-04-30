@@ -1,8 +1,8 @@
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { Carousel } from 'react-responsive-carousel'
-import { Box, IconButton, Image } from '@chakra-ui/react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { AspectRatio, IconButton, Image } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { Carousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 
 const NavButton = ({ navIcon, handleClick, ...props }) => (
   <IconButton
@@ -13,12 +13,8 @@ const NavButton = ({ navIcon, handleClick, ...props }) => (
     backgroundColor="transparent"
     icon={navIcon}
     onClick={handleClick}
-    _hover={{
-      opacity: 1
-    }}
-    _active={{
-      opacity: 1
-    }}
+    _hover={{ opacity: 1 }}
+    _active={{ opacity: 1 }}
     {...props}
   />
 )
@@ -27,32 +23,25 @@ const ImageSlider = ({ imageData }) => {
   const defaultItemIndex = imageData.findIndex(item => item.type === 'root')
 
   return (
-    <Box width={['100%', '50%']}>
-      <Carousel
-        renderArrowPrev={(onClickHandler, hasPrev) =>
-          hasPrev && <NavButton navIcon={<FaChevronLeft />} handleClick={onClickHandler} />
-        }
-        renderArrowNext={(onClickHandler, hasNext) =>
-          hasNext && <NavButton navIcon={<FaChevronRight />} handleClick={onClickHandler} right={0} />
-        }
-        autoPlay={true}
-        infiniteLoop={true}
-        showThumbs={false}
-        showStatus={false}
-        selectedItem={defaultItemIndex}
-      >
-        {imageData.map((image, index) => (
-          <Image
-            key={index}
-            src={image.url}
-            objectFit="cover"
-            alt="Product Image"
-            height={['full', 'lg']}
-            roundedLeft={['none', 'md']}
-          />
-        ))}
-      </Carousel>
-    </Box>
+    <Carousel
+      renderArrowPrev={(onClickHandler, hasPrev) =>
+        hasPrev && <NavButton navIcon={<FaChevronLeft />} handleClick={onClickHandler} />
+      }
+      renderArrowNext={(onClickHandler, hasNext) =>
+        hasNext && <NavButton navIcon={<FaChevronRight />} handleClick={onClickHandler} right={0} />
+      }
+      autoPlay={true}
+      infiniteLoop={true}
+      showThumbs={false}
+      showStatus={false}
+      selectedItem={defaultItemIndex}
+    >
+      {imageData.map((image, index) => (
+        <AspectRatio key={index} ratio={4 / 3}>
+          <Image src={image.url} alt={`${image.type} image`} borderRadius={{ base: 'md', md: 'xl' }} />
+        </AspectRatio>
+      ))}
+    </Carousel>
   )
 }
 
