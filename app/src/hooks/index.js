@@ -36,3 +36,11 @@ export const useResponsive = () => {
 
   return { isDesktop }
 }
+
+export const useField = (name, initialValue = '') => {
+  const [value, setValue] = useState(initialValue)
+
+  const onChange = event => setValue(event.target.value)
+
+  return { name, value, onChange }
+}
