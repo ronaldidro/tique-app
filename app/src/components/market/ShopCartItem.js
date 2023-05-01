@@ -58,7 +58,7 @@ const ShopCartItem = ({ product, onChangeQuantity, onClickDelete, alertRef }) =>
       <PriceTag price={product.totalPrice} />
       <AlertIconButton
         alertTitle="Eliminar producto"
-        alertContent={`¿Está seguro de eliminar ${product.name} del pedido?`}
+        alertContent={`¿Deseas quitar ${product.name} del carrito?`}
         icon={<CloseIcon boxSize={3} />}
         handleAfirmativeOption={() => onClickDelete(product)}
         size="sm"
@@ -71,7 +71,7 @@ const ShopCartItem = ({ product, onChangeQuantity, onClickDelete, alertRef }) =>
       <AlertIconButton
         mobileButtonLabel="Eliminar"
         alertTitle="Eliminar producto"
-        alertContent={`¿Está seguro de eliminar ${product.name} del pedido?`}
+        alertContent={`¿Deseas quitar ${product.name} del carrito?`}
         icon={<CloseIcon boxSize={3} />}
         handleAfirmativeOption={() => onClickDelete(product)}
         size="sm"
