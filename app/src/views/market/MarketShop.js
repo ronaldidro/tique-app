@@ -1,10 +1,11 @@
-import { Box, Center, Container, Icon, Text } from '@chakra-ui/react'
+import { Box, Container } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { TbFaceIdError } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import Categories from '../../components/market/Categories'
+import CenteredIcon from '../../components/market/CenteredIcon'
 import Filters from '../../components/market/Filters'
 import Header from '../../components/market/Header'
 import { useResource } from '../../hooks'
@@ -16,6 +17,7 @@ const MarketShop = () => {
   const { id } = useParams()
   const shop = useResource(`/shops/${id}`)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const products = getFilteredProducts()
   const [isLoading, setIsLoading] = useState(true)
 
@@ -37,14 +39,11 @@ const MarketShop = () => {
         <Box paddingX={[4, 0]}>
           <Filters />
           {!products.length ? (
-            <Center minHeight="xl">
-              <Box textAlign="center">
-                <Icon as={TbFaceIdError} boxSize={40} />
-                <Text fontWeight="bold" marginY={5}>
-                  No se encontraron productos
-                </Text>
-              </Box>
-            </Center>
+            <CenteredIcon
+              icon={TbFaceIdError}
+              description="No se encontraron productos"
+              handleReturnButton={() => navigate(-1)}
+            />
           ) : (
             <Categories categoriesData={products} />
           )}
