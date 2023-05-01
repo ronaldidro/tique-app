@@ -2,7 +2,7 @@ import { Box, Container } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { TbFaceIdError } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import Categories from '../../components/market/Categories'
 import CenteredIcon from '../../components/market/CenteredIcon'
@@ -17,7 +17,6 @@ const MarketShop = () => {
   const { id } = useParams()
   const shop = useResource(`/shops/${id}`)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const products = getFilteredProducts()
   const [isLoading, setIsLoading] = useState(true)
 
@@ -39,11 +38,7 @@ const MarketShop = () => {
         <Box paddingX={[4, 0]}>
           <Filters />
           {!products.length ? (
-            <CenteredIcon
-              icon={TbFaceIdError}
-              description="No se encontraron productos"
-              handleReturnButton={() => navigate(-1)}
-            />
+            <CenteredIcon icon={TbFaceIdError} description="No se encontraron productos" showButton={false} />
           ) : (
             <Categories categoriesData={products} />
           )}
