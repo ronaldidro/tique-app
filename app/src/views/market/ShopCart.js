@@ -62,7 +62,7 @@ const ShopCart = () => {
                 subtotal={orderTotalPrice}
                 totalItems={orderTotalItems}
                 totalPrice={orderTotalPrice}
-                handleSendButton={() => navigate('/envio')}
+                handleSendButton={() => navigate('/procesar')}
               />
               <HStack mt="6" fontWeight="semibold">
                 <p>o</p>

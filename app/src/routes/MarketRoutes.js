@@ -4,6 +4,7 @@ import Footer from '../components/market/Footer'
 import Navbar from '../components/market/Navbar'
 import Home from '../views/market/Home'
 import MarketShop from '../views/market/MarketShop'
+import OrderCheckout from '../views/market/OrderCheckout'
 import ShopCart from '../views/market/ShopCart'
 
 const MarketRoutes = () => (
@@ -14,6 +15,7 @@ const MarketRoutes = () => (
         <Route path="/" element={<Home />} />
         <Route path="tienda/:id" element={<MarketShop />} />
         <Route path="carrito" element={<ShopCart />} />
+        <Route path="procesar" element={<OrderCheckout />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Box>
