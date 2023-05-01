@@ -5,8 +5,15 @@ import { getProductImageUrl } from '../../utils'
 import AlertIconButton from './AlertIconButton'
 import PriceTag from './PriceTag'
 
-const QuantitySelect = props => (
-  <Select maxWidth="68px" aria-label="Select quantity" focusBorderColor="blue.500" backgroundColor="white" {...props}>
+export const QuantitySelect = props => (
+  <Select
+    maxWidth="68px"
+    rounded="md"
+    aria-label="Select quantity"
+    focusBorderColor="blue.500"
+    backgroundColor="white"
+    {...props}
+  >
     {Array.from({ length: 10 }, (_f, g) => g + 1).map(value => (
       <option key={value} value={value}>
         {value}

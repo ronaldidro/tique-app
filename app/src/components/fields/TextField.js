@@ -1,5 +1,5 @@
-import { Field } from 'formik'
 import { Box, FormControl, FormErrorMessage, FormLabel, Input, InputGroup } from '@chakra-ui/react'
+import { Field } from 'formik'
 import PropTypes from 'prop-types'
 
 const TextField = ({
@@ -20,7 +20,7 @@ const TextField = ({
         <FormControl isInvalid={meta.touched && meta.error} {...inputProps}>
           <Box display={isHorizontal && 'flex'} alignItems={isHorizontal && 'center'}>
             {label && (
-              <FormLabel htmlFor={name} fontWeight="semibold" marginBottom={isHorizontal && 0}>
+              <FormLabel htmlFor={name} fontWeight="medium" marginBottom={isHorizontal ? 0 : 2}>
                 {label}
               </FormLabel>
             )}

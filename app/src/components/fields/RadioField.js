@@ -1,5 +1,5 @@
-import { Field } from 'formik'
 import { FormControl, FormErrorMessage, HStack, Radio, RadioGroup } from '@chakra-ui/react'
+import { Field } from 'formik'
 import PropTypes from 'prop-types'
 
 const RadioField = ({ name, validate, options, ...inputProps }) => {
@@ -8,7 +8,7 @@ const RadioField = ({ name, validate, options, ...inputProps }) => {
       {({ field: { onChange, ...rest }, meta }) => (
         <FormControl as="fieldset" isInvalid={meta.touched && meta.error} {...inputProps}>
           <RadioGroup {...rest}>
-            <HStack>
+            <HStack justify="space-between" fontWeight="medium">
               {options.map(({ value, label }, index) => (
                 <Radio key={index} onChange={onChange} value={value}>
                   {label}
