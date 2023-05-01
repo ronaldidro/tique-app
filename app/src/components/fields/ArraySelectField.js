@@ -11,7 +11,7 @@ const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, sele
     render={arrayHelpers => (
       <Box>
         <Flex alignItems="center" justifyContent="space-between">
-          <FormLabel htmlFor={name} margin={0} fontWeight="semibold">
+          <FormLabel htmlFor={name} margin={0} fontWeight="medium">
             {label}
           </FormLabel>
           <Button colorScheme="teal" variant="ghost" onClick={() => arrayHelpers.push(fields)}>

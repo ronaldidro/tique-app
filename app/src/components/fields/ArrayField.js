@@ -1,7 +1,7 @@
 import { Box, Button, Flex, FormLabel, Icon, Stack } from '@chakra-ui/react'
 import { FieldArray } from 'formik'
-import { MdDeleteForever } from 'react-icons/md'
 import PropTypes from 'prop-types'
+import { MdDeleteForever } from 'react-icons/md'
 import ErrorField from './ErrorField'
 import TextField from './TextField'
 
@@ -11,7 +11,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder }) => (
     render={arrayHelpers => (
       <Box>
         <Flex alignItems="center" justifyContent="space-between">
-          <FormLabel htmlFor={name} margin={0} fontWeight="semibold">
+          <FormLabel htmlFor={name} margin={0} fontWeight="medium">
             {label}
           </FormLabel>
           <Button colorScheme="teal" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
