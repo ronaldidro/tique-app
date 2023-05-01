@@ -41,7 +41,7 @@ const CartProductMeta = ({ image, name, price, salePrice }) => (
   </Stack>
 )
 
-const CartItem = ({ product, onChangeQuantity, onClickDelete, alertRef }) => (
+const ShopCartItem = ({ product, onChangeQuantity, onClickDelete, alertRef }) => (
   <Flex direction={{ base: 'column', md: 'row' }} justify="space-between" align="center">
     <CartProductMeta
       name={product.name}
@@ -94,11 +94,11 @@ CartProductMeta.propTypes = {
   salePrice: PropTypes.node
 }
 
-CartItem.propTypes = {
+ShopCartItem.propTypes = {
   product: PropTypes.object,
   onChangeQuantity: PropTypes.func,
   onClickDelete: PropTypes.func,
   alertRef: PropTypes.object
 }
 
-export default CartItem
+export default ShopCartItem

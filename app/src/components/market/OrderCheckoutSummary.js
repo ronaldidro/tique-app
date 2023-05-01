@@ -1,9 +1,9 @@
 import { Button, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { formatPrice, getProductImageUrl } from '../../utils'
-import { QuantitySelect } from './CartItem'
-import { OrderSummaryItem } from './CartOrderSummary'
 import PriceTag from './PriceTag'
+import { QuantitySelect } from './ShopCartItem'
+import { OrderSummaryItem } from './ShopCartSummary'
 
 const CheckoutSummaryItem = ({ productData, handleQuantityChange }) => (
   <Stack direction="row" spacing={5} borderBottom="1px" borderColor="gray.200" paddingBottom={6}>

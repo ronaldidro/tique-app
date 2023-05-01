@@ -12,7 +12,7 @@ export const OrderSummaryItem = ({ label, value, children, ...props }) => (
   </Flex>
 )
 
-const CartOrderSummary = ({ subtotal, totalItems, totalPrice, handleSendButton }) => (
+const ShopCartSummary = ({ subtotal, totalItems, totalPrice, handleSendButton }) => (
   <Stack spacing="8" borderWidth="1px" rounded="lg" padding="8" width="full" backgroundColor="white">
     <Heading size="md">Resumen del pedido</Heading>
     <Stack spacing="6">
@@ -39,11 +39,11 @@ OrderSummaryItem.propTypes = {
   children: PropTypes.node
 }
 
-CartOrderSummary.propTypes = {
+ShopCartSummary.propTypes = {
   subtotal: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   totalPrice: PropTypes.number.isRequired,
   handleSendButton: PropTypes.func.isRequired
 }
 
-export default CartOrderSummary
+export default ShopCartSummary

@@ -4,9 +4,9 @@ import { TbShoppingCartX } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import LinkButton from '../../components/fields/LinkButton'
-import CartItem from '../../components/market/CartItem'
-import CartOrderSummary from '../../components/market/CartOrderSummary'
 import CenteredIcon from '../../components/market/CenteredIcon'
+import ShopCartItem from '../../components/market/ShopCartItem'
+import ShopCartSummary from '../../components/market/ShopCartSummary'
 import { deleteProduct, updateProduct } from '../../reducers/productsOrderReducer'
 import { getOrderTotalItems, getOrderTotalPrice, getProductsOrder, getShopData } from '../../utils'
 
@@ -47,7 +47,7 @@ const ShopCart = () => {
               </Heading>
               <Stack spacing={6}>
                 {orderProducts.map(orderProduct => (
-                  <CartItem
+                  <ShopCartItem
                     key={orderProduct.id}
                     product={orderProduct}
                     onChangeQuantity={updateOrderProduct}
@@ -58,7 +58,7 @@ const ShopCart = () => {
               </Stack>
             </Stack>
             <Flex direction="column" align="center" flex="1">
-              <CartOrderSummary
+              <ShopCartSummary
                 subtotal={orderTotalPrice}
                 totalItems={orderTotalItems}
                 totalPrice={orderTotalPrice}
