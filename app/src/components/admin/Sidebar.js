@@ -1,30 +1,41 @@
 import {
-  IconButton,
   Avatar,
   Box,
   CloseButton,
-  Flex,
-  HStack,
-  VStack,
-  Icon,
-  Link,
   Drawer,
   DrawerContent,
-  Text,
-  useDisclosure,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Link,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
-  MenuList
+  MenuList,
+  Text,
+  VStack,
+  useDisclosure
 } from '@chakra-ui/react'
-import { FiMenu, FiChevronDown } from 'react-icons/fi'
-import { NavLink as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { FiChevronDown, FiMenu } from 'react-icons/fi'
+import { useDispatch } from 'react-redux'
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom'
+import { setUser } from '../../reducers/userReducer'
+import { removeItemFromLocalStorage } from '../../utils'
 import AppLogo from '../AppLogo'
 
-const Sidebar = ({ children, sidebarOptions, userName, handleLogoutButton }) => {
+const Sidebar = ({ children, sidebarOptions, userName }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    removeItemFromLocalStorage(['loggedTiqueAppUser'])
+    dispatch(setUser(null))
+    navigate('/admin')
+  }
 
   return (
     <Box minH="100vh" bg="gray.100">
@@ -42,7 +53,7 @@ const Sidebar = ({ children, sidebarOptions, userName, handleLogoutButton }) => 
           <SidebarContent onClose={onClose} options={sidebarOptions} />
         </DrawerContent>
       </Drawer>
-      <MobileNav onOpen={onOpen} userName={userName} handleLogoutButton={handleLogoutButton} />
+      <MobileNav onOpen={onOpen} userName={userName} handleLogoutButton={handleLogout} />
       <Box ml={{ base: 0, md: 60 }} p={4}>
         {children}
       </Box>
@@ -143,8 +154,7 @@ const MobileNav = ({ onOpen, userName, handleLogoutButton, ...rest }) => (
 Sidebar.propTypes = {
   children: PropTypes.element,
   sidebarOptions: PropTypes.array,
-  userName: PropTypes.string,
-  handleLogoutButton: PropTypes.func
+  userName: PropTypes.string
 }
 
 SidebarContent.propTypes = {

@@ -9,8 +9,8 @@ import ProductTable from '../views/admin/ProductTable'
 import Profile from '../views/admin/Profile'
 import Shop from '../views/admin/Shop'
 
-const AdminRoutes = ({ userData, handleLogoutAdmin }) => (
-  <Sidebar sidebarOptions={adminSidebarOptions} userName={userData.name} handleLogoutButton={handleLogoutAdmin}>
+const AdminRoutes = ({ userData }) => (
+  <Sidebar sidebarOptions={adminSidebarOptions} userName={userData.name}>
     <Routes>
       <Route path="perfil" element={<Profile user={userData} />} />
       <Route path="tienda" element={<Shop shopId={userData.shop} />} />

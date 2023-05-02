@@ -7,7 +7,7 @@ import MarketShop from '../views/market/MarketShop'
 import OrderCheckout from '../views/market/OrderCheckout'
 import ShopCart from '../views/market/ShopCart'
 
-const MarketRoutes = () => (
+const ShopRoutes = () => (
   <>
     <Navbar />
     <Box as="main" marginTop={20}>
@@ -23,4 +23,4 @@ const MarketRoutes = () => (
   </>
 )
 
-export default MarketRoutes
+export default ShopRoutes
