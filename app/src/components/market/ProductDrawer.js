@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useField, useResponsive } from '../../hooks'
-import { formatPrice, getProductImageUrl, getProductOrderById } from '../../utils'
+import { formatPrice, getImageTypeUrl, getProductOrderById } from '../../utils'
 import ImageSlider from '../media/ImageSlider'
 import Drawer from '../overlay/Drawer'
 import PriceTag from './PriceTag'
@@ -26,7 +26,7 @@ const ProductDrawer = ({ productData, handleAddProduct }) => {
   const [totalPrice, setTotalPrice] = useState(orderProduct?.totalPrice || productData.productSalePrice)
   const { isDesktop } = useResponsive()
   const commentsField = useField('comments', orderProduct?.comments || '')
-  const productImageUrl = getProductImageUrl(productData.images)
+  const productImageUrl = getImageTypeUrl(productData.images)
 
   const onClickAddButton = () => {
     handleAddProduct({

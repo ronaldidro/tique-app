@@ -1,7 +1,7 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Flex, Image, Select, Stack, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
-import { getProductImageUrl } from '../../utils'
+import { getImageTypeUrl } from '../../utils'
 import AlertIconButton from './AlertIconButton'
 import PriceTag from './PriceTag'
 
@@ -45,7 +45,7 @@ const ShopCartItem = ({ product, onChangeQuantity, onClickDelete, alertRef }) =>
   <Flex direction={{ base: 'column', md: 'row' }} justify="space-between" align="center">
     <CartProductMeta
       name={product.name}
-      image={getProductImageUrl(product.images)}
+      image={getImageTypeUrl(product.images)}
       price={product.price}
       salePrice={product.discount > 0 && product.discountedPrice}
     />

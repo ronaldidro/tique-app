@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { useCustomToast, useResponsive } from '../../hooks'
 import { addProduct, updateProduct } from '../../reducers/productsOrderReducer'
-import { convertToPercent, getDiscountedPrice, getProductImageUrl, getProductOrderById } from '../../utils'
+import { convertToPercent, getDiscountedPrice, getImageTypeUrl, getProductOrderById } from '../../utils'
 import PriceTag from './PriceTag'
 import ProductDrawer from './ProductDrawer'
 
@@ -12,7 +12,7 @@ const ProductCard = ({ productData }) => {
   const dispatch = useDispatch()
   const { showToast } = useCustomToast()
   const { isDesktop } = useResponsive()
-  const productImageUrl = getProductImageUrl(productData.images)
+  const productImageUrl = getImageTypeUrl(productData.images)
   const isDiscounted = productData.discount > 0
   const productSalePrice = isDiscounted
     ? getDiscountedPrice(productData.price, productData.discount)

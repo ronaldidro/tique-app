@@ -97,7 +97,7 @@ export const statusOptions = [
 
 export const toastBase = { title: 'Error', status: 'error', position: 'top', variant: 'subtle' }
 
-export const getProductImageUrl = (images = [], type = 'root') => images.find(image => image.type === type).url
+export const getImageTypeUrl = (images = [], type = 'root') => images.find(image => image.type === type).url
 
 export const convertToPercent = value => `${value * 100} %`
 

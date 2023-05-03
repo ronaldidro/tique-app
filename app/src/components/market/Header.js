@@ -1,13 +1,13 @@
 import { Avatar, Box, Heading, Icon, Image, Link, Stack, Text, VStack } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { FaCalendarDay } from 'react-icons/fa'
-import { socialNetworkIcons } from '../../utils'
+import { getImageTypeUrl, socialNetworkIcons } from '../../utils'
 import AttentionSchedule from './AttentionSchedule'
 import ModalButton from './ModalButton'
 
 const Header = ({ shopData }) => {
-  const { url: headboardImageUrl } = shopData.images.find(item => item.type === 'headboard')
-  const { url: profileImageUrl } = shopData.images.find(item => item.type === 'profile')
+  const headboardImageUrl = getImageTypeUrl(shopData.images, 'headboard')
+  const profileImageUrl = getImageTypeUrl(shopData.images, 'profile')
 
   return (
     <Box paddingTop={[0, 5]}>

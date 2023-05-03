@@ -1,6 +1,6 @@
 import { Button, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
-import { formatPrice, getProductImageUrl } from '../../utils'
+import { formatPrice, getImageTypeUrl } from '../../utils'
 import PriceTag from './PriceTag'
 import { QuantitySelect } from './ShopCartItem'
 import { OrderSummaryItem } from './ShopCartSummary'
@@ -11,7 +11,7 @@ const CheckoutSummaryItem = ({ productData, handleQuantityChange }) => (
       rounded="lg"
       height="96px"
       fit="cover"
-      src={getProductImageUrl(productData.images)}
+      src={getImageTypeUrl(productData.images)}
       alt={productData.name}
       width="28%"
     />
