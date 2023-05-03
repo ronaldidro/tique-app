@@ -1,11 +1,9 @@
-import { Flex, Spinner } from '@chakra-ui/react'
+import { Center, Spinner } from '@chakra-ui/react'
 
-const CircularSpinner = () => {
-  return (
-    <Flex alignItems="center" justifyContent="center" minH="100vh" backgroundColor="gray.50">
-      <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="green.500" size="xl" />
-    </Flex>
-  )
-}
+const CircularSpinner = () => (
+  <Center minHeight="100vh">
+    <Spinner thickness="4px" speed="0.65s" color="blue.500" emptyColor="gray.200" size="xl" />
+  </Center>
+)
 
 export default CircularSpinner
