@@ -1,25 +1,26 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { persistReducer, persistStore } from 'redux-persist'
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import thunk from 'redux-thunk'
 import filterReducer from './reducers/filterReducer'
 import productReducer from './reducers/productReducer'
 import productsOrderReducer from './reducers/productsOrderReducer'
 import shopReducer from './reducers/shopReducer'
 import userReducer from './reducers/userReducer'
+import { api } from './services/api'
 
 const rootReducer = combineReducers({
   shop: shopReducer,
   filter: filterReducer,
   products: productReducer,
   productsOrder: productsOrderReducer,
-  user: userReducer
+  user: userReducer,
+  [api.reducerPath]: api.reducer
 })
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['filter', 'products']
+  blacklist: ['filter', 'products', api.reducerPath]
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -27,7 +28,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== 'production',
-  middleware: [thunk]
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    }).concat(api.middleware)
 })
 
 export const persistor = persistStore(store)
