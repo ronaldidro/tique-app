@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import thunk from 'redux-thunk'
 import filterReducer from './reducers/filterReducer'
 import productReducer from './reducers/productReducer'
 import productsOrderReducer from './reducers/productsOrderReducer'
@@ -33,7 +34,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(api.middleware)
+    }).concat(api.middleware, thunk)
 })
 
 export const persistor = persistStore(store)
