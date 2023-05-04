@@ -1,6 +1,9 @@
 import { Avatar, Box, Heading, Icon, Image, Link, Stack, Text, VStack } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 import { FaCalendarDay } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
+import { initializeShop } from '../../reducers/shopReducer'
 import { getImageTypeUrl, socialNetworkIcons } from '../../utils'
 import AttentionSchedule from './AttentionSchedule'
 import ModalButton from './ModalButton'
@@ -8,6 +11,11 @@ import ModalButton from './ModalButton'
 const Header = ({ shopData }) => {
   const headboardImageUrl = getImageTypeUrl(shopData.images, 'headboard')
   const profileImageUrl = getImageTypeUrl(shopData.images, 'profile')
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initializeShop(shopData))
+  }, [shopData])
 
   return (
     <Box paddingTop={[0, 5]}>

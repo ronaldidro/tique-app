@@ -1,12 +1,12 @@
 import { Box, Container, SimpleGrid } from '@chakra-ui/react'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import ShopCard from '../../components/market/ShopCard'
-import { useResource } from '../../hooks'
+import { useGetShopsQuery } from '../../services/shops'
 
 const Home = () => {
-  const shops = useResource('/shops')
+  const { data: shops, isLoading } = useGetShopsQuery()
 
-  if (!Object.keys(shops).length) return <CircularSpinner />
+  if (isLoading) return <CircularSpinner />
 
   return (
     <Box backgroundColor="gray.50" minHeight="3xl">
