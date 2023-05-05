@@ -44,6 +44,7 @@ const OrderCheckoutSummary = ({ products, totalItems, totalPrice, onChangeQuanti
     </Stack>
     <Stack spacing={3} paddingY={6} borderBottom="1px" borderColor="gray.200">
       <OrderSummaryItem label="Artículos" value={totalItems} />
+      <OrderSummaryItem label="Envío" value={formatPrice(0)} />
       <OrderSummaryItem label="Subtotal" value={formatPrice(totalPrice)} />
     </Stack>
     <Stack spacing={[6, 10]} paddingTop={6}>

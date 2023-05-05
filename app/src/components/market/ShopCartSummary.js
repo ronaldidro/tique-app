@@ -17,6 +17,7 @@ const ShopCartSummary = ({ subtotal, totalItems, totalPrice, handleSendButton })
     <Heading size="md">Resumen del pedido</Heading>
     <Stack spacing="6">
       <OrderSummaryItem label="Artículos" value={totalItems} fontSize="sm" />
+      <OrderSummaryItem label="Envío" value={formatPrice(0)} fontSize="sm" />
       <OrderSummaryItem label="Subtotal" value={formatPrice(subtotal)} fontSize="sm" />
       <Flex justify="space-between">
         <Text fontSize="lg" fontWeight="semibold">
