@@ -1,7 +1,6 @@
 import { Avatar, Box, Button, Flex, Heading, Image, InputLeftAddon, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import ArrayField from '../../components/fields/ArrayField'
@@ -9,8 +8,8 @@ import ArraySelectField from '../../components/fields/ArraySelectField'
 import TextAreaField from '../../components/fields/TextAreaField'
 import TextField from '../../components/fields/TextField'
 import { useCustomToast } from '../../hooks'
-import { request } from '../../services'
-import { shopImageOptions, socialNetworksOptions, toastBase, validateRequired } from '../../utils'
+import { useGetShopQuery, usePatchShopMutation } from '../../services/shops'
+import { getImageTypeUrl, shopImageOptions, socialNetworksOptions, toastBase, validateRequired } from '../../utils'
 
 const shopValidationSchema = Yup.object().shape({
   attentionSchedule: Yup.array()
@@ -39,21 +38,38 @@ const shopValidationSchema = Yup.object().shape({
     .min(1, 'Agregar un tipo y enlace de imagen')
 })
 
-const shopInitialValues = { name: '', description: '', address: '', placeService: '', cellPhone: '' }
-
 const Shop = ({ shopId }) => {
-  const [shopData, setShopData] = useState(shopInitialValues)
+  const { data: shop, isLoading } = useGetShopQuery(shopId)
+  const [patchShop, { isLoading: isUpdating }] = usePatchShopMutation()
   const { showToast } = useCustomToast()
+  const shopImagesUrl = shop ? ['headboard', 'profile'].map(type => getImageTypeUrl(shop.images, type)) : []
 
-  const handleSubmit = async values => {
+  if (isLoading) return <CircularSpinner />
+
+  const handleSubmit = async ({
+    name,
+    description,
+    address,
+    placeService,
+    cellPhone,
+    attentionSchedule,
+    socialNetworks,
+    images
+  }) => {
     try {
-      const response = await request(`/shops/${shopId}`, 'PATCH', {
-        ...values,
-        cellPhone: `+51${values.cellPhone}`
+      const response = await patchShop({
+        id: shopId,
+        name,
+        description,
+        address,
+        placeService,
+        cellPhone: `+51${cellPhone}`,
+        attentionSchedule,
+        socialNetworks,
+        images
       })
 
-      if (response.id) {
-        setShopData({ ...shopData, images: response.images })
+      if (response.data.id) {
         showToast({
           ...toastBase,
           title: 'Éxito',
@@ -68,43 +84,19 @@ const Shop = ({ shopId }) => {
     }
   }
 
-  const getShopData = async () => {
-    const { name, description, address, placeService, attentionSchedule, socialNetworks, images, cellPhone } =
-      await request(`shops/${shopId}`, 'GET')
-
-    setShopData({
-      name,
-      description,
-      address,
-      placeService,
-      attentionSchedule,
-      socialNetworks,
-      images,
-      cellPhone: cellPhone.slice(3)
-    })
-  }
-
-  const getPictureUrl = type => shopData.images.find(item => item.type === type).url
-
-  useEffect(() => {
-    getShopData()
-  }, [shopId])
-
-  if (Object.values(shopData).every(item => item === '')) return <CircularSpinner />
-
   return (
     <Flex justify="center">
       <Box w="full" maxW="md" bg="white" rounded="xl" boxShadow="lg" overflow="hidden">
-        <Image height="150px" w="full" src={getPictureUrl('headboard')} objectFit="cover" />
+        <Image src={shopImagesUrl[0]} height="150px" w="full" objectFit="cover" />
         <Flex justify="center" marginTop={-12}>
-          <Avatar size="2xl" src={getPictureUrl('profile')} alt="Shop" borderWidth="initial" borderColor="white" />
+          <Avatar src={shopImagesUrl[1]} size="2xl" alt="Shop" borderWidth="initial" borderColor="white" />
         </Flex>
         <Stack spacing={4} padding={6}>
           <Heading fontSize={{ base: '2xl', sm: '3xl' }} textAlign="center">
             Mi tienda
           </Heading>
           <Formik
-            initialValues={shopData}
+            initialValues={{ ...shop, cellPhone: shop.cellPhone.slice(3) }}
             onSubmit={handleSubmit}
             validationSchema={shopValidationSchema}
             enableReinitialize
@@ -147,7 +139,14 @@ const Shop = ({ shopId }) => {
                     selectionOptions={shopImageOptions}
                     handleSelectChange={handleChange}
                   />
-                  <Button bg="blue.400" color="white" w="full" _hover={{ bg: 'blue.500' }} type="submit">
+                  <Button
+                    width="full"
+                    colorScheme="blue"
+                    isLoading={isUpdating}
+                    loadingText="Guardando"
+                    spinnerPlacement="end"
+                    type="submit"
+                  >
                     Guardar
                   </Button>
                 </Stack>

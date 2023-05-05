@@ -1,20 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { isExpired } from 'react-jwt'
-import { getItemFromLocalStorage, removeItemFromLocalStorage } from '../utils'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: '/api',
-  prepareHeaders: headers => {
-    const userData = getItemFromLocalStorage('loggedTiqueAppUser') || null
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState().user.token
 
-    if (!userData) return
-
-    if (isExpired(userData.token)) {
-      removeItemFromLocalStorage(['loggedTiqueAppUser'])
-      window.location = '/admin'
-    }
-
-    headers.set('authentication', `Bearer ${userData.token}`)
+    if (token) headers.set('authorization', `Bearer ${token}`)
 
     return headers
   }
@@ -23,6 +14,6 @@ const baseQuery = fetchBaseQuery({
 export const api = createApi({
   reducerPath: 'tiqueApi',
   baseQuery,
-  tagTypes: ['Shops'],
+  tagTypes: ['Shop', 'Shops'],
   endpoints: () => ({})
 })

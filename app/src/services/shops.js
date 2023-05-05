@@ -9,8 +9,18 @@ const shopsApi = api.injectEndpoints({
     getShop: builder.query({
       query: id => `/shops/${id}`,
       providesTags: ({ id }) => [{ type: 'Shop', id }]
+    }),
+    patchShop: builder.mutation({
+      query: data => {
+        return {
+          url: `/shops/${data.id}`,
+          method: 'PATCH',
+          body: data
+        }
+      },
+      invalidatesTags: ({ id }) => [{ type: 'Shop', id }]
     })
   })
 })
 
-export const { useGetShopsQuery, useGetShopQuery } = shopsApi
+export const { useGetShopsQuery, useGetShopQuery, usePatchShopMutation } = shopsApi
