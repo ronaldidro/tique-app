@@ -10,7 +10,7 @@ const SectionTitle = ({ title, ...props }) => (
   </Heading>
 )
 
-const OrderCheckoutForm = () => (
+const OrderCheckoutForm = ({ formValues }) => (
   <>
     <SectionTitle title="Información de envío" />
     <VStack spacing={8} marginTop={[6, 10]}>
@@ -24,7 +24,13 @@ const OrderCheckoutForm = () => (
       />
       <TextField name="firstName" label="Nombres" validate={validateRequired} />
       <TextField name="lastName" label="Apellidos" validate={validateRequired} />
-      <TextField name="address" label="Dirección" validate={validateRequired} />
+      <TextField
+        name="address"
+        label="Dirección"
+        validate={value => {
+          if (formValues.orderMode === 'delivery' && value.trim() === '') return 'Campo requerido'
+        }}
+      />
     </VStack>
 
     <SectionTitle title="Modo de pedido" marginTop={[16, 20]} marginBottom={[6, 10]} />
@@ -47,6 +53,10 @@ const OrderCheckoutForm = () => (
 
 SectionTitle.propTypes = {
   title: PropTypes.string
+}
+
+OrderCheckoutForm.propTypes = {
+  formValues: PropTypes.object
 }
 
 export default OrderCheckoutForm

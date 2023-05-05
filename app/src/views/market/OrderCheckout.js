@@ -100,11 +100,11 @@ const OrderCheckout = () => {
           />
         ) : (
           <Formik initialValues={initialValues} onSubmit={handleSendOrder}>
-            {() => (
+            {({ values }) => (
               <Form>
                 <Flex direction={{ base: 'column', md: 'row' }}>
                   <Box paddingRight={[0, 12]} paddingY={[6, 12]} width={['100%', '55%']}>
-                    <OrderCheckoutForm />
+                    <OrderCheckoutForm formValues={values} />
                   </Box>
                   <Box
                     paddingX={[0, 12]}
