@@ -4,7 +4,7 @@ import { isExpired } from 'react-jwt'
 const baseQuery = fetchBaseQuery({
   baseUrl: '/api',
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().user.token
+    const token = getState().user?.token
 
     if (token && isExpired(token)) window.location = '/admin'
 
