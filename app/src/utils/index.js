@@ -2,7 +2,6 @@ import { Icon } from '@chakra-ui/react'
 import { BsBoxSeam, BsColumnsGap, BsPerson, BsShopWindow } from 'react-icons/bs'
 import { FaFacebook, FaInstagram } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
-import { useResource } from '../hooks'
 
 export const APP_NAME = 'tique'
 
@@ -34,11 +33,6 @@ export const getFilteredProducts = () =>
 export const getShopData = () => useSelector(state => state.shop)
 
 export const getUser = () => useSelector(state => state.user)
-
-export const getCategoriesOptions = () => {
-  const categories = useResource('/categories')
-  return categories.map(({ id, description }) => ({ description, value: id }))
-}
 
 export const validateRequired = value => value.trim() === '' && 'Campo requerido'
 
@@ -112,6 +106,8 @@ export const formatPrice = value => {
 
   return formatter.format(value)
 }
+
+export const formatToSelectOptions = data => data.map(({ id: value, description }) => ({ description, value }))
 
 export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)
 
