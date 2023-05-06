@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Heading, Image, InputLeftAddon, Stack } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, Image, InputLeftAddon, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
 import * as Yup from 'yup'
@@ -91,69 +91,64 @@ const Shop = ({ shopId }) => {
         <Flex justify="center" marginTop={-12}>
           <Avatar src={shopImagesUrl[1]} size="2xl" alt="Shop" borderWidth="initial" borderColor="white" />
         </Flex>
-        <Stack spacing={4} padding={6}>
-          <Heading fontSize={{ base: '2xl', sm: '3xl' }} textAlign="center">
-            Mi tienda
-          </Heading>
-          <Formik
-            initialValues={{ ...shop, cellPhone: shop.cellPhone.slice(3) }}
-            onSubmit={handleSubmit}
-            validationSchema={shopValidationSchema}
-            enableReinitialize
-          >
-            {({ values, handleChange }) => (
-              <Form>
-                <Stack spacing={4}>
-                  <TextField name="name" label="Nombre" validate={validateRequired} />
-                  <TextAreaField name="description" label="Descripción" validate={validateRequired} />
-                  <TextField name="address" label="Dirección" validate={validateRequired} />
-                  <TextField name="placeService" label="Lugar de servicio" validate={validateRequired} />
-                  <TextField
-                    name="cellPhone"
-                    label="Teléfono Móvil"
-                    validate={validateRequired}
-                    inputAddons={<InputLeftAddon>+51</InputLeftAddon>}
-                  />
-                  <ArrayField
-                    name="attentionSchedule"
-                    label="Horarios de atención"
-                    values={values.attentionSchedule}
-                    fields={{ day: '', schedule: '' }}
-                    fieldsPlaceholder={{ day: 'Día(s)', schedule: 'Horario' }}
-                  />
-                  <ArraySelectField
-                    name="socialNetworks"
-                    label="Redes sociales"
-                    values={values.socialNetworks}
-                    fields={{ type: '', url: '' }}
-                    fieldsPlaceholder={{ url: 'Enlace' }}
-                    selectionOptions={socialNetworksOptions}
-                    handleSelectChange={handleChange}
-                  />
-                  <ArraySelectField
-                    name="images"
-                    label="Imágenes"
-                    values={values.images}
-                    fields={{ type: '', url: '' }}
-                    fieldsPlaceholder={{ url: 'Enlace' }}
-                    selectionOptions={shopImageOptions}
-                    handleSelectChange={handleChange}
-                  />
-                  <Button
-                    width="full"
-                    colorScheme="blue"
-                    isLoading={isUpdating}
-                    loadingText="Guardando"
-                    spinnerPlacement="end"
-                    type="submit"
-                  >
-                    Guardar
-                  </Button>
-                </Stack>
-              </Form>
-            )}
-          </Formik>
-        </Stack>
+        <Formik
+          initialValues={{ ...shop, cellPhone: shop.cellPhone.slice(3) }}
+          onSubmit={handleSubmit}
+          validationSchema={shopValidationSchema}
+          enableReinitialize
+        >
+          {({ values, handleChange }) => (
+            <Form>
+              <Stack spacing={4} padding={6}>
+                <TextField name="name" label="Nombre" validate={validateRequired} />
+                <TextAreaField name="description" label="Descripción" validate={validateRequired} />
+                <TextField name="address" label="Dirección" validate={validateRequired} />
+                <TextField name="placeService" label="Lugar de servicio" validate={validateRequired} />
+                <TextField
+                  name="cellPhone"
+                  label="Teléfono Móvil"
+                  validate={validateRequired}
+                  inputAddons={<InputLeftAddon>+51</InputLeftAddon>}
+                />
+                <ArrayField
+                  name="attentionSchedule"
+                  label="Horarios de atención"
+                  values={values.attentionSchedule}
+                  fields={{ day: '', schedule: '' }}
+                  fieldsPlaceholder={{ day: 'Día(s)', schedule: 'Horario' }}
+                />
+                <ArraySelectField
+                  name="socialNetworks"
+                  label="Redes sociales"
+                  values={values.socialNetworks}
+                  fields={{ type: '', url: '' }}
+                  fieldsPlaceholder={{ url: 'Enlace' }}
+                  selectionOptions={socialNetworksOptions}
+                  handleSelectChange={handleChange}
+                />
+                <ArraySelectField
+                  name="images"
+                  label="Imágenes"
+                  values={values.images}
+                  fields={{ type: '', url: '' }}
+                  fieldsPlaceholder={{ url: 'Enlace' }}
+                  selectionOptions={shopImageOptions}
+                  handleSelectChange={handleChange}
+                />
+                <Button
+                  width="full"
+                  colorScheme="blue"
+                  isLoading={isUpdating}
+                  loadingText="Guardando"
+                  spinnerPlacement="end"
+                  type="submit"
+                >
+                  Guardar
+                </Button>
+              </Stack>
+            </Form>
+          )}
+        </Formik>
       </Box>
     </Flex>
   )
