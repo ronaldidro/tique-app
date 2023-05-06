@@ -11,7 +11,7 @@ const initialValues = {
   description: '',
   price: 0.0,
   discount: 0.0,
-  images: [],
+  images: [{ type: 'root', url: '' }],
   active: true
 }
 

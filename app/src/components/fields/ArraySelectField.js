@@ -18,11 +18,10 @@ const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, sele
             Agregar
           </Button>
         </Flex>
-        {values.map((item, valuesIndex) => (
+        {values.map((_item, valuesIndex) => (
           <VStack key={valuesIndex} borderWidth={1} borderRadius="lg" borderColor="teal.500" padding={2} marginTop={2}>
             <SelectField
               name={`${name}.${valuesIndex}.${Object.keys(fields)[0]}`}
-              defaultValue={item[Object.keys(fields)[0]]}
               options={selectionOptions}
               onChange={handleSelectChange}
             />
