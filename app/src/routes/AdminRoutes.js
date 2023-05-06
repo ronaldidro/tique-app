@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Sidebar from '../components/admin/Sidebar'
+import CategoryAdd from '../pages/admin/CategoryAdd'
+import CategoryEdit from '../pages/admin/CategoryEdit'
+import CategoryTable from '../pages/admin/CategoryTable'
+import Product from '../pages/admin/Product'
+import ProductTable from '../pages/admin/ProductTable'
+import Profile from '../pages/admin/Profile'
+import Shop from '../pages/admin/Shop'
 import { adminSidebarOptions } from '../utils'
-import CategoryAdd from '../views/admin/CategoryAdd'
-import CategoryEdit from '../views/admin/CategoryEdit'
-import CategoryTable from '../views/admin/CategoryTable'
-import Product from '../views/admin/Product'
-import ProductTable from '../views/admin/ProductTable'
-import Profile from '../views/admin/Profile'
-import Shop from '../views/admin/Shop'
 
 const AdminRoutes = ({ userData }) => (
   <Sidebar sidebarOptions={adminSidebarOptions} userName={userData.name}>

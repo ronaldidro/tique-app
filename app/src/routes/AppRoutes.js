@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import Login from '../pages/admin/Login'
 import { getUser } from '../utils'
-import Login from '../views/admin/Login'
 import AdminRoutes from './AdminRoutes'
 import ShopRoutes from './ShopRoutes'
 

@@ -2,10 +2,10 @@ import { Box } from '@chakra-ui/react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Footer from '../components/market/Footer'
 import Navbar from '../components/market/Navbar'
-import Home from '../views/market/Home'
-import MarketShop from '../views/market/MarketShop'
-import OrderCheckout from '../views/market/OrderCheckout'
-import ShopCart from '../views/market/ShopCart'
+import Home from '../pages/market/Home'
+import MarketShop from '../pages/market/MarketShop'
+import OrderCheckout from '../pages/market/OrderCheckout'
+import ShopCart from '../pages/market/ShopCart'
 
 const ShopRoutes = () => (
   <>
