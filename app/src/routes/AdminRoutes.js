@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Sidebar from '../components/admin/Sidebar'
 import { adminSidebarOptions } from '../utils'
-import Category from '../views/admin/Category'
+import CategoryAdd from '../views/admin/CategoryAdd'
+import CategoryEdit from '../views/admin/CategoryEdit'
 import CategoryTable from '../views/admin/CategoryTable'
 import Product from '../views/admin/Product'
 import ProductTable from '../views/admin/ProductTable'
@@ -15,8 +16,8 @@ const AdminRoutes = ({ userData }) => (
       <Route path="perfil" element={<Profile user={userData} />} />
       <Route path="tienda" element={<Shop shopId={userData.shop} />} />
       <Route path="categorias" element={<CategoryTable />} />
-      <Route path="categorias/agregar" element={<Category />} />
-      <Route path="categorias/editar/:categoryId" element={<Category />} />
+      <Route path="categorias/agregar" element={<CategoryAdd />} />
+      <Route path="categorias/editar/:categoryId" element={<CategoryEdit />} />
       <Route path="productos" element={<ProductTable />} />
       <Route path="productos/agregar" element={<Product />} />
       <Route path="productos/editar/:productId" element={<Product />} />
