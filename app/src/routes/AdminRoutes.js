@@ -4,7 +4,8 @@ import Sidebar from '../components/admin/Sidebar'
 import CategoryAdd from '../pages/admin/CategoryAdd'
 import CategoryEdit from '../pages/admin/CategoryEdit'
 import CategoryTable from '../pages/admin/CategoryTable'
-import Product from '../pages/admin/Product'
+import ProductAdd from '../pages/admin/ProductAdd'
+import ProductEdit from '../pages/admin/ProductEdit'
 import ProductTable from '../pages/admin/ProductTable'
 import Profile from '../pages/admin/Profile'
 import Shop from '../pages/admin/Shop'
@@ -19,8 +20,8 @@ const AdminRoutes = ({ userData }) => (
       <Route path="categorias/agregar" element={<CategoryAdd />} />
       <Route path="categorias/editar/:categoryId" element={<CategoryEdit />} />
       <Route path="productos" element={<ProductTable />} />
-      <Route path="productos/agregar" element={<Product />} />
-      <Route path="productos/editar/:productId" element={<Product />} />
+      <Route path="productos/agregar" element={<ProductAdd />} />
+      <Route path="productos/editar/:productId" element={<ProductEdit />} />
       <Route path="*" element={<Navigate to="perfil" replace />} />
     </Routes>
   </Sidebar>

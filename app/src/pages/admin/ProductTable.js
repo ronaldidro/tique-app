@@ -1,35 +1,31 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ActionButtons from '../../components/admin/ActionButtons'
 import CustomTable from '../../components/admin/CustomTable'
 import StatusTag from '../../components/admin/StatusTag'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
-import { useCustomToast, useResource } from '../../hooks'
-import { request } from '../../services'
+import { useCustomToast } from '../../hooks'
+import { useDeleteProductMutation, useGetProductsQuery } from '../../services/products'
 import { formatPrice, toastBase } from '../../utils'
 import { productColumns } from '../../utils/tables'
 
 const ProductTable = () => {
-  const [products, setProducts] = useState([])
-  const resources = useResource('/products')
   const alertDialogRef = useRef()
   const navigate = useNavigate()
   const columns = productColumns()
   const { showToast } = useCustomToast()
+  const { data, isLoading } = useGetProductsQuery()
+  const [deleteProduct] = useDeleteProductMutation()
 
   const handleDeleteProduct = async id => {
     try {
-      const response = await request(`/products/${id}`, 'DELETE')
+      const response = await deleteProduct(id)
 
-      if (response.id) {
-        const resourcesFiltered = resources.filter(item => item.id !== response.id)
-
-        setProductsForTable(resourcesFiltered)
-
+      if (response.data.id) {
         showToast({
           ...toastBase,
           title: 'Éxito',
-          description: `Producto ${response.name} eliminado correctamente`,
+          description: `Producto ${response.data.name} eliminado correctamente`,
           status: 'success'
         })
       } else {
@@ -41,33 +37,27 @@ const ProductTable = () => {
     alertDialogRef.current.closeAlert()
   }
 
-  const setProductsForTable = resources => {
-    const productData = resources.map(data => {
-      return {
-        ...data,
-        price: formatPrice(data.price),
-        discount: `${(data.discount * 100).toFixed(2)} %`,
-        category: data.category.description,
-        status: <StatusTag active={data.active} />,
-        actions: (
-          <ActionButtons
-            alertTitle="Eliminar Producto"
-            alertContent={`¿Está seguro de eliminar ${data.name}?`}
-            handleEditButton={() => navigate(`/admin/productos/editar/${data.id}`)}
-            handleDeleteButton={() => handleDeleteProduct(data.id)}
-            alertRef={alertDialogRef}
-          />
-        )
-      }
-    })
-    setProducts(productData)
-  }
+  const formatData = resources =>
+    resources.map(data => ({
+      ...data,
+      price: formatPrice(data.price),
+      discount: `${(data.discount * 100).toFixed(2)} %`,
+      category: data.category.description,
+      status: <StatusTag active={data.active} />,
+      actions: (
+        <ActionButtons
+          alertTitle="Eliminar Producto"
+          alertContent={`¿Está seguro de eliminar ${data.name}?`}
+          handleEditButton={() => navigate(`/admin/productos/editar/${data.id}`)}
+          handleDeleteButton={() => handleDeleteProduct(data.id)}
+          alertRef={alertDialogRef}
+        />
+      )
+    }))
 
-  useEffect(() => {
-    setProductsForTable(resources)
-  }, [resources])
+  const products = data ? formatData(data) : []
 
-  if (!products.length) return <CircularSpinner />
+  if (isLoading) return <CircularSpinner />
 
   return (
     <CustomTable
