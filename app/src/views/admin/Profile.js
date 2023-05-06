@@ -1,7 +1,8 @@
 import { Button, Flex, Heading, Stack } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
-import { decodeToken } from 'react-jwt'
+import { useEffect } from 'react'
+import { decodeToken, isExpired } from 'react-jwt'
 import { useDispatch } from 'react-redux'
 import PasswordField from '../../components/fields/PasswordField'
 import TextField from '../../components/fields/TextField'
@@ -13,6 +14,13 @@ import { setItemToLocalStorage, toastBase, validateRequired } from '../../utils'
 const Profile = ({ user }) => {
   const dispatch = useDispatch()
   const { showToast } = useCustomToast()
+
+  useEffect(() => {
+    if (isExpired(user.token)) {
+      dispatch(setUser(null))
+      window.location = '/admin'
+    }
+  }, [user])
 
   const handleSubmit = async values => {
     try {
