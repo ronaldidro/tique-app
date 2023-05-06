@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-import { Box, Heading, HStack, Icon, Image, Text } from '@chakra-ui/react'
-import { FcEmptyFilter, FcShop } from 'react-icons/fc'
+import { AspectRatio, Box, Heading, HStack, Icon, Image, Skeleton, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
+import { FcEmptyFilter, FcShop } from 'react-icons/fc'
+import { useNavigate } from 'react-router-dom'
 
 const ShopCard = ({ shopData }) => {
   const navigate = useNavigate()
@@ -16,7 +16,9 @@ const ShopCard = ({ shopData }) => {
       cursor="pointer"
       onClick={() => navigate(`tienda/${shopData.id}`)}
     >
-      <Image borderTopRadius="xl" src={initialImageUrl} alt="Dan Abramov" />
+      <AspectRatio ratio={1}>
+        <Image src={initialImageUrl} fallback={<Skeleton />} borderTopRadius="xl" alt={`${shopData.name} image`} />
+      </AspectRatio>
       <Box padding={3}>
         <Heading size="md" paddingBottom={[0, 2]} textAlign={['center', 'left']}>
           {shopData.name}
