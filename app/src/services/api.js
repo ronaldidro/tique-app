@@ -1,11 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { isExpired } from 'react-jwt'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: '/api',
   prepareHeaders: (headers, { getState }) => {
     const token = getState().user.token
 
-    if (token) headers.set('authorization', `Bearer ${token}`)
+    if (token && isExpired(token)) window.location = '/admin'
+
+    headers.set('authorization', `Bearer ${token}`)
 
     return headers
   }
@@ -14,6 +17,6 @@ const baseQuery = fetchBaseQuery({
 export const api = createApi({
   reducerPath: 'tiqueApi',
   baseQuery,
-  tagTypes: ['Shop', 'Shops'],
+  tagTypes: ['Shop', 'Shops', 'Category', 'Categories'],
   endpoints: () => ({})
 })
