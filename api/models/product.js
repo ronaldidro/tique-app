@@ -16,10 +16,31 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0.0
   },
-  images: {
-    type: Array,
-    default: []
-  },
+  images: [
+    {
+      type: {
+        type: String,
+        enum: ['root', 'other'],
+        required: true
+      },
+      url: {
+        type: String,
+        required: true
+      }
+    }
+  ],
+  attributes: [
+    {
+      description: {
+        type: String,
+        required: true
+      },
+      values: {
+        type: [String],
+        required: true
+      }
+    }
+  ],
   active: {
     type: Boolean,
     default: true
