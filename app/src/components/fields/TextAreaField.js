@@ -3,11 +3,11 @@ import { Field } from 'formik'
 import PropTypes from 'prop-types'
 import FormField from './FormField'
 
-const TextAreaField = ({ name, label, validate }) => (
+const TextAreaField = ({ name, label, placeholder, validate }) => (
   <Field name={name} validate={validate}>
     {({ field, meta }) => (
       <FormField label={label} meta={meta}>
-        <Textarea {...field} />
+        <Textarea {...field} placeholder={placeholder} />
       </FormField>
     )}
   </Field>
@@ -16,6 +16,7 @@ const TextAreaField = ({ name, label, validate }) => (
 TextAreaField.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
+  placeholder: PropTypes.string,
   validate: PropTypes.func
 }
 
