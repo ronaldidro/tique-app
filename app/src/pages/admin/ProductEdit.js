@@ -4,7 +4,7 @@ import CircularSpinner from '../../components/feedback/CircularSpinner'
 import { useCustomToast } from '../../hooks'
 import { useGetCategoriesQuery } from '../../services/categories'
 import { useGetProductQuery, usePatchProductMutation } from '../../services/products'
-import { formatToSelectOptions, toastBase } from '../../utils'
+import { formatAttributeValues, formatToSelectOptions, toastBase } from '../../utils'
 
 const ProductEdit = () => {
   const { productId } = useParams()
@@ -19,7 +19,11 @@ const ProductEdit = () => {
 
   const handleUpdateProduct = async values => {
     try {
-      const response = await patchProduct({ ...values, discount: values.discount / 100 })
+      const response = await patchProduct({
+        ...values,
+        discount: values.discount / 100,
+        attributes: formatAttributeValues(values.attributes)
+      })
 
       if (response.data.id) {
         goToProducts()
@@ -42,7 +46,11 @@ const ProductEdit = () => {
   return (
     <ProductForm
       title="Editar producto"
-      initialValues={{ ...product, discount: product.discount * 100 }}
+      initialValues={{
+        ...product,
+        discount: product.discount * 100,
+        attributes: formatAttributeValues(product.attributes, false)
+      }}
       loadingStatus={isUpdating}
       categoriesList={categories}
       handleSubmit={handleUpdateProduct}

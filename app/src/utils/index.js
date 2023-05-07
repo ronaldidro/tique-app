@@ -107,6 +107,12 @@ export const formatPrice = value => {
   return formatter.format(value)
 }
 
+export const formatAttributeValues = (attributes, toArray = true) =>
+  attributes.map(attribute => ({
+    ...attribute,
+    values: toArray ? attribute.values.split(',') : attribute.values.toString()
+  }))
+
 export const formatToSelectOptions = data => data.map(({ id: value, description }) => ({ description, value }))
 
 export const setItemToLocalStorage = (key, value) => localStorage.setItem(key, value)

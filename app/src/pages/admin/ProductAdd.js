@@ -4,7 +4,7 @@ import CircularSpinner from '../../components/feedback/CircularSpinner'
 import { useCustomToast } from '../../hooks'
 import { useGetCategoriesQuery } from '../../services/categories'
 import { usePostProductMutation } from '../../services/products'
-import { formatToSelectOptions, toastBase } from '../../utils'
+import { formatAttributeValues, formatToSelectOptions, toastBase } from '../../utils'
 
 const initialValues = {
   name: '',
@@ -12,6 +12,7 @@ const initialValues = {
   price: 0.0,
   discount: 0.0,
   images: [{ type: 'root', url: '' }],
+  attributes: [{ description: '', values: '' }],
   active: true
 }
 
@@ -26,7 +27,11 @@ const ProductAdd = () => {
 
   const handleAddProduct = async values => {
     try {
-      const response = await postProduct({ ...values, discount: values.discount / 100 })
+      const response = await postProduct({
+        ...values,
+        discount: values.discount / 100,
+        attributes: formatAttributeValues(values.attributes)
+      })
 
       if (response.data.id) {
         goToProducts()

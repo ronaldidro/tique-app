@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import * as Yup from 'yup'
 import { productImageOptions, statusOptions, validateRequired } from '../../utils'
 import ArraySelectField from '../fields/ArraySelectField'
+import AttributesField from '../fields/AttributesField'
 import NumberField from '../fields/NumberField'
 import SelectField from '../fields/SelectField'
 import TextAreaField from '../fields/TextAreaField'
@@ -17,7 +18,13 @@ const productValidationSchema = Yup.object().shape({
         url: Yup.string().required('Campo obligatorio')
       })
     )
-    .min(1, 'Agregar un tipo y enlace de imagen')
+    .min(1, 'Agregar un tipo y enlace de imagen'),
+  attributes: Yup.array().of(
+    Yup.object().shape({
+      description: Yup.string().required('Campo obligatorio'),
+      values: Yup.string().required('Campo obligatorio')
+    })
+  )
 })
 
 const ProductForm = ({ title, initialValues, loadingStatus, categoriesList, handleSubmit, handleCancel }) => (
@@ -59,6 +66,13 @@ const ProductForm = ({ title, initialValues, loadingStatus, categoriesList, hand
                 fieldsPlaceholder={{ url: 'Enlace' }}
                 selectionOptions={productImageOptions}
                 handleSelectChange={handleChange}
+              />
+              <AttributesField
+                name="attributes"
+                label="Atributos"
+                values={values.attributes}
+                fields={{ description: '', values: '', required: true }}
+                fieldsPlaceholder={{ description: 'Descripción', values: 'Valores separados por comas' }}
               />
               <Button
                 width="full"
