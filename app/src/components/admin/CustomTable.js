@@ -1,7 +1,7 @@
+import { AddIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { Box, Button, Heading, Select, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import { ChevronUpIcon, ChevronDownIcon, AddIcon } from '@chakra-ui/icons'
-import { useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table'
 import PropTypes from 'prop-types'
+import { useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table'
 import TableFilter from './TableFilter'
 import TablePagination from './TablePagination'
 
@@ -42,7 +42,7 @@ const CustomTable = ({ title, columns, data, defaultPageSize = 5, handleAddButto
         <Heading as="h1" size="md" fontSize={{ base: '2xl', sm: '3xl' }} paddingBottom={[2, 0]}>
           {title}
         </Heading>
-        <Button rightIcon={<AddIcon />} colorScheme="teal" variant="outline" onClick={handleAddButton}>
+        <Button rightIcon={<AddIcon />} colorScheme="blue" variant="outline" onClick={handleAddButton}>
           Agregar
         </Button>
       </Box>

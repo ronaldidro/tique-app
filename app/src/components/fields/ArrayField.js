@@ -14,7 +14,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder }) => (
           <FormLabel htmlFor={name} margin={0} fontWeight="medium">
             {label}
           </FormLabel>
-          <Button colorScheme="teal" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
+          <Button colorScheme="blue" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
             Agregar
           </Button>
         </Flex>
@@ -27,7 +27,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder }) => (
             padding={[2, 0]}
             borderWidth={[1, 0]}
             borderRadius={['lg', 'none']}
-            borderColor={['teal.500', 'transparent']}
+            borderColor={['blue.500', 'transparent']}
           >
             {Object.keys(fields).map((field, index) => (
               <TextField key={index} name={`${name}.${valuesIndex}.${field}`} placeholder={fieldsPlaceholder[field]} />
@@ -42,7 +42,7 @@ const ArrayField = ({ name, label, values, fields, fieldsPlaceholder }) => (
             />
             <Button
               display={{ base: 'block', md: 'none' }}
-              colorScheme="teal"
+              colorScheme="blue"
               variant="ghost"
               onClick={() => arrayHelpers.remove(valuesIndex)}
             >

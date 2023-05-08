@@ -14,12 +14,12 @@ const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, sele
           <FormLabel htmlFor={name} margin={0} fontWeight="medium">
             {label}
           </FormLabel>
-          <Button colorScheme="teal" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
+          <Button colorScheme="blue" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
             Agregar
           </Button>
         </Flex>
         {values.map((_item, valuesIndex) => (
-          <VStack key={valuesIndex} borderWidth={1} borderRadius="lg" borderColor="teal.500" padding={2} marginTop={2}>
+          <VStack key={valuesIndex} borderWidth={1} borderRadius="lg" borderColor="blue.500" padding={2} marginTop={2}>
             <SelectField
               name={`${name}.${valuesIndex}.${Object.keys(fields)[0]}`}
               options={selectionOptions}
@@ -30,7 +30,7 @@ const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, sele
               placeholder={fieldsPlaceholder[Object.keys(fields)[1]]}
             />
             <Box display="flex" justifyContent="center">
-              <Button colorScheme="teal" variant="ghost" onClick={() => arrayHelpers.remove(valuesIndex)}>
+              <Button colorScheme="blue" variant="ghost" onClick={() => arrayHelpers.remove(valuesIndex)}>
                 Eliminar
               </Button>
             </Box>

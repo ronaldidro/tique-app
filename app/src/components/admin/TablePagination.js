@@ -1,7 +1,7 @@
 import { ButtonGroup, Flex, IconButton, Text } from '@chakra-ui/react'
-import { BiFirstPage, BiLastPage } from 'react-icons/bi'
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md'
 import PropTypes from 'prop-types'
+import { BiFirstPage, BiLastPage } from 'react-icons/bi'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
 const TablePagination = ({
   pageIndex,
@@ -17,7 +17,7 @@ const TablePagination = ({
     <Text fontWeight="semibold">
       Página {pageIndex + 1} de {pageOptions.length}
     </Text>
-    <ButtonGroup colorScheme="teal" variant="outline">
+    <ButtonGroup colorScheme="blue" variant="outline">
       <IconButton onClick={() => gotoPage(0)} disabled={!canPreviousPage} icon={<BiFirstPage size="xs" />} />
       <IconButton onClick={() => previousPage()} disabled={!canPreviousPage} icon={<MdKeyboardArrowLeft size="xs" />} />
       <IconButton onClick={() => nextPage()} disabled={!canNextPage} icon={<MdKeyboardArrowRight size="xs" />} />

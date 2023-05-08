@@ -93,7 +93,7 @@ const NavItem = ({ icon, children, route, ...rest }) => (
     marginX={4}
     borderRadius="lg"
     _hover={{ textDecoration: 'none', background: 'gray.100' }}
-    _activeLink={{ bg: 'teal.400', color: 'white' }}
+    _activeLink={{ bg: 'blue.400', color: 'white' }}
     {...rest}
   >
     {icon && <Icon marginRight={4} boxSize="20px" as={icon} />}
