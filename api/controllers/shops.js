@@ -17,7 +17,7 @@ shopsRouter.get('/:id', async (request, response) => {
     },
     populate: {
       path: 'products',
-      select: 'name description price discount images',
+      select: 'name description price discount images attributes',
       match: { active: true },
       options: {
         sort: { name: 1 }
