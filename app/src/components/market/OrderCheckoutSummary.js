@@ -2,33 +2,36 @@ import { Button, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { formatPrice, getImageTypeUrl } from '../../utils'
 import PriceTag from './PriceTag'
-import { QuantitySelect } from './ShopCartItem'
+import { ProductSpecifications, QuantitySelect } from './ShopCartItem'
 import { OrderSummaryItem } from './ShopCartSummary'
 
 const CheckoutSummaryItem = ({ productData, handleQuantityChange }) => (
-  <Stack direction="row" spacing={5} borderBottom="1px" borderColor="gray.200" paddingBottom={6}>
-    <Image
-      rounded="lg"
-      height="96px"
-      fit="cover"
-      src={getImageTypeUrl(productData.images)}
-      alt={productData.name}
-      width="28%"
-    />
-    <Stack width="72%">
-      <Flex justify="space-between">
-        <Text fontWeight="semibold" noOfLines={1}>
-          {productData.name}
-        </Text>
-        <Text fontWeight="medium">{formatPrice(productData.totalPrice)}</Text>
-      </Flex>
-      <PriceTag price={productData.price} salePrice={productData.discount > 0 && productData.discountedPrice} />
-      <QuantitySelect
-        size="sm"
-        value={productData.quantity}
-        onChange={({ target }) => handleQuantityChange(Number(target.value), productData)}
+  <Stack direction="column" spacing={3} borderBottom="1px" borderColor="gray.200" paddingBottom={6}>
+    <Stack direction="row" spacing={5}>
+      <Image
+        rounded="lg"
+        height="96px"
+        fit="cover"
+        src={getImageTypeUrl(productData.images)}
+        alt={productData.name}
+        width="28%"
       />
+      <Stack width="72%">
+        <Flex justify="space-between">
+          <Text fontWeight="semibold" noOfLines={1}>
+            {productData.name}
+          </Text>
+          <Text fontWeight="medium">{formatPrice(productData.totalPrice)}</Text>
+        </Flex>
+        <PriceTag price={productData.price} salePrice={productData.discount > 0 && productData.discountedPrice} />
+        <QuantitySelect
+          size="sm"
+          value={productData.quantity}
+          onChange={({ target }) => handleQuantityChange(Number(target.value), productData)}
+        />
+      </Stack>
     </Stack>
+    <ProductSpecifications chosenAttributes={productData.chosenAttributes} comments={productData.comments} />
   </Stack>
 )
 

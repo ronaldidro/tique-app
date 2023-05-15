@@ -25,8 +25,17 @@ const initialValues = {
 
 const saveOrder = async (shopId, orderData) => {
   const detail = orderData.products.map(
-    ({ id: product, price, discount, discountedPrice, quantity, totalPrice: amount }) => ({
+    ({
+      id: product,
+      chosenAttributes: attributes,
+      price,
+      discount,
+      discountedPrice,
+      quantity,
+      totalPrice: amount
+    }) => ({
       product,
+      attributes,
       price,
       discount,
       discountedPrice,

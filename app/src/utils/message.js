@@ -21,12 +21,24 @@ ${address && `Dirección: ${address}${urlLineBreak}${urlLineBreak}`}
 📝 *Mi pedido:*${urlLineBreak}${urlLineBreak}
 ${products
   .map(product => {
-    let productDetail = `✅ (x${product.quantity}) ${product.name} ➡️ ${formatPrice(product.totalPrice)}`
+    let productDetail = `✅ *(x${product.quantity})* ${product.name} ➡️ *${formatPrice(
+      product.totalPrice
+    )}*${urlLineBreak}`
+
+    if (product.chosenAttributes) {
+      const attributesFormat = product.chosenAttributes
+        .map(attribute => `▪️ ${Object.keys(attribute)}: ${Object.values(attribute)}`)
+        .join(urlLineBreak)
+
+      productDetail = productDetail.concat(attributesFormat, urlLineBreak)
+    }
+
     if (product.comments && product.comments.trim() !== '')
-      productDetail = productDetail.concat(urlLineBreak, `▪️ ${product.comments}`, urlLineBreak)
+      productDetail = productDetail.concat(`▪️ Comentarios: ${product.comments}`, urlLineBreak)
+
     return productDetail
   })
-  .join(urlLineBreak)}${urlLineBreak}${urlLineBreak}
+  .join(urlLineBreak)}${urlLineBreak}
 🛍️ *Total de artículos: ${totalItems}*${urlLineBreak}${urlLineBreak}
 💰 *Monto total: ${formatPrice(totalPrice)}*${urlLineBreak}${urlLineBreak}
 Espero su pronta atención 😉

@@ -1,5 +1,5 @@
-import { CloseIcon } from '@chakra-ui/icons'
-import { Flex, Image, Select, Stack, Text } from '@chakra-ui/react'
+import { ChatIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons'
+import { Flex, Image, List, ListIcon, ListItem, Select, Stack, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { getImageTypeUrl } from '../../utils'
 import AlertIconButton from './AlertIconButton'
@@ -22,7 +22,32 @@ export const QuantitySelect = props => (
   </Select>
 )
 
-const CartProductMeta = ({ image, name, price, salePrice }) => (
+const ChosenAttributes = ({ attributesData }) => (
+  <List>
+    {attributesData.map((attribute, index) => (
+      <ListItem key={index} fontSize={{ base: '2xs', md: 'xs' }}>
+        <ListIcon as={CheckIcon} />
+        {Object.keys(attribute)}: {Object.values(attribute)}
+      </ListItem>
+    ))}
+  </List>
+)
+
+const CommentsContent = ({ commentsText }) => (
+  <Text fontSize={{ base: '2xs', md: 'xs' }}>
+    <ChatIcon mr={2} />
+    Comentarios: {commentsText}
+  </Text>
+)
+
+export const ProductSpecifications = ({ chosenAttributes, comments }) => (
+  <>
+    {chosenAttributes && <ChosenAttributes attributesData={chosenAttributes} />}
+    {comments && <CommentsContent commentsText={comments} />}
+  </>
+)
+
+const CartProductMeta = ({ image, name, price, salePrice, attributes, comments }) => (
   <Stack direction="row" align="center" spacing={5} width="full">
     <Image
       rounded="lg"
@@ -37,6 +62,7 @@ const CartProductMeta = ({ image, name, price, salePrice }) => (
     <Stack>
       <Text fontWeight="medium">{name}</Text>
       <PriceTag price={price} salePrice={salePrice} />
+      <ProductSpecifications chosenAttributes={attributes} comments={comments} />
     </Stack>
   </Stack>
 )
@@ -48,6 +74,8 @@ const ShopCartItem = ({ product, onChangeQuantity, onClickDelete, alertRef }) =>
       image={getImageTypeUrl(product.images)}
       price={product.price}
       salePrice={product.discount > 0 && product.discountedPrice}
+      attributes={product.chosenAttributes}
+      comments={product.comments}
     />
     {/* Desktop */}
     <Flex width="full" justify="space-between" display={{ base: 'none', md: 'flex' }}>
@@ -87,11 +115,26 @@ const ShopCartItem = ({ product, onChangeQuantity, onClickDelete, alertRef }) =>
   </Flex>
 )
 
+ChosenAttributes.propTypes = {
+  attributesData: PropTypes.array
+}
+
+CommentsContent.propTypes = {
+  commentsText: PropTypes.string
+}
+
+ProductSpecifications.propTypes = {
+  chosenAttributes: PropTypes.array,
+  comments: PropTypes.string
+}
+
 CartProductMeta.propTypes = {
   image: PropTypes.string,
   name: PropTypes.string,
   price: PropTypes.number,
-  salePrice: PropTypes.node
+  salePrice: PropTypes.node,
+  attributes: PropTypes.array,
+  comments: PropTypes.string
 }
 
 ShopCartItem.propTypes = {

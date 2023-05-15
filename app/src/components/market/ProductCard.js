@@ -18,8 +18,8 @@ const ProductCard = ({ productData }) => {
     ? getDiscountedPrice(productData.price, productData.discount)
     : productData.price
 
-  const addProductToOrder = ({ comments, quantity, discountedPrice, totalPrice }) => {
-    const productOrder = { ...productData, comments, quantity, discountedPrice, totalPrice }
+  const addProductToOrder = ({ comments, chosenAttributes, quantity, discountedPrice, totalPrice }) => {
+    const productOrder = { ...productData, comments, chosenAttributes, quantity, discountedPrice, totalPrice }
 
     dispatch(orderProduct ? updateProduct(productOrder) : addProduct(productOrder))
 
