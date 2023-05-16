@@ -47,7 +47,6 @@ const saveOrder = async (shopId, orderData) => {
   const newOrder = {
     ...orderData,
     mode: orderData.orderMode,
-    products: orderData.products,
     items: orderData.totalItems,
     total: orderData.totalPrice,
     shop: shopId,
