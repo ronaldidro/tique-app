@@ -14,7 +14,7 @@ import { Form, Formik } from 'formik'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useResponsive } from '../../hooks'
-import { formatPrice, getImageTypeUrl, getProductOrderById } from '../../utils'
+import { formatPrice, getImageTypeUrl } from '../../utils'
 import RadioField from '../fields/RadioField'
 import TextAreaField from '../fields/TextAreaField'
 import ImageSlider from '../media/ImageSlider'
@@ -54,11 +54,11 @@ const AttributesSection = ({ attributesData = [] }) =>
   ))
 
 const ProductDrawer = ({ productData, handleAddProduct }) => {
-  const orderProduct = getProductOrderById(productData.id)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [quantity, setQuantity] = useState(0)
-  const [totalPrice, setTotalPrice] = useState(orderProduct?.totalPrice || productData.productSalePrice)
+  const [quantity, setQuantity] = useState(1)
+  const [totalPrice, setTotalPrice] = useState(productData.productSalePrice)
   const { isDesktop } = useResponsive()
+  const hasAttributes = productData.attributes.length > 0
 
   const onClickAddButton = values => {
     handleAddProduct({
@@ -68,22 +68,20 @@ const ProductDrawer = ({ productData, handleAddProduct }) => {
       discountedPrice: productData.productSalePrice,
       totalPrice
     })
-    onClose()
+    handleClose()
   }
 
   const handleClose = () => {
-    setQuantity(orderProduct?.quantity || 1) // because drawer does not unmounted
+    setQuantity(1) // because drawer does not unmounted
     onClose()
   }
 
   useEffect(() => setTotalPrice(quantity * productData.productSalePrice), [quantity])
 
-  useEffect(() => setQuantity(orderProduct?.quantity || 1), [orderProduct]) // product added without drawer does not update quantity
-
   return (
     <>
-      <Button variant="link" onClick={onOpen} textDecoration="underline" fontWeight="medium" color="gray.600">
-        Ver detalles
+      <Button colorScheme="blue" width="full" type="submit" onClick={onOpen}>
+        Añadir al carrito
       </Button>
       <Drawer
         isOpen={isOpen}
@@ -97,7 +95,14 @@ const ProductDrawer = ({ productData, handleAddProduct }) => {
           <ProductDetail product={productData} />
           <Formik initialValues={{ comments: '' }} onSubmit={onClickAddButton}>
             <Form id="product-form">
-              <VStack align="start" spacing={3} padding={[3, 5]} border="1px" borderColor="gray.400" rounded="md">
+              <VStack
+                align="start"
+                spacing={3}
+                padding={hasAttributes && [3, 5]}
+                border={hasAttributes && '1px'}
+                borderColor="gray.400"
+                rounded="md"
+              >
                 <AttributesSection attributesData={productData.attributes} />
                 <TextAreaField label="Comentarios" name="comments" placeholder="Opcional" />
               </VStack>

@@ -4,10 +4,10 @@ const productsOrderReducer = (state = [], action) => {
       return [...state, action.data]
 
     case 'MODIFY_PRODUCT':
-      return state.map(product => (product.id !== action.data.id ? product : action.data))
+      return state.map(product => (product.orderProductId !== action.data.orderProductId ? product : action.data))
 
     case 'REMOVE_PRODUCT':
-      return state.filter(product => product.id !== action.data.id)
+      return state.filter(product => product.orderProductId !== action.data.orderProductId)
 
     case 'REMOVE_ALL_PRODUCTS':
       return []

@@ -46,9 +46,9 @@ const ShopCart = () => {
                 Carrito de compras
               </Heading>
               <Stack spacing={6}>
-                {orderProducts.map(orderProduct => (
+                {orderProducts.map((orderProduct, index) => (
                   <ShopCartItem
-                    key={orderProduct.id}
+                    key={index}
                     product={orderProduct}
                     onChangeQuantity={updateOrderProduct}
                     onClickDelete={deleteOrderProduct}

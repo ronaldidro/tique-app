@@ -1,14 +1,14 @@
-import { AspectRatio, Box, Button, HStack, Image, Skeleton, Stack, Tag, Text } from '@chakra-ui/react'
+import { AspectRatio, Box, HStack, Image, Skeleton, Stack, Tag, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { useCustomToast, useResponsive } from '../../hooks'
-import { addProduct, updateProduct } from '../../reducers/productsOrderReducer'
-import { convertToPercent, getDiscountedPrice, getImageTypeUrl, getProductOrderById } from '../../utils'
+import { addProduct } from '../../reducers/productsOrderReducer'
+import { convertToPercent, getDiscountedPrice, getImageTypeUrl, getProductsOrder } from '../../utils'
 import PriceTag from './PriceTag'
 import ProductDrawer from './ProductDrawer'
 
 const ProductCard = ({ productData }) => {
-  const orderProduct = getProductOrderById(productData.id)
+  const orderProducts = getProductsOrder()
   const dispatch = useDispatch()
   const { showToast } = useCustomToast()
   const { isDesktop } = useResponsive()
@@ -17,11 +17,22 @@ const ProductCard = ({ productData }) => {
   const productSalePrice = isDiscounted
     ? getDiscountedPrice(productData.price, productData.discount)
     : productData.price
+  const totalQuantity = orderProducts
+    .filter(product => product.name === productData.name)
+    .reduce((acc, product) => acc + product.quantity, 0)
 
   const addProductToOrder = ({ comments, chosenAttributes, quantity, discountedPrice, totalPrice }) => {
-    const productOrder = { ...productData, comments, chosenAttributes, quantity, discountedPrice, totalPrice }
+    const productOrder = {
+      ...productData,
+      comments,
+      chosenAttributes,
+      quantity,
+      discountedPrice,
+      totalPrice,
+      orderProductId: Date.now()
+    }
 
-    dispatch(orderProduct ? updateProduct(productOrder) : addProduct(productOrder))
+    dispatch(addProduct(productOrder))
 
     showToast({
       title: 'Se añadió al carrito',
@@ -31,12 +42,6 @@ const ProductCard = ({ productData }) => {
       variant: 'subtle',
       isClosable: true
     })
-  }
-
-  const handleAddButton = () => {
-    const quantity = orderProduct ? orderProduct.quantity + 1 : 1
-    const totalPrice = quantity * productSalePrice
-    addProductToOrder({ discountedPrice: productSalePrice, quantity, totalPrice })
   }
 
   return (
@@ -56,26 +61,19 @@ const ProductCard = ({ productData }) => {
           </Tag>
         )}
       </Box>
-      <Stack>
-        <Stack spacing="1">
-          <HStack justify="space-between">
-            <Text fontWeight="medium" color="gray.700" noOfLines={1}>
-              {productData.name}
-            </Text>
-            {orderProduct && <Tag colorScheme="purple">{orderProduct.quantity}</Tag>}
-          </HStack>
-          <PriceTag price={productData.price} salePrice={isDiscounted && productSalePrice} />
-        </Stack>
+      <Stack spacing={1}>
+        <HStack justify="space-between">
+          <Text fontWeight="medium" color="gray.700" noOfLines={1}>
+            {productData.name}
+          </Text>
+          {totalQuantity > 0 && <Tag colorScheme="purple">{totalQuantity}</Tag>}
+        </HStack>
+        <PriceTag price={productData.price} salePrice={isDiscounted && productSalePrice} />
       </Stack>
-      <Stack align="center" spacing={3}>
-        <Button colorScheme="blue" width="full" type="submit" onClick={handleAddButton}>
-          Añadir al carrito
-        </Button>
-        <ProductDrawer
-          productData={{ ...productData, isDiscounted, productSalePrice }}
-          handleAddProduct={addProductToOrder}
-        />
-      </Stack>
+      <ProductDrawer
+        productData={{ ...productData, isDiscounted, productSalePrice }}
+        handleAddProduct={addProductToOrder}
+      />
     </Stack>
   )
 }

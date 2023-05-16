@@ -41,8 +41,8 @@ const OrderCheckoutSummary = ({ products, totalItems, totalPrice, onChangeQuanti
       Resumen del pedido
     </Heading>
     <Stack direction="column" spacing={6} width="full" marginTop={[6, 10]}>
-      {products.map(product => (
-        <CheckoutSummaryItem key={product.id} productData={product} handleQuantityChange={onChangeQuantity} />
+      {products.map((product, index) => (
+        <CheckoutSummaryItem key={index} productData={product} handleQuantityChange={onChangeQuantity} />
       ))}
     </Stack>
     <Stack spacing={3} paddingY={6} borderBottom="1px" borderColor="gray.200">
