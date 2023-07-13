@@ -7,45 +7,30 @@ import {
   HStack,
   Icon,
   IconButton,
-  Tooltip,
   VStack,
   useDisclosure
 } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
-import { RiCloseLine, RiLoginBoxLine, RiMenuLine, RiQuestionLine, RiStore3Fill } from 'react-icons/ri'
+import { RiCloseLine, RiMenuLine, RiQuestionLine } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useResponsive } from '../../hooks'
 import { filterChange } from '../../reducers/filterReducer'
 import { deleteAllProducts } from '../../reducers/productsOrderReducer'
-import { getItemFromLocalStorage, getOrderTotalItems } from '../../utils'
+import { getOrderTotalItems } from '../../utils'
 import AppLogo from '../AppLogo'
 import LinkButton from '../fields/LinkButton'
 import HelpSteps from './HelpSteps'
 import ModalButton from './ModalButton'
 import ShopCartButton from './ShopCartButton'
 
-const navbarOptions = ['Tiendas', 'Productos'].map(item => (
-  <LinkButton key={item} pathname="#" color="gray.500" fontWeight="semibold" fontSize="lg">
+const navbarOptions = ['Ingresa o crea tu tienda'].map(item => (
+  <LinkButton key={item} pathname="/admin" color="gray.500" fontWeight="semibold" fontSize="lg">
     {item}
   </LinkButton>
 ))
 
-const AdminButton = ({ handleClick }) => {
-  const user = getItemFromLocalStorage('loggedTiqueAppUser') || null
-
-  return (
-    <Tooltip label={user ? 'Mi tienda' : 'Iniciar sesión'}>
-      <IconButton
-        variant="ghost"
-        icon={<Icon as={user ? RiStore3Fill : RiLoginBoxLine} boxSize={6} />}
-        onClick={handleClick}
-      />
-    </Tooltip>
-  )
-}
-
-const NavbarButtons = ({ onClickCartButton, onClickAdminButton }) => (
+const NavbarButtons = ({ onClickCartButton }) => (
   <HStack>
     <ModalButton
       icon={<Icon as={RiQuestionLine} boxSize={6} />}
@@ -55,7 +40,6 @@ const NavbarButtons = ({ onClickCartButton, onClickAdminButton }) => (
       variant="ghost"
     />
     <ShopCartButton items={getOrderTotalItems()} handleClick={onClickCartButton} />
-    <AdminButton handleClick={onClickAdminButton} />
   </HStack>
 )
 
@@ -80,17 +64,11 @@ const Navbar = () => {
             {isDesktop ? (
               <Flex justify="space-between" align="center" flex="1">
                 <ButtonGroup spacing="8">{navbarOptions}</ButtonGroup>
-                <NavbarButtons
-                  onClickCartButton={() => navigate('/carrito')}
-                  onClickAdminButton={() => navigate('/admin')}
-                />
+                <NavbarButtons onClickCartButton={() => navigate('/carrito')} />
               </Flex>
             ) : (
               <HStack justify="end">
-                <NavbarButtons
-                  onClickCartButton={() => navigate('/carrito')}
-                  onClickAdminButton={() => navigate('/admin')}
-                />
+                <NavbarButtons onClickCartButton={() => navigate('/carrito')} />
                 <IconButton
                   variant="ghost"
                   icon={mobileNav.isOpen ? <Icon as={RiCloseLine} boxSize={6} /> : <Icon as={RiMenuLine} boxSize={6} />}
@@ -113,13 +91,8 @@ const Navbar = () => {
   )
 }
 
-AdminButton.propTypes = {
-  handleClick: PropTypes.func
-}
-
 NavbarButtons.propTypes = {
-  onClickCartButton: PropTypes.func,
-  onClickAdminButton: PropTypes.func
+  onClickCartButton: PropTypes.func
 }
 
 export default Navbar
