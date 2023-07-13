@@ -10,7 +10,7 @@ const SignUpForm = ({ onSubmit }) => (
     {() => (
       <Form>
         <Stack spacing={4}>
-          <TextField name="name" label="Nombres" validate={validateRequired} />
+          <TextField name="name" label="Nombres y apellidos" validate={validateRequired} />
           <TextField name="username" label="Usuario" validate={validateRequired} />
           <PasswordField name="password" label="Contraseña" validate={validateRequired} />
           <Button colorScheme="blue" variant="solid" type="submit">
