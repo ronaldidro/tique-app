@@ -1,21 +1,19 @@
-import { Box, Button, Flex, Heading, Stack } from '@chakra-ui/react'
-import { Form, Formik } from 'formik'
+import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import AppLogo from '../../components/AppLogo'
-import PasswordField from '../../components/fields/PasswordField'
-import TextField from '../../components/fields/TextField'
+import LoginForm from '../../components/admin/LoginForm'
 import { useCustomToast } from '../../hooks'
 import { setUser } from '../../reducers/userReducer'
 import { request } from '../../services'
-import { setItemToLocalStorage, validateRequired } from '../../utils'
+import { setItemToLocalStorage } from '../../utils'
 
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { showToast } = useCustomToast()
+  const loginFormRef = useRef()
 
-  const handleLoginForm = async values => {
+  const handleSignInForm = async values => {
     try {
       const response = await request('/auth', 'POST', values)
       const userData = { ...response, username: values.username, logged: true }
@@ -41,29 +39,41 @@ const Login = () => {
     }
   }
 
-  return (
-    <Flex minH="100vh" align="center" justify="center" bg="gray.50">
-      <Stack spacing={8} paddingY={12} paddingX={6} align="center">
-        <AppLogo />
-        <Heading size="md">Ingresa a tu cuenta</Heading>
-        <Formik initialValues={{ username: '', password: '' }} onSubmit={handleLoginForm}>
-          {() => (
-            <Form>
-              <Box rounded="lg" bg="white" boxShadow="lg" padding={8}>
-                <Stack spacing={4}>
-                  <TextField name="username" label="Usuario" validate={validateRequired} />
-                  <PasswordField name="password" label="Contraseña" validate={validateRequired} />
-                  <Button colorScheme="blue" type="submit">
-                    Iniciar sesión
-                  </Button>
-                </Stack>
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </Stack>
-    </Flex>
-  )
+  const handleSignUpForm = async values => {
+    try {
+      const response = await request('/users', 'POST', values)
+
+      if (response.id) {
+        loginFormRef.current.setIsSignIn(true)
+
+        showToast({
+          title: 'Cuenta creada',
+          description: 'Inicia sesión para configurar tu tienda',
+          status: 'success',
+          position: 'top-left',
+          variant: 'subtle'
+        })
+      } else {
+        showToast({
+          title: 'Error',
+          description: 'Ocurrió un error al crear tu cuenta',
+          status: 'error',
+          position: 'top-left',
+          variant: 'subtle'
+        })
+      }
+    } catch (error) {
+      showToast({
+        title: 'Error',
+        description: error.response.data.error,
+        status: 'error',
+        position: 'top-left',
+        variant: 'subtle'
+      })
+    }
+  }
+
+  return <LoginForm handleSignIn={handleSignInForm} handleSignUp={handleSignUpForm} ref={loginFormRef} />
 }
 
 export default Login
