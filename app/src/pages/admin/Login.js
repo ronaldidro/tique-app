@@ -5,7 +5,7 @@ import LoginForm from '../../components/admin/LoginForm'
 import { useCustomToast } from '../../hooks'
 import { setUser } from '../../reducers/userReducer'
 import { request } from '../../services'
-import { setItemToLocalStorage } from '../../utils'
+import { setItemToLocalStorage, toastBase } from '../../utils'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -21,21 +21,15 @@ const Login = () => {
       setItemToLocalStorage('loggedTiqueAppUser', JSON.stringify(userData))
       dispatch(setUser(userData))
       navigate('/admin/perfil')
+
       showToast({
-        title: `Hola ${userData.name}`,
-        description: 'Bienvenido',
-        status: 'success',
-        position: 'top',
-        variant: 'subtle'
+        ...toastBase,
+        title: 'Bienvenido',
+        description: `Hola, ${userData.name}`,
+        status: 'success'
       })
     } catch (error) {
-      showToast({
-        title: 'Error',
-        description: error.response.data.error,
-        status: 'error',
-        position: 'top-right',
-        variant: 'subtle'
-      })
+      showToast({ ...toastBase, description: error.response.data.error, position: 'top-left' })
     }
   }
 
@@ -47,29 +41,17 @@ const Login = () => {
         loginFormRef.current.setIsSignIn(true)
 
         showToast({
+          ...toastBase,
           title: 'Cuenta creada',
           description: 'Inicia sesión para configurar tu tienda',
-          status: 'success',
           position: 'top-left',
-          variant: 'subtle'
+          status: 'success'
         })
       } else {
-        showToast({
-          title: 'Error',
-          description: 'Ocurrió un error al crear tu cuenta',
-          status: 'error',
-          position: 'top-left',
-          variant: 'subtle'
-        })
+        showToast({ ...toastBase, description: 'Ocurrió un error al crear tu cuenta', position: 'top-left' })
       }
     } catch (error) {
-      showToast({
-        title: 'Error',
-        description: error.response.data.error,
-        status: 'error',
-        position: 'top-left',
-        variant: 'subtle'
-      })
+      showToast({ ...toastBase, description: error.response.data.error, position: 'top-left' })
     }
   }
 

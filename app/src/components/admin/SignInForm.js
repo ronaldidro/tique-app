@@ -7,12 +7,19 @@ import TextField from '../fields/TextField'
 
 const SignInForm = ({ onSubmit }) => (
   <Formik initialValues={{ username: '', password: '' }} onSubmit={onSubmit}>
-    {() => (
+    {({ isSubmitting }) => (
       <Form>
         <Stack spacing={4}>
           <TextField name="username" label="Usuario" validate={validateRequired} />
           <PasswordField name="password" label="Contraseña" validate={validateRequired} />
-          <Button colorScheme="blue" variant="solid" type="submit">
+          <Button
+            colorScheme="blue"
+            variant="solid"
+            type="submit"
+            isLoading={isSubmitting}
+            loadingText="Autenticando"
+            spinnerPlacement="end"
+          >
             Iniciar sesión
           </Button>
         </Stack>
