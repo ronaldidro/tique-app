@@ -5,7 +5,7 @@ import { useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table
 import TableFilter from './TableFilter'
 import TablePagination from './TablePagination'
 
-const CustomTable = ({ title, columns, data, defaultPageSize = 5, handleAddButton }) => {
+const CustomTable = ({ title, columns, data, defaultPageSize = 5, handleAddButton, disableAddButton = false }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -42,7 +42,13 @@ const CustomTable = ({ title, columns, data, defaultPageSize = 5, handleAddButto
         <Heading as="h1" size="md" fontSize={{ base: '2xl', sm: '3xl' }} paddingBottom={[2, 0]}>
           {title}
         </Heading>
-        <Button rightIcon={<AddIcon />} colorScheme="blue" variant="outline" onClick={handleAddButton}>
+        <Button
+          rightIcon={<AddIcon />}
+          colorScheme="blue"
+          variant="outline"
+          onClick={handleAddButton}
+          isDisabled={disableAddButton}
+        >
           Agregar
         </Button>
       </Box>
@@ -120,7 +126,8 @@ CustomTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
   defaultPageSize: PropTypes.number,
-  handleAddButton: PropTypes.func
+  handleAddButton: PropTypes.func,
+  disableAddButton: PropTypes.bool
 }
 
 export default CustomTable
