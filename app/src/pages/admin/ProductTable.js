@@ -5,6 +5,7 @@ import CustomTable from '../../components/admin/CustomTable'
 import StatusTag from '../../components/admin/StatusTag'
 import CircularSpinner from '../../components/feedback/CircularSpinner'
 import { useCustomToast } from '../../hooks'
+import { useGetCategoriesQuery } from '../../services/categories'
 import { useDeleteProductMutation, useGetProductsQuery } from '../../services/products'
 import { formatPrice, toastBase } from '../../utils'
 import { productColumns } from '../../utils/tables'
@@ -15,6 +16,7 @@ const ProductTable = () => {
   const columns = productColumns()
   const { showToast } = useCustomToast()
   const { data, isLoading } = useGetProductsQuery()
+  const { data: categories } = useGetCategoriesQuery()
   const [deleteProduct] = useDeleteProductMutation()
 
   const handleDeleteProduct = async id => {
@@ -65,6 +67,7 @@ const ProductTable = () => {
       columns={columns}
       data={products}
       handleAddButton={() => navigate('/admin/productos/agregar')}
+      disableAddButton={categories.length === 0}
     />
   )
 }
