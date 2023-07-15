@@ -12,10 +12,10 @@ import Shop from '../pages/admin/Shop'
 import { adminSidebarOptions } from '../utils'
 
 const AdminRoutes = ({ userData }) => (
-  <Sidebar sidebarOptions={adminSidebarOptions} userName={userData.name}>
+  <Sidebar sidebarOptions={adminSidebarOptions} user={userData}>
     <Routes>
       <Route path="perfil" element={<Profile user={userData} />} />
-      <Route path="tienda" element={<Shop shopId={userData.shop} />} />
+      <Route path="tienda" element={<Shop user={userData} />} />
       <Route path="categorias" element={<CategoryTable />} />
       <Route path="categorias/agregar" element={<CategoryAdd />} />
       <Route path="categorias/editar/:categoryId" element={<CategoryEdit />} />
