@@ -17,6 +17,6 @@ const baseQuery = fetchBaseQuery({
 export const api = createApi({
   reducerPath: 'tiqueApi',
   baseQuery,
-  tagTypes: ['Shop', 'Shops', 'Category', 'Categories'],
+  tagTypes: ['Shop', 'Shops', 'Category', 'Product'],
   endpoints: () => ({})
 })

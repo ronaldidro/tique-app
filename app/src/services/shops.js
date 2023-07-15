@@ -10,6 +10,16 @@ const shopsApi = api.injectEndpoints({
       query: id => `/shops/${id}`,
       providesTags: ({ id }) => [{ type: 'Shop', id }]
     }),
+    postShop: builder.mutation({
+      query: data => {
+        return {
+          url: '/shops',
+          method: 'POST',
+          body: data
+        }
+      },
+      invalidatesTags: ({ id }) => [{ type: 'Shop', id }, 'Shops']
+    }),
     patchShop: builder.mutation({
       query: data => {
         return {
@@ -23,4 +33,4 @@ const shopsApi = api.injectEndpoints({
   })
 })
 
-export const { useGetShopsQuery, useGetShopQuery, usePatchShopMutation } = shopsApi
+export const { useGetShopsQuery, useGetShopQuery, usePostShopMutation, usePatchShopMutation } = shopsApi
