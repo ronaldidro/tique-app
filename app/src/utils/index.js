@@ -78,10 +78,10 @@ export const productImageOptions = [
 ]
 
 export const adminSidebarOptions = [
-  { text: 'Perfil', route: '/admin/perfil', icon: BsPerson },
-  { text: 'Tienda', route: '/admin/tienda', icon: BsShopWindow },
-  { text: 'Categorías', route: '/admin/categorias', icon: BsColumnsGap },
-  { text: 'Productos', route: '/admin/productos', icon: BsBoxSeam }
+  { text: 'Perfil', route: '/admin/perfil', icon: BsPerson, showWithoutShop: true },
+  { text: 'Tienda', route: '/admin/tienda', icon: BsShopWindow, showWithoutShop: true },
+  { text: 'Categorías', route: '/admin/categorias', icon: BsColumnsGap, showWithoutShop: false },
+  { text: 'Productos', route: '/admin/productos', icon: BsBoxSeam, showWithoutShop: false }
 ]
 
 export const statusOptions = [

@@ -23,23 +23,31 @@ import { FiChevronDown, FiMenu } from 'react-icons/fi'
 import { useDispatch } from 'react-redux'
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom'
 import { setUser } from '../../reducers/userReducer'
+import { api } from '../../services/api'
 import { removeItemFromLocalStorage } from '../../utils'
 import AppLogo from '../AppLogo'
 
-const Sidebar = ({ children, sidebarOptions, userName }) => {
+const Sidebar = ({ children, sidebarOptions, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const userHasShop = user['shop'] !== undefined
 
   const handleLogout = () => {
     removeItemFromLocalStorage(['loggedTiqueAppUser'])
     dispatch(setUser(null))
+    dispatch(api.util.resetApiState())
     navigate('/admin')
   }
 
   return (
     <Box minH="100vh" bg="gray.100">
-      <SidebarContent onClose={() => onClose} options={sidebarOptions} display={{ base: 'none', md: 'block' }} />
+      <SidebarContent
+        onClose={() => onClose}
+        options={sidebarOptions}
+        shopExits={userHasShop}
+        display={{ base: 'none', md: 'block' }}
+      />
       <Drawer
         autoFocus={false}
         isOpen={isOpen}
@@ -50,10 +58,10 @@ const Sidebar = ({ children, sidebarOptions, userName }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} options={sidebarOptions} />
+          <SidebarContent onClose={onClose} options={sidebarOptions} shopExits={userHasShop} />
         </DrawerContent>
       </Drawer>
-      <MobileNav onOpen={onOpen} userName={userName} handleLogoutButton={handleLogout} />
+      <MobileNav onOpen={onOpen} userName={user.name} handleLogoutButton={handleLogout} />
       <Box ml={{ base: 0, md: 60 }} p={4}>
         {children}
       </Box>
@@ -61,7 +69,7 @@ const Sidebar = ({ children, sidebarOptions, userName }) => {
   )
 }
 
-const SidebarContent = ({ onClose, options, ...rest }) => (
+const SidebarContent = ({ onClose, options, shopExits, ...rest }) => (
   <Box
     transition="3s ease"
     bg="white"
@@ -76,11 +84,14 @@ const SidebarContent = ({ onClose, options, ...rest }) => (
       <AppLogo />
       <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
     </Flex>
-    {options.map(({ text, route, icon }, index) => (
-      <NavItem key={index} icon={icon} route={route} onClick={onClose}>
-        {text}
-      </NavItem>
-    ))}
+    {options.map(
+      ({ text, route, icon, showWithoutShop }, index) =>
+        (shopExits || showWithoutShop) && (
+          <NavItem key={index} icon={icon} route={route} onClick={onClose}>
+            {text}
+          </NavItem>
+        )
+    )}
   </Box>
 )
 
@@ -154,12 +165,13 @@ const MobileNav = ({ onOpen, userName, handleLogoutButton, ...rest }) => (
 Sidebar.propTypes = {
   children: PropTypes.element,
   sidebarOptions: PropTypes.array,
-  userName: PropTypes.string
+  user: PropTypes.object
 }
 
 SidebarContent.propTypes = {
   onClose: PropTypes.func,
-  options: PropTypes.array
+  options: PropTypes.array,
+  shopExits: PropTypes.bool
 }
 
 NavItem.propTypes = {
