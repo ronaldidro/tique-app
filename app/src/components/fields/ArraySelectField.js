@@ -5,7 +5,17 @@ import ErrorField from './ErrorField'
 import SelectField from './SelectField'
 import TextField from './TextField'
 
-const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, selectionOptions, handleSelectChange }) => (
+const ArraySelectField = ({
+  name,
+  label,
+  values,
+  fields,
+  fieldsPlaceholder,
+  selectionOptions,
+  handleSelectChange,
+  showArrayOptions = true,
+  disabledSelect = false
+}) => (
   <FieldArray
     name={name}
     render={arrayHelpers => (
@@ -14,9 +24,11 @@ const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, sele
           <FormLabel htmlFor={name} margin={0} fontWeight="medium">
             {label}
           </FormLabel>
-          <Button colorScheme="blue" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
-            Agregar
-          </Button>
+          {showArrayOptions && (
+            <Button colorScheme="blue" variant="ghost" onClick={() => arrayHelpers.push(fields)}>
+              Agregar
+            </Button>
+          )}
         </Flex>
         {values.map((_item, valuesIndex) => (
           <VStack key={valuesIndex} borderWidth={1} borderRadius="lg" borderColor="blue.500" padding={2} marginTop={2}>
@@ -24,16 +36,19 @@ const ArraySelectField = ({ name, label, values, fields, fieldsPlaceholder, sele
               name={`${name}.${valuesIndex}.${Object.keys(fields)[0]}`}
               options={selectionOptions}
               onChange={handleSelectChange}
+              disabled={disabledSelect}
             />
             <TextField
               name={`${name}.${valuesIndex}.${Object.keys(fields)[1]}`}
               placeholder={fieldsPlaceholder[Object.keys(fields)[1]]}
             />
-            <Box display="flex" justifyContent="center">
-              <Button colorScheme="blue" variant="ghost" onClick={() => arrayHelpers.remove(valuesIndex)}>
-                Eliminar
-              </Button>
-            </Box>
+            {showArrayOptions && (
+              <Box display="flex" justifyContent="center">
+                <Button colorScheme="blue" variant="ghost" onClick={() => arrayHelpers.remove(valuesIndex)}>
+                  Eliminar
+                </Button>
+              </Box>
+            )}
           </VStack>
         ))}
         <ErrorField name={name} />
@@ -49,7 +64,9 @@ ArraySelectField.propTypes = {
   fields: PropTypes.object,
   fieldsPlaceholder: PropTypes.object,
   selectionOptions: PropTypes.array,
-  handleSelectChange: PropTypes.func
+  handleSelectChange: PropTypes.func,
+  showArrayOptions: PropTypes.bool,
+  disabledSelect: PropTypes.bool
 }
 
 export default ArraySelectField
