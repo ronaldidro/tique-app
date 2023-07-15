@@ -60,11 +60,11 @@ const errorHandler = (err, request, response, next) => {
 }
 
 const userValidation = async (request, response, next) => {
-  const { username, password } = request.body
+  const { name, username, password } = request.body
 
   if (!username || !password) {
     return response.status(400).send({ error: 'username or password are missing' })
-  } else if (username.length < 3 || password.length < 3) {
+  } else if (username.length < 3 || password.length < 3 || name.length < 3) {
     return response.status(400).send({ error: 'minimum length must be 3' })
   }
 
