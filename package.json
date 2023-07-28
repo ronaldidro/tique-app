@@ -12,6 +12,7 @@
     "build": "npm run build --workspace=app",
     "start": "npm run start --workspace=api",
     "dev": "concurrently \"npm run dev --workspace=api\" \"npm start --workspace=app\"",
+    "test:backend": "npm run test --workspace=api",
     "deploy": "npm run deploy --workspace=api",
     "deploy:full": "npm run build && npm run deploy",
     "logs": "npm run logs --workspace=api",
