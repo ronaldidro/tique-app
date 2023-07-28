@@ -1,4 +1,4 @@
-name: Deployment pipeline
+name: CI/CD pipeline
 
 on:
   push:
@@ -17,8 +17,13 @@ jobs:
         with:
           node-version: 16.x
 
+      - name: Start Mongo DB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: 6.x
+
       - name: Install packages
-        run: npm install
+        run: npm ci
 
       - name: Check rules
         run: npm run lint
