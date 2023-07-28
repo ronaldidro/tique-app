@@ -20,16 +20,17 @@ const setInitialModels = async () => {
   await shop.save()
 
   user.shop = shop._id
-  console.log('🚀 ~ file: test_helper.js:17 ~ setInitialModels ~ user:', user)
   await user.save({ validateModifiedOnly: true })
 }
 
 const getToken = async () => {
-  const {
-    body: { token }
-  } = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
-
-  return token
+  // const {
+  //   body: { token }
+  // } = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
+  // return token
+  const response = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
+  console.log('🚀 ~ file: test_helper.js:32 ~ getToken ~ response:', response.body)
+  return response.body.token
 }
 
 module.exports = {
