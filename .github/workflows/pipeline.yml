@@ -1,5 +1,8 @@
 name: CI/CD pipeline
 
+env:
+  TEST_MONGODB_URI: 'mongodb+srv://tique:tique@cluster0.8m1fv.mongodb.net/tique-bd-test?retryWrites=true&w=majority'
+
 on:
   push:
     branches: [main]
@@ -16,11 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-
-      - name: Start Mongo DB
-        uses: supercharge/mongodb-github-action@1.8.0
-        with:
-          mongodb-version: 6.x
 
       - name: Install packages
         run: npm ci
