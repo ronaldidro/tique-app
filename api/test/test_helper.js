@@ -24,13 +24,10 @@ const setInitialModels = async () => {
 }
 
 const getToken = async () => {
-  // const {
-  //   body: { token }
-  // } = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
-  // return token
-  const response = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
-  console.log('🚀 ~ file: test_helper.js:32 ~ getToken ~ response:', response.body)
-  return response.body.token
+  const {
+    body: { token }
+  } = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
+  return token
 }
 
 module.exports = {

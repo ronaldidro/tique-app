@@ -1,12 +1,12 @@
 name: CI/CD pipeline
 
-env:
-  TEST_MONGODB_URI: 'mongodb+srv://tique:tique@cluster0.8m1fv.mongodb.net/tique-bd-test?retryWrites=true&w=majority'
-  SECRET: 'tiqueapp'
-
 on:
   push:
     branches: [main]
+
+env:
+  TEST_MONGODB_URI: ${{ secrets.TEST_URI }}
+  SECRET: ${{ secrets.SECRET_KEY }}
 
 jobs:
   deploy:
@@ -28,5 +28,4 @@ jobs:
         run: npm run lint
 
       - name: Backend testing
-        # run: npm run test:backend
-        run: npm run test:backend -- api/test/order_api.test.js
+        run: npm run test:backend
