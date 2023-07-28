@@ -20,6 +20,7 @@ const setInitialModels = async () => {
   await shop.save()
 
   user.shop = shop._id
+  console.log('🚀 ~ file: test_helper.js:17 ~ setInitialModels ~ user:', user)
   await user.save({ validateModifiedOnly: true })
 }
 

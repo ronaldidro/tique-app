@@ -49,6 +49,7 @@ beforeEach(async () => {
 describe('orders test', () => {
   test('all orders are returned', async () => {
     const token = await getToken()
+    console.log('🚀 ~ file: order_api.test.js:52 ~ test ~ token:', token)
     const response = await api.get('/api/orders').set('Authorization', `bearer ${token}`)
     expect(response.body).toHaveLength(initialOrders.length)
   })
