@@ -29,7 +29,7 @@ const getToken = async () => {
   // } = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
   // return token
   const response = await api.post('/api/auth').send({ username: 'root', password: 'sekret' })
-  console.log('🚀 ~ file: test_helper.js:32 ~ getToken ~ response:', response)
+  console.log('🚀 ~ file: test_helper.js:32 ~ getToken ~ response:', response.body)
   return response.body.token
 }
 
