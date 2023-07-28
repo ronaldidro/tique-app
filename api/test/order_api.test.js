@@ -10,7 +10,6 @@ const { shopsInDb } = require('./shop_test_helper')
 const { api, getToken, setInitialModels } = require('./test_helper')
 
 let initialOrders = []
-let token = ''
 let testOrder = {}
 
 beforeEach(async () => {
@@ -29,8 +28,6 @@ beforeEach(async () => {
 
   initialOrders = await helper.getInitialOrders()
   await Order.insertMany(initialOrders)
-
-  token = await getToken()
 
   const shops = await shopsInDb()
   const products = await productsInDb()
@@ -51,11 +48,13 @@ beforeEach(async () => {
 
 describe('orders test', () => {
   test('all orders are returned', async () => {
+    const token = await getToken()
     const response = await api.get('/api/orders').set('Authorization', `bearer ${token}`)
     expect(response.body).toHaveLength(initialOrders.length)
   })
 
   test('viewing a specific order with a valid id', async () => {
+    const token = await getToken()
     const ordersAtStart = await helper.ordersInDb()
     const orderToView = ordersAtStart[0]
 
@@ -71,6 +70,7 @@ describe('orders test', () => {
   })
 
   test('deletion of a order succeeds if id is valid', async () => {
+    const token = await getToken()
     const ordersAtStart = await helper.ordersInDb()
     const orderToDelete = ordersAtStart[0]
 

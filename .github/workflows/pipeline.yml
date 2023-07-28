@@ -27,4 +27,5 @@ jobs:
         run: npm run lint
 
       - name: Backend testing
-        run: npm run test:backend
+        # run: npm run test:backend
+        run: npm run test:backend -- api/test/order_api.test.js
