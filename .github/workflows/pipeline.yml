@@ -1,0 +1,27 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install packages
+        run: npm install
+
+      - name: Check rules
+        run: npm run lint
+
+      - name: Backend testing
+        run: npm run test:backend
