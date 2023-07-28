@@ -41,6 +41,10 @@ app.get('/info', (request, response) => {
   `)
 })
 
+app.get('/health', (request, response) => {
+  response.send('ok')
+})
+
 app.get('/*', (request, response) => {
   response.sendFile('index.html', { root: path.join(__dirname, '../app/build') })
 })
