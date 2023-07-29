@@ -17,32 +17,17 @@ jobs:
         with:
           node-version: 16.x
 
-      # - name: Install packages
-      #   run: npm ci
+      - name: Install packages
+        run: npm ci
 
-      # - name: Check rules
-      #   run: npm run lint
+      - name: Checking code rules
+        run: npm run lint
 
-      # - name: Backend testing
-      #   run: npm run test:backend
-      #   env:
-      #     TEST_MONGODB_URI: ${{ secrets.TEST_URI }}
-      #     SECRET: ${{ secrets.SECRET_KEY }}
-
-      # - name: Install Railway
-      #   run: npm i -g @railway/cli
-
-      # - name: Deploy
-      #   run: npm run deploy
-      #   env:
-      #     RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
-      # - name: Deploy to Railway
-      #   uses: bervProject/railway-deploy@main
-      #   with:
-      #     railway_token: ${{ secrets.RAILWAY_TOKEN }}
-      #     service: 'tique-app'
-      #     detach: false
+      - name: Api testing
+        run: npm run test:api
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_URI }}
+          SECRET: ${{ secrets.SECRET_KEY }}
 
       - name: Deploy to Railway
         uses: devtomio/action-railway@v1.1.4
