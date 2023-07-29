@@ -37,9 +37,14 @@ jobs:
       #   env:
       #     RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
+      # - name: Deploy to Railway
+      #   uses: bervProject/railway-deploy@main
+      #   with:
+      #     railway_token: ${{ secrets.RAILWAY_TOKEN }}
+      #     service: 'tique-app'
+      #     detach: false
+
       - name: Deploy to Railway
-        uses: bervProject/railway-deploy@main
+        uses: devtomio/action-railway@v1.1.4
         with:
           railway_token: ${{ secrets.RAILWAY_TOKEN }}
-          service: 'tique-app'
-          detach: false
