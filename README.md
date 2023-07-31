@@ -52,10 +52,13 @@ $ npm i
 │   │   └── store.js
 │   ├── db.json
 │   └── package.json
+├── .dockerignore
 ├── .eslintignore
 ├── .eslintrc.js
 ├── .gitignore
 ├── .prettierrc
+├── dev.Dockerfile
+├── docker-compose.dev.yml
 ├── package.json
 └── README.md
 ```
@@ -68,60 +71,93 @@ $ npm i
 - [Node](https://nodejs.org/en/download/) ^16.0.0
 - [npm](https://nodejs.org/en/download/package-manager/)
 
-## Full Stack usage (PORTS 3001 and 300)
-
-### Prepare your secret
-
-(You need to add a credentials in .env)
+## Set environment variables
 
 ```
-// in the root level
-$ cd api
-$ echo "MONGODB_URI=YOUR_MONGODB_URI" >> src/.env
-$ echo "TEST_MONGODB_URI=YOUR_TEST_MONGODB_URI" >> src/.env
-$ echo "SECRET=YOUR_SECRET_KEY" >> src/.env
-$ echo "PORT=YOUR_DEFAULT_PORT" >> src/.env
+# in the root level
+$ touch api/.env
+$ echo "DEV_MONGODB_URI=YOUR_DEV_MONGODB_URI" >> api/.env
+$ echo "TEST_MONGODB_URI=YOUR_TEST_MONGODB_URI" >> api/.env
+$ echo "MONGODB_URI=YOUR_PRD_MONGODB_URI" >> api/.env
+$ echo "SECRET=YOUR_SECRET_KEY" >> api/.env
+$ echo "PORT=YOUR_DEFAULT_PORT" >> api/.env
+
+# in the root level
+$ touch app/.env
+$ echo "REACT_APP_API_URI=YOUR_API_URI" >> app/.env
 ```
+
+## Dev Mode (PORTS 3001 and 3000)
 
 ### Start
 
 ```
-// in the root level
-$ npm i        // npm install packages
-$ npm run dev  // server and client run locally
+# in the root level
+$ npm i        # npm install packages
+$ npm run dev  # server and client run locally
 ```
 
 ## Server side usage (PORT 3001)
 
 ```
-// in the root level
-$ cd api        // go to server folder
-$ npm run dev   // run it locally
+# in the root level
+$ cd api       # go to server folder
+$ npm run dev  # run it locally
 ```
 
 ## Client side usage (PORT 3000)
 
 ```
-// in the root level
-$ cd app      // go to client folder
-$ npm start   // run it locally
+# in the root level
+$ cd app     # go to client folder
+$ npm start  # run it locally
 ```
 
 ## Deploy Server to [Railway](https://railway.app/)
 
 ```
-// in the root level
-$ npm i -g @railway/cli        // just once
+# in the root level
+$ npm i -g @railway/cli         # just once
 $ railway login
-$ railway link your-project-id //the project ID is taken from the Project Setup page.
+$ railway link your-project-id  # the project ID is taken from the Project Setup page.
 
-// enter your required environment variables
+# enter your required environment variables
 $ railway variables set MONGODB_URI=<YOUR_MONGODB_URI>
 $ railway variables set SECRET=<YOUR_SECRET_KEY>
-$ railway variables // verify that the variables are set correctly via your linked project
+$ railway variables # verify that the variables are set correctly via your linked project
 
-$ npm run deploy:full or railway up  // deploy your project
-$ npm run logs or railway logs  // view deploy logs
+$ npm run deploy:full or railway up  # deploy your project
+$ npm run logs or railway logs       # view deploy logs
+```
+
+## Containers
+
+### Dev Mode
+
+```
+# build images
+$ docker compose -f docker-compose.dev.yml build
+
+# start containers
+$ docker compose -f docker-compose.dev.yml up
+
+# down containers
+$ docker compose -f docker-compose.dev.yml down --volumes
+
+```
+
+### Production Mode
+
+```
+# build images
+$ docker compose build
+
+# start containers
+$ docker compose up
+
+# down containers
+$ docker compose down --volumes
+
 ```
 
 # Dependencies (tech stacks)

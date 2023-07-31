@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  server:
+    image: tique-server
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./api:/usr/src/tique/api
+    ports:
+      - 3001:3001
+  client:
+    image: tique-client
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./app:/usr/src/tique/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - server
