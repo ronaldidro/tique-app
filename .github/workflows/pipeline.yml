@@ -29,7 +29,5 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_URI }}
           SECRET: ${{ secrets.SECRET_KEY }}
 
-      - name: Deploy to Railway
-        uses: devtomio/action-railway@v1.1.4
-        with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Deploy to Render
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
