@@ -42,8 +42,7 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/health', (request, response) => {
-  throw 'error...'
-  // response.send('ok')
+  response.send('ok')
 })
 
 app.get('/*', (request, response) => {
