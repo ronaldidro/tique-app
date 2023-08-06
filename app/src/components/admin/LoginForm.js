@@ -1,6 +1,7 @@
 import { Button, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { forwardRef, useImperativeHandle, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AppLogo from '../AppLogo'
 import SignInForm from './SignInForm'
 import SignUpForm from './SignUpForm'
@@ -21,6 +22,7 @@ const labels = {
 const LoginForm = forwardRef(({ handleSignIn, handleSignUp }, ref) => {
   const [isSignIn, setIsSignIn] = useState(true)
   const { header, question, option } = labels[isSignIn ? 'signin' : 'signup']
+  const navigate = useNavigate()
 
   useImperativeHandle(ref, () => {
     return { setIsSignIn }
@@ -30,7 +32,7 @@ const LoginForm = forwardRef(({ handleSignIn, handleSignUp }, ref) => {
     <Stack minH="100vh" direction={{ base: 'column', md: 'row' }}>
       <Flex flex={1} align="center" justify="center" p={8}>
         <Stack spacing={4} w="full" maxW="md">
-          <AppLogo />
+          <AppLogo cursor="pointer" onClick={() => navigate('/')} />
           <Heading fontSize="xl" pb={[0, 4]}>
             {header}
           </Heading>
