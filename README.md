@@ -76,9 +76,11 @@ $ npm i
 ```
 # in the root level
 $ touch api/.env
+$ echo "MONGODB_URI=YOUR_PRD_MONGODB_URI" >> api/.env
 $ echo "DEV_MONGODB_URI=YOUR_DEV_MONGODB_URI" >> api/.env
 $ echo "TEST_MONGODB_URI=YOUR_TEST_MONGODB_URI" >> api/.env
-$ echo "MONGODB_URI=YOUR_PRD_MONGODB_URI" >> api/.env
+$ echo "RENDER_SERVICE_ID=YOUR_RENDER_SERVICE_ID" >> api/.env
+$ echo "RENDER_API_KEY=YOUR_RENDER_API_KEY" >> api/.env
 $ echo "SECRET=YOUR_SECRET_KEY" >> api/.env
 $ echo "PORT=YOUR_DEFAULT_PORT" >> api/.env
 
@@ -113,21 +115,11 @@ $ cd app     # go to client folder
 $ npm start  # run it locally
 ```
 
-## Deploy Server to [Railway](https://railway.app/)
+## Deploy Server to [Render](https://render.com/)
 
 ```
-# in the root level
-$ npm i -g @railway/cli         # just once
-$ railway login
-$ railway link your-project-id  # the project ID is taken from the Project Setup page.
-
-# enter your required environment variables
-$ railway variables set MONGODB_URI=<YOUR_MONGODB_URI>
-$ railway variables set SECRET=<YOUR_SECRET_KEY>
-$ railway variables # verify that the variables are set correctly via your linked project
-
-$ npm run deploy:full or railway up  # deploy your project
-$ npm run logs or railway logs       # view deploy logs
+# in the root level, previously you must commit and push your changes
+$ npm run deploy
 ```
 
 ## Containers

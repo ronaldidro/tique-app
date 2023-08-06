@@ -10,5 +10,7 @@ const MONGODB_URI =
 module.exports = {
   MONGODB_URI,
   PORT: process.env.PORT,
-  SECRET: process.env.SECRET
+  SECRET: process.env.SECRET,
+  RENDER_SERVICE_ID: process.env.RENDER_SERVICE_ID,
+  RENDER_API_KEY: process.env.RENDER_API_KEY
 }
